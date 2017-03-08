@@ -1,0 +1,56 @@
+
+// ==========================================================================
+//  GPLEX error listing for lex source file <scanner.lex>
+// ==========================================================================
+//  Version:  1.2.2
+//  Machine:  DESKTOP-VKITI27
+//  DateTime: 3/8/2017 10:06:25 PM
+//  UserName: Juan Camilo
+// ==========================================================================
+
+
+%namespace GPLexTutorial
+
+digit [0-9]
+letter [a-zA-Z]
+point [.]
+
+%%
+
+if                           { return (int)Tokens.IF; }
+else                         { return (int)Tokens.ELSE; }
+int                          { return (int)Tokens.INT; }
+bool                         { return (int)Tokens.BOOL; }
+
+{letter}({letter}|{digit})*  { yylval.name = yytext; return (int)Tokens.IDENT; }
+{digit}+	                 { yylval.num = int.Parse(yytext); return (int)Tokens.NUMBER; }
+{digit}*[.]({digit})+[f]*	     { yylval.floatValue =  yytest.EndsWith(["f","F","d","D"]) ? float.Parse(yytext..Remove(yytext.Length-2)) : float.Parse(yytext); return (int)Tokens.FLOAT; }
+//-----------------------------^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+// Error: Invalid action
+// Error: Parser error <Syntax error, unexpected ., expecting csIdent> 
+// Error: Missing matching construct <')'> 
+// Error: Parser error <Syntax error, unexpected )> 
+// --------------------------------------------------------------------
+
+
+
+"="                          { return '='; }
+"+"                          { return '+'; }
+"<"                          { return '<'; }
+"("                          { return '('; }
+")"                          { return ')'; }
+"{"                          { return '{'; }
+"}"                          { return '}'; }
+";"                          { return ';'; }
+
+[ \r\n\t]                    /* skip whitespace */
+
+.                            { 
+                                 throw new Exception(
+                                     String.Format(
+                                         "unexpected character '{0}'", yytext)); 
+                             }
+
+%%
+// ==========================================================================
+
