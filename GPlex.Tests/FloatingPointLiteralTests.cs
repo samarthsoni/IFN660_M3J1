@@ -49,6 +49,25 @@ namespace GPlex.Tests
             AssertFloatRule(".1D", 0.1f);
         }
 
+        [TestMethod]
+        public void DigitDotExponentPart()
+        {
+            AssertFloatRule("1.e-1", 0.1f);
+            AssertFloatRule("1.e+1", 10f);
+            AssertFloatRule("1.1E-1", 0.11f);
+            AssertFloatRule("1.1E+1", 11f);
+        }
+
+        [TestMethod]
+        public void DigitExponentPartWithoutDot()
+        {
+            AssertFloatRule("1e-1", 0.1f);
+            AssertFloatRule("1e+1", 10f);
+            AssertFloatRule("11E-1", 1.1f);
+            AssertFloatRule("11E+1", 110f);
+        }
+
+
         #region Private Methods
 
         private void AssertFloatRule(string valueToTest, float expectedValue)

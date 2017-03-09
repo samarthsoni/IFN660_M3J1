@@ -4,7 +4,7 @@
 // ==========================================================================
 //  Version:  1.2.2
 //  Machine:  DESKTOP-VKITI27
-//  DateTime: 3/8/2017 10:06:25 PM
+//  DateTime: 3/9/2017 6:16:28 PM
 //  UserName: Juan Camilo
 // ==========================================================================
 
@@ -13,7 +13,14 @@
 
 digit [0-9]
 letter [a-zA-Z]
-point [.]
+dot [.]
+exponentIndicator [eE]
+sign [-+]
+//----^
+// Warning: Special case: "-" included as set class member
+// -------------------------------------------------------
+signedInteger {sign}?{digit}+
+exponentPart {exponentIndicator}{signedInteger}
 
 %%
 
@@ -24,13 +31,7 @@ bool                         { return (int)Tokens.BOOL; }
 
 {letter}({letter}|{digit})*  { yylval.name = yytext; return (int)Tokens.IDENT; }
 {digit}+	                 { yylval.num = int.Parse(yytext); return (int)Tokens.NUMBER; }
-{digit}*[.]({digit})+[f]*	     { yylval.floatValue =  yytest.EndsWith(["f","F","d","D"]) ? float.Parse(yytext..Remove(yytext.Length-2)) : float.Parse(yytext); return (int)Tokens.FLOAT; }
-//-----------------------------^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-// Error: Invalid action
-// Error: Parser error <Syntax error, unexpected ., expecting csIdent> 
-// Error: Missing matching construct <')'> 
-// Error: Parser error <Syntax error, unexpected )> 
-// --------------------------------------------------------------------
+{digit}*{dot}?({digit})*{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOAT; }
 
 
 
