@@ -29,19 +29,19 @@ namespace GPlex.Tests
         }
 
         [TestMethod]
-        public void DigitDotDigit()
+        public void Float_DigitDotDigit()
         {
             AssertFloatRule("1.1", 1.1f);
         }
 
         [TestMethod]
-        public void DotDigit()
+        public void Float_DotDigit()
         {
             AssertFloatRule(".1", 0.1f);
         }
 
         [TestMethod]
-        public void DotDigitSuffix()
+        public void Float_DotDigitSuffix()
         {
             AssertFloatRule(".1f", 0.1f);
             AssertFloatRule(".1F", 0.1f);
@@ -50,7 +50,7 @@ namespace GPlex.Tests
         }
 
         [TestMethod]
-        public void DigitDotExponentPart()
+        public void Float_DigitDotExponentPart()
         {
             AssertFloatRule("1.e-1", 0.1f);
             AssertFloatRule("1.e+1", 10f);
@@ -59,7 +59,7 @@ namespace GPlex.Tests
         }
 
         [TestMethod]
-        public void DigitExponentPartWithoutDot()
+        public void Float_DigitExponentPartWithoutDot()
         {
             AssertFloatRule("1e-1", 0.1f);
             AssertFloatRule("1e+1", 10f);
@@ -81,7 +81,7 @@ namespace GPlex.Tests
 
         private void AssertIsFloat(Tokens token)
         {
-            Assert.AreEqual(Tokens.FLOAT, token);
+            Assert.AreEqual(Tokens.FLOATLITERAL, token);
         }
 
         private void AssertExpectedFloatValue(float expectedValue)
