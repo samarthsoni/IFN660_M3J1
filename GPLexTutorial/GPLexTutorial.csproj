@@ -50,7 +50,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="scanner.lex" />
-    <None Include="Tests\test1.j" />
+    <None Include="Tests\test2.j" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

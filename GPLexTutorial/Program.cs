@@ -19,7 +19,8 @@ namespace GPLexTutorial
         EOF = 264,
         EndOfLineComment = 265,
         LineTermination = 266,
-        WhiteSpace = 267
+        WhiteSpace = 267,
+        HexNumeral = 268
     };
 
     public abstract class ScanBase
@@ -69,6 +70,9 @@ namespace GPLexTutorial
                         break;
                     case Tokens.WhiteSpace:
                         Console.WriteLine("WhiteSpace");
+                        break;
+                    case Tokens.HexNumeral:
+                        Console.WriteLine("HexNumeral");
                         break;
                     default:
                         Console.WriteLine("'{0}'", (char)token);

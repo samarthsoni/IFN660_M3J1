@@ -4,10 +4,13 @@ digit [0-9]
 letter [a-zA-Z]
 inputcharacter [^\r\n]
 forwardslash [/]
-backslash [\\\\]
+hexdigit [0-9a-fA-F]
+hexdigitandunderscore _{hexdigit}
 endlcomment {forwardslash}{forwardslash}
+zerox 0x|0X
 lineterm \r|\n|\r\n
 space [ ]
+long [lL]
 %%
 
 if                           { return (int)Tokens.IF; }
@@ -21,6 +24,7 @@ bool                         { return (int)Tokens.BOOL; }
 {endlcomment}({inputcharacter}|{space}+)*{lineterm} {return (int)Tokens.EndOfLineComment; }
 {lineterm}  {return (int)Tokens.LineTermination;}
 {space}+ {return (int)Tokens.WhiteSpace;} 
+{zerox}{hexdigit}{hexdigitandunderscore}*{long} {return (int)Tokens.HexNumeral;}
 
 "="                          { return '='; }
 "+"                          { return '+'; }
