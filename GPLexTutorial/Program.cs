@@ -68,7 +68,7 @@ namespace GPLexTutorial
         VOID = 315,
         VOLATILE = 316,
         WHILE = 317,
-
+        NULL = 318
     };
 
     public abstract class ScanBase
