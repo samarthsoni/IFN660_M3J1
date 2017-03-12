@@ -116,6 +116,9 @@ namespace GPLexTutorial
                             case Tokens.EOF:
                                 Console.WriteLine("EOF");
                                 break;
+                            case Tokens.FLOATLITERAL:
+                                Console.WriteLine($"FLOATLITERAL ({scanner.yylval.floatValue})");
+                                break;
                             default:
                                 Console.WriteLine("'{0}'", (char)token);
                                 break;
