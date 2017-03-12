@@ -15,6 +15,16 @@ IDENT (foo2)
 IDENT (foo2)
 '+'
 NUMBER (42)
+'+'
+DecimalInteger (9002l)
+';'
+IDENT (foo3)
+'='
+DecimalInteger (1_23L)
+'+'
+NUMBER (300)
+'+'
+DecimalInteger (1_0_5L)
 ';'
 '}'
 EOF

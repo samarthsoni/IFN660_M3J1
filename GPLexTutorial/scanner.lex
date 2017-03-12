@@ -10,6 +10,10 @@ signedInteger {sign}?{digit}+
 exponentPart {exponentIndicator}{signedInteger}
 quote [\"]
 stringCharacter [^\"]
+underscore [_]
+nonZeroDigit [1-9]
+zero [0]
+integerLiteralIndicator [lL]
 
 %%
 
@@ -70,7 +74,7 @@ while        { return (int)Tokens.WHILE; }
 {digit}*{dot}?({digit})*{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
 0[xX]{hexDigit}*{dot}                                { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
 {quote}({stringCharacter})*{quote}                             { yylval.stringValue = GetStringValue(yytext); return (int)Tokens.STRINGLITERAL; }
-
+({zero}|{nonZeroDigit}({underscore}|{digit})*{digit}){integerLiteralIndicator}             {yylval.name = yytext; return (int)Tokens.DecimalInteger;}
 
 
 "="                          { return '='; }

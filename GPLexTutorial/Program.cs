@@ -68,6 +68,7 @@ namespace GPLexTutorial
         VOID = 315,
         VOLATILE = 316,
         WHILE = 317,
+        DecimalInteger = 318
 
     };
 
@@ -118,6 +119,9 @@ namespace GPLexTutorial
                                 break;
                             case Tokens.FLOATLITERAL:
                                 Console.WriteLine($"FLOATLITERAL ({scanner.yylval.floatValue})");
+                                break;
+                            case Tokens.DecimalInteger:
+                                Console.WriteLine("DecimalInteger ({0})", scanner.yylval.name);
                                 break;
                             default:
                                 Console.WriteLine("'{0}'", (char)token);
