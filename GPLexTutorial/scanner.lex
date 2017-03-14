@@ -23,7 +23,7 @@ bool                         { return (int)Tokens.BOOL; }
 
 {forwardslash}{2}{inputcharacter}*({cr}|{lf}|{cr}{lf}) {return (int)Tokens.EndOfLineComment; }
 
-{forwardslash}[*]([^\/*]|[^\/*][\/][*]|({cr}|{lf}|{cr}{lf}))*[*]{forwardslash}   {return (int)Tokens.TraditionalComment;}
+{forwardslash}[*]([^*]|[*][^\/]|[^\/*][\/][*]|({cr}|{lf}|{cr}{lf}))*[*]{forwardslash}   {return (int)Tokens.TraditionalComment;}
 
 ({cr}|{lf}|{cr}{lf})  {return (int)Tokens.LineTermination;}
 {space}+ {return (int)Tokens.WhiteSpace;} 
