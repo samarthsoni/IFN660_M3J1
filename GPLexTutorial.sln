@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPLexTutorial", "GPLexTutor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunTests", "RunTests\RunTests.csproj", "{60B00041-BF90-42D3-BCCF-E5227FB3EA86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPlex.Tests", "GPlex.Tests\GPlex.Tests.csproj", "{DFD232B7-F98A-4CCA-B40F-06F4D39C6E44}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{60B00041-BF90-42D3-BCCF-E5227FB3EA86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60B00041-BF90-42D3-BCCF-E5227FB3EA86}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60B00041-BF90-42D3-BCCF-E5227FB3EA86}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DFD232B7-F98A-4CCA-B40F-06F4D39C6E44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DFD232B7-F98A-4CCA-B40F-06F4D39C6E44}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DFD232B7-F98A-4CCA-B40F-06F4D39C6E44}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DFD232B7-F98A-4CCA-B40F-06F4D39C6E44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

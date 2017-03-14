@@ -53,7 +53,9 @@
     <None Include="Tests\BadTests\test2.j" />
     <None Include="Tests\BadTests\test2.j.expected" />
     <None Include="Tests\CurrentTest.j.expected" />
+    <None Include="Tests\KeywordsTests.j" />
     <None Include="Tests\FloatLiteralTests.j" />
+    <None Include="Tests\KeywordsTests.j.expected" />
     <None Include="Tests\StringLiteralTests.j" />
     <None Include="Tests\CurrentTest.j" />
     <None Include="Tests\FloatLiteralTests.j.expected" />

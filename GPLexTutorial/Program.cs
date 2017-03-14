@@ -123,7 +123,10 @@ namespace GPLexTutorial
                                 Console.WriteLine($"{token.ToString().ToUpper()} ({scanner.yylval.stringValue})");
                                 break;
                             default:
-                                Console.WriteLine("'{0}'", (char)token);
+                                if(Enum.IsDefined(typeof(Tokens),token))
+                                    Console.WriteLine($"{token.ToString().ToUpper()}");
+                                else
+                                    Console.WriteLine("'{0}'", (char)token);
                                 break;
                         }
                     }
