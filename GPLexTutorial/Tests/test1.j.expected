@@ -17,4 +17,8 @@ IDENT (foo2)
 NUMBER (42)
 ';'
 '}'
+IDENT (x)
+'='
+NULL
+';'
 EOF

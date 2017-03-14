@@ -1,4 +1,4 @@
-%namespace GPLexTutorial
+﻿%namespace GPLexTutorial
 
 digit [0-9]
 hexDigit [0-9a-fA-F]
@@ -63,7 +63,7 @@ try        { return (int)Tokens.TRY; }
 void        { return (int)Tokens.VOID; }
 volatile        { return (int)Tokens.VOLATILE; }
 while        { return (int)Tokens.WHILE; }
-
+null		{return (int)Tokens.NULL;}
 
 {letter}({letter}|{digit})*  { yylval.name = yytext; return (int)Tokens.IDENT; }
 {digit}+	                 { yylval.num = int.Parse(yytext); return (int)Tokens.NUMBER; }

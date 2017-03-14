@@ -113,6 +113,9 @@ namespace GPLexTutorial
                             case Tokens.BOOL:
                                 Console.WriteLine("BOOL");
                                 break;
+                            case Tokens.NULL:
+                                Console.WriteLine("NULL");
+                                break;
                             case Tokens.EOF:
                                 Console.WriteLine("EOF");
                                 break;

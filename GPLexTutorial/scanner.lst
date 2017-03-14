@@ -3,9 +3,9 @@
 //  GPLEX error listing for lex source file <scanner.lex>
 // ==========================================================================
 //  Version:  1.2.2
-//  Machine:  DESKTOP-VKITI27
-//  DateTime: 3/10/2017 4:46:59 PM
-//  UserName: Juan Camilo
+//  Machine:  LAPTOP-C3HMI04O
+//  DateTime: 14/03/2017 2:53:34 PM
+//  UserName: Zeyuan Liu
 // ==========================================================================
 
 
@@ -77,7 +77,7 @@ try        { return (int)Tokens.TRY; }
 void        { return (int)Tokens.VOID; }
 volatile        { return (int)Tokens.VOLATILE; }
 while        { return (int)Tokens.WHILE; }
-
+null		{return (int)Tokens.NULL;}
 
 {letter}({letter}|{digit})*  { yylval.name = yytext; return (int)Tokens.IDENT; }
 {digit}+	                 { yylval.num = int.Parse(yytext); return (int)Tokens.NUMBER; }

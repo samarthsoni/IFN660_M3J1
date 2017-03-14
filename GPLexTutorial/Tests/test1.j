@@ -4,3 +4,4 @@ if (foo2 < 31)
 {
     foo2 = foo2 + 42;
 }
+x=null;
