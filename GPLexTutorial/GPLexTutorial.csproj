@@ -52,7 +52,10 @@
     <None Include="scanner.lex" />
     <None Include="Tests\BadTests\test2.j" />
     <None Include="Tests\BadTests\test2.j.expected" />
+    <None Include="Tests\StringLiteralTests.j" />
+    <None Include="Tests\CurrentTest.j" />
     <None Include="Tests\test1.j" />
+    <None Include="Tests\StringLiteralTests.j.expected" />
     <None Include="Tests\test1.j.expected" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -119,6 +119,9 @@ namespace GPLexTutorial
                             case Tokens.FLOATLITERAL:
                                 Console.WriteLine($"FLOATLITERAL ({scanner.yylval.floatValue})");
                                 break;
+                            case Tokens.STRINGLITERAL:
+                                Console.WriteLine($"{token.ToString().ToUpper()} ({scanner.yylval.stringValue})");
+                                break;
                             default:
                                 Console.WriteLine("'{0}'", (char)token);
                                 break;
