@@ -6,9 +6,9 @@
 //
 //  GPLEX Version:  1.2.2
 //  Machine:  SAM
-//  DateTime: 12/03/2017 11:23:08 PM
+//  DateTime: 14/03/2017 1:50:20 PM
 //  UserName: samarth
-//  GPLEX input file <scanner.lex - 12/03/2017 11:21:54 PM>
+//  GPLEX input file <scanner.lex - 14/03/2017 1:48:08 PM>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: parser, minimize
@@ -124,8 +124,8 @@ namespace GPLexTutorial
         
         enum Result {accept, noMatch, contextFound};
 
-        const int maxAccept = 31;
-        const int initial = 32;
+        const int maxAccept = 32;
+        const int initial = 33;
         const int eofNum = 0;
         const int goStart = -1;
         const int INITIAL = 0;
@@ -162,9 +162,9 @@ namespace GPLexTutorial
         }
     };
 
-    static int[] startState = new int[] {32, 0};
+    static int[] startState = new int[] {33, 0};
 
-    static Table[] NxS = new Table[36] {
+    static Table[] NxS = new Table[41] {
 /* NxS[   0] */ new Table(0, 0, 0, null),
 /* NxS[   1] */ new Table(0, 0, -1, null),
 /* NxS[   2] */ new Table(0, 0, -1, null),
@@ -173,13 +173,13 @@ namespace GPLexTutorial
 /* NxS[   5] */ new Table(0, 0, -1, null),
 /* NxS[   6] */ new Table(0, 0, -1, null),
 /* NxS[   7] */ new Table(0, 0, -1, null),
-/* NxS[   8] */ new Table(47, 1, -1, new sbyte[] {35}),
+/* NxS[   8] */ new Table(42, 6, -1, new sbyte[] {36, -1, -1, -1, -1, 37}),
 /* NxS[   9] */ new Table(48, 73, -1, new sbyte[] {10, 10, 10, 10, 10, 10, 
           10, 10, 10, 10, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
           -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-          -1, -1, 33, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
+          -1, -1, 34, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
           -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-          -1, -1, 33}),
+          -1, -1, 34}),
 /* NxS[  10] */ new Table(48, 10, -1, new sbyte[] {10, 10, 10, 10, 10, 10, 
           10, 10, 10, 10}),
 /* NxS[  11] */ new Table(0, 0, -1, null),
@@ -268,7 +268,8 @@ namespace GPLexTutorial
 /* NxS[  29] */ new Table(0, 0, -1, null),
 /* NxS[  30] */ new Table(0, 0, -1, null),
 /* NxS[  31] */ new Table(10, 1, -1, new sbyte[] {30}),
-/* NxS[  32] */ new Table(10, 116, 1, new sbyte[] {2, 1, 1, 3, 1, 1, 
+/* NxS[  32] */ new Table(0, 0, -1, null),
+/* NxS[  33] */ new Table(10, 116, 1, new sbyte[] {2, 1, 1, 3, 1, 1, 
           1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
           4, 1, 1, 1, 1, 1, 1, 1, 5, 6, 1, 7, 1, 1, 1, 8, 
           9, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1, 11, 12, 13, 1, 1, 
@@ -276,15 +277,19 @@ namespace GPLexTutorial
           14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 1, 1, 1, 1, 1, 
           1, 14, 15, 14, 14, 16, 14, 14, 14, 17, 14, 14, 14, 14, 14, 14, 
           14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 18, 1, 19}),
-/* NxS[  33] */ new Table(48, 55, -1, new sbyte[] {34, 34, 34, 34, 34, 34, 
-          34, 34, 34, 34, -1, -1, -1, -1, -1, -1, -1, 34, 34, 34, 34, 34, 
-          34, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 34, 34, 34, 34, 34, 
-          34}),
-/* NxS[  34] */ new Table(76, 33, -1, new sbyte[] {29, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 33, -1, -1, 
+/* NxS[  34] */ new Table(48, 55, -1, new sbyte[] {35, 35, 35, 35, 35, 35, 
+          35, 35, 35, 35, -1, -1, -1, -1, -1, -1, -1, 35, 35, 35, 35, 35, 
+          35, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
+          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 35, 35, 35, 35, 35, 
+          35}),
+/* NxS[  35] */ new Table(76, 33, -1, new sbyte[] {29, -1, -1, -1, -1, -1, 
+          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 34, -1, -1, 
           -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 29}),
-/* NxS[  35] */ new Table(10, 4, 35, new sbyte[] {30, 35, 35, 31}),
+/* NxS[  36] */ new Table(42, 6, 38, new sbyte[] {39, 38, 38, 38, 38, -1}),
+/* NxS[  37] */ new Table(10, 4, 37, new sbyte[] {30, 37, 37, 31}),
+/* NxS[  38] */ new Table(42, 6, 38, new sbyte[] {39, 38, 38, 38, 38, 40}),
+/* NxS[  39] */ new Table(47, 1, -1, new sbyte[] {32}),
+/* NxS[  40] */ new Table(42, 1, -1, new sbyte[] {36}),
     };
 
 int NextState() {
@@ -782,6 +787,9 @@ return (int)Tokens.HexNumeral;
         case 30:
         case 31:
 return (int)Tokens.EndOfLineComment;
+            break;
+        case 32:
+return (int)Tokens.TraditionalComment;
             break;
         default:
             break;

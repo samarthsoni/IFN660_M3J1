@@ -3,14 +3,14 @@
 digit [0-9]
 letter [a-zA-Z]
 inputcharacter [^\r\n]
-forwardslash [/]
+forwardslash [\/]
 hexdigit [0-9a-fA-F]
 hexdigitandunderscore _{hexdigit}
-endlcomment {forwardslash}{forwardslash}
 zerox 0x|0X
-lineterm \r|\n|\r\n
+cr [\r]
+lf [\n]
 space [ ]
-long [lL]
+IntegerTypeSuffix [lL]
 %%
 
 if                           { return (int)Tokens.IF; }
@@ -21,10 +21,13 @@ bool                         { return (int)Tokens.BOOL; }
 {letter}({letter}|{digit})* { yylval.name = yytext; return (int)Tokens.IDENT; }
 {digit}+	    { yylval.num = int.Parse(yytext); return (int)Tokens.NUMBER; }
 
-{endlcomment}({inputcharacter}|{space}+)*{lineterm} {return (int)Tokens.EndOfLineComment; }
-{lineterm}  {return (int)Tokens.LineTermination;}
+{forwardslash}{2}{inputcharacter}*({cr}|{lf}|{cr}{lf}) {return (int)Tokens.EndOfLineComment; }
+
+{forwardslash}[*]([^\/*]|[^\/*][\/][*]|({cr}|{lf}|{cr}{lf}))*[*]{forwardslash}   {return (int)Tokens.TraditionalComment;}
+
+({cr}|{lf}|{cr}{lf})  {return (int)Tokens.LineTermination;}
 {space}+ {return (int)Tokens.WhiteSpace;} 
-{zerox}{hexdigit}{hexdigitandunderscore}*{long} {return (int)Tokens.HexNumeral;}
+{zerox}{hexdigit}{hexdigitandunderscore}*{IntegerTypeSuffix} {return (int)Tokens.HexNumeral;}
 
 "="                          { return '='; }
 "+"                          { return '+'; }

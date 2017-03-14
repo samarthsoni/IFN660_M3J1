@@ -20,9 +20,9 @@ namespace GPLexTutorial
         EndOfLineComment = 265,
         LineTermination = 266,
         WhiteSpace = 267,
-        HexNumeral = 268
+        HexNumeral = 268,
+        TraditionalComment=269
     };
-
     public abstract class ScanBase
     {
         public MyValueType yylval;
@@ -73,6 +73,9 @@ namespace GPLexTutorial
                         break;
                     case Tokens.HexNumeral:
                         Console.WriteLine("HexNumeral");
+                        break;
+                    case Tokens.TraditionalComment:
+                        Console.WriteLine("TraditionalComment");
                         break;
                     default:
                         Console.WriteLine("'{0}'", (char)token);
