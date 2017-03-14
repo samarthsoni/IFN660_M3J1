@@ -20,7 +20,7 @@ namespace GPLexTutorial
         EndOfLineComment = 265,
         LineTermination = 266,
         WhiteSpace = 267,
-        HexNumeral = 268,
+        INTEGERLITERAL = 318,
         TraditionalComment=269
     };
     public abstract class ScanBase
@@ -71,8 +71,8 @@ namespace GPLexTutorial
                     case Tokens.WhiteSpace:
                         Console.WriteLine("WhiteSpace");
                         break;
-                    case Tokens.HexNumeral:
-                        Console.WriteLine("HexNumeral");
+                    case Tokens.INTEGERLITERAL:
+                        Console.WriteLine("IntegerLiteral");
                         break;
                     case Tokens.TraditionalComment:
                         Console.WriteLine("TraditionalComment");

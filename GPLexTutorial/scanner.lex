@@ -27,7 +27,7 @@ bool                         { return (int)Tokens.BOOL; }
 
 ({cr}|{lf}|{cr}{lf})  {return (int)Tokens.LineTermination;}
 {space}+ {return (int)Tokens.WhiteSpace;} 
-{zerox}{hexdigit}{hexdigitandunderscore}*{IntegerTypeSuffix} {return (int)Tokens.HexNumeral;}
+{zerox}{hexdigit}{hexdigitandunderscore}*{IntegerTypeSuffix} {return (int)Tokens.INTEGERLITERAL;}
 
 "="                          { return '='; }
 "+"                          { return '+'; }

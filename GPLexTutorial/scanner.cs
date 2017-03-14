@@ -6,9 +6,9 @@
 //
 //  GPLEX Version:  1.2.2
 //  Machine:  SAM
-//  DateTime: 14/03/2017 1:50:20 PM
+//  DateTime: 14/03/2017 1:59:52 PM
 //  UserName: samarth
-//  GPLEX input file <scanner.lex - 14/03/2017 1:48:08 PM>
+//  GPLEX input file <scanner.lex - 14/03/2017 1:59:42 PM>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: parser, minimize
@@ -782,7 +782,7 @@ return (int)Tokens.ELSE;
 return (int)Tokens.BOOL;
             break;
         case 29:
-return (int)Tokens.HexNumeral;
+return (int)Tokens.INTEGERLITERAL;
             break;
         case 30:
         case 31:
