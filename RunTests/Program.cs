@@ -2,6 +2,7 @@
 using System.Text;
 using System.IO;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RunTests
@@ -14,7 +15,7 @@ namespace RunTests
             string testFolder = @"..\..\..\GPLexTutorial\Tests";
             string sourceFilePattern = "*.j";
 
-            foreach (var srcFile in Directory.EnumerateFiles(testFolder, sourceFilePattern, SearchOption.AllDirectories))
+            foreach (var srcFile in Directory.EnumerateFiles(testFolder, sourceFilePattern, SearchOption.AllDirectories).Where(x=>!x.Contains("Current")))
             {
                 var info = new ProcessStartInfo(compiler, srcFile);
                 info.RedirectStandardOutput = true;
