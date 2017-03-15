@@ -6,9 +6,9 @@
 //
 //  GPLEX Version:  1.2.2
 //  Machine:  LIN-PC
-//  DateTime: 15/03/2017 11:29:47 AM
+//  DateTime: 15/03/2017 1:00:29 PM
 //  UserName: linto
-//  GPLEX input file <scanner.lex - 15/03/2017 10:11:47 AM>
+//  GPLEX input file <scanner.lex - 15/03/2017 1:00:05 PM>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: unicode, parser, minimize
@@ -1633,16 +1633,16 @@ return ';';
 /* skip whitespace */
             break;
         case 35:
-yylval.name = yytext; return (int)Tokens.CHARACTERLITERAL;
+yylval.name = yytext; return (int)Tokens.CharacterLiteral;
             break;
         case 36:
 yylval.stringValue = GetStringValue(yytext); return (int)Tokens.STRINGLITERAL;
             break;
         case 37:
-yylval.name = yytext; return (int)Tokens.INTEGERLITERAL;
+yylval.name = yytext; return (int)Tokens.IntegerLiteral;
             break;
         case 41:
-yylval.name = yytext; return (int)Tokens.INTEGERLITERAL;
+yylval.name = yytext; return (int)Tokens.IntegerLiteral;
             break;
         case 42:
 yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL;
