@@ -14,6 +14,9 @@ Underscore [_]
 NonZeroDigit [1-9]
 IntegerTypeSuffix [lL]
 OctalDigit [0-7]
+UnicodeMarker [u]+
+UnicodeInputCharacter [\\]{UnicodeMarker}{hexDigit}{4}
+
 %%
 
 abstract        { return (int)Tokens.ABSTRACT; }
@@ -75,7 +78,7 @@ while        { return (int)Tokens.WHILE; }
 {quote}({stringCharacter})*{quote}                             { yylval.stringValue = GetStringValue(yytext); return (int)Tokens.STRINGLITERAL; }
 ([0]|{NonZeroDigit}({Underscore}|{digit})*{digit}){IntegerTypeSuffix}             {yylval.name = yytext; return (int)Tokens.IntegerLiteral;}
 [0]({OctalDigit}|{Underscore})*{OctalDigit}{IntegerTypeSuffix}             {yylval.name = yytext; return (int)Tokens.IntegerLiteral; }
-[']([\\][u][a-fA-F0-9]{4}|[a-zA-Z0-9%\\']+)[']  {yylval.name = yytext; return (int)Tokens.CharacterLiteral; }
+[']({UnicodeInputCharacter}|[a-zA-Z0-9%\\']+)[']  {yylval.name = yytext; return (int)Tokens.CharacterLiteral; }
 
 "="                          { return '='; }
 "+"                          { return '+'; }
