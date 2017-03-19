@@ -68,7 +68,9 @@ namespace GPLexTutorial
         VOID = 315,
         VOLATILE = 316,
         WHILE = 317,
-        NULL = 318
+        IntegerLiteral = 318,
+        CharacterLiteral = 319,
+        NULL = 320
     };
 
     public abstract class ScanBase
@@ -118,6 +120,12 @@ namespace GPLexTutorial
                                 break;
                             case Tokens.FLOATLITERAL:
                                 Console.WriteLine($"FLOATLITERAL ({scanner.yylval.floatValue})");
+                                break;
+                            case Tokens.IntegerLiteral:
+                                Console.WriteLine("INTEGER LITERAL ({0})", scanner.yylval.name);
+                                break;
+                            case Tokens.CharacterLiteral:
+                                Console.WriteLine("CHARACTER LITERAL ({0})", scanner.yylval.name);
                                 break;
                             case Tokens.STRINGLITERAL:
                                 Console.WriteLine($"{token.ToString().ToUpper()} ({scanner.yylval.stringValue})");

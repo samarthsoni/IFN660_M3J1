@@ -3,9 +3,9 @@
 //  GPLEX error listing for lex source file <scanner.lex>
 // ==========================================================================
 //  Version:  1.2.2
-//  Machine:  DESKTOP-VKITI27
-//  DateTime: 3/14/2017 6:30:00 PM
-//  UserName: Juan Camilo
+//  Machine:  LIN-PC
+//  DateTime: 15/03/2017 1:00:29 PM
+//  UserName: linto
 // ==========================================================================
 
 
@@ -24,7 +24,10 @@ signedInteger {sign}?{digit}+
 exponentPart {exponentIndicator}{signedInteger}
 quote [\"]
 stringCharacter [^\"]
-
+Underscore [_]
+NonZeroDigit [1-9]
+IntegerTypeSuffix [lL]
+OctalDigit [0-7]
 %%
 
 abstract        { return (int)Tokens.ABSTRACT; }
@@ -84,8 +87,9 @@ while        { return (int)Tokens.WHILE; }
 {digit}*{dot}?({digit})*{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
 0[xX]{hexDigit}*{dot}                                { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
 {quote}({stringCharacter})*{quote}                             { yylval.stringValue = GetStringValue(yytext); return (int)Tokens.STRINGLITERAL; }
-
-
+([0]|{NonZeroDigit}({Underscore}|{digit})*{digit}){IntegerTypeSuffix}             {yylval.name = yytext; return (int)Tokens.IntegerLiteral;}
+[0]({OctalDigit}|{Underscore})*{OctalDigit}{IntegerTypeSuffix}             {yylval.name = yytext; return (int)Tokens.IntegerLiteral; }
+[']([\\][u][a-fA-F0-9]{4}|[a-zA-Z0-9%\\']+)[']  {yylval.name = yytext; return (int)Tokens.CharacterLiteral; }
 
 "="                          { return '='; }
 "+"                          { return '+'; }
