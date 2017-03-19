@@ -3,9 +3,9 @@
 //  GPLEX error listing for lex source file <scanner.lex>
 // ==========================================================================
 //  Version:  1.2.2
-//  Machine:  LIN-PC
-//  DateTime: 15/03/2017 1:00:29 PM
-//  UserName: linto
+//  Machine:  DESKTOP-VKITI27
+//  DateTime: 3/19/2017 11:13:27 PM
+//  UserName: Juan Camilo
 // ==========================================================================
 
 
@@ -28,6 +28,11 @@ Underscore [_]
 NonZeroDigit [1-9]
 IntegerTypeSuffix [lL]
 OctalDigit [0-7]
+cr [\][r]
+lf [\][n]
+SingleCharacter [\\][u]{hexDigit}{4}
+zeroToThree [0123]
+EscapeSequence [\\]([btnfr\"'\\]|{zeroToThree}{OctalDigit}{2}|{OctalDigit}{2}|{OctalDigit})
 %%
 
 abstract        { return (int)Tokens.ABSTRACT; }
@@ -53,6 +58,7 @@ float        { return (int)Tokens.FLOAT; }
 for        { return (int)Tokens.FOR; }
 if        { return (int)Tokens.IF; }
 goto        { return (int)Tokens.GOTO; }
+
 implements        { return (int)Tokens.IMPLEMENTS; }
 import        { return (int)Tokens.IMPORT; }
 instanceof        { return (int)Tokens.INSTANCEOF; }
@@ -83,13 +89,32 @@ while        { return (int)Tokens.WHILE; }
 
 
 {letter}({letter}|{digit})*  { yylval.name = yytext; return (int)Tokens.IDENT; }
+//^^^^^^^^^^^^^^^^^^^^^^^^^
+// Warning: This pattern always overrides "false" 
+// Warning: This pattern always overrides "true" 
+// -----------------------------------------------
 {digit}+	                 { yylval.num = int.Parse(yytext); return (int)Tokens.NUMBER; }
 {digit}*{dot}?({digit})*{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
 0[xX]{hexDigit}*{dot}                                { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
 {quote}({stringCharacter})*{quote}                             { yylval.stringValue = GetStringValue(yytext); return (int)Tokens.STRINGLITERAL; }
 ([0]|{NonZeroDigit}({Underscore}|{digit})*{digit}){IntegerTypeSuffix}             {yylval.name = yytext; return (int)Tokens.IntegerLiteral;}
 [0]({OctalDigit}|{Underscore})*{OctalDigit}{IntegerTypeSuffix}             {yylval.name = yytext; return (int)Tokens.IntegerLiteral; }
-[']([\\][u][a-fA-F0-9]{4}|[a-zA-Z0-9%\\']+)[']  {yylval.name = yytext; return (int)Tokens.CharacterLiteral; }
+[']({SingleCharacter}|{EscapeSequence})[']  {yylval.name = yytext; return (int)Tokens.CharacterLiteral; }
+true						 { yylval.boolValue = true; return (int)Tokens.TRUE; }
+//^^
+// Warning: This pattern always overridden by "{letter}({letter}|{digit})*" 
+// -------------------------------------------------------------------------
+
+false						 { yylval.boolValue = false; return (int)Tokens.FALSE; }
+//^^^
+// Warning: This pattern always overridden by "{letter}({letter}|{digit})*" 
+// -------------------------------------------------------------------------
+
+"&&"  						 { yylval.name = "&&"; return (int)Tokens.OPERATOR; }
+
+"||" 						 { yylval.name = "||"; return (int)Tokens.OPERATOR; }
+
+"!"  						 { yylval.name = "!"; return (int)Tokens.OPERATOR; }
 
 "="                          { return '='; }
 "+"                          { return '+'; }

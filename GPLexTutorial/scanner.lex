@@ -1,4 +1,4 @@
- %namespace GPLexTutorial
+%namespace GPLexTutorial
 
 digit [0-9]
 hexDigit [0-9a-fA-F]

@@ -44,7 +44,7 @@ namespace GPLexTutorial
         GOTO = 290,
         IMPLEMENTS = 291,
         IMPORT = 292,
-,        INSTANCEOF = 293,
+        INSTANCEOF = 293,
         INT = 294,
         INTERFACE = 295,
         LONG = 296,
@@ -72,9 +72,9 @@ namespace GPLexTutorial
         IntegerLiteral = 318,
         CharacterLiteral = 319,
         NULL = 320,
-        OPERATOR = 268,
-        TRUE = 269,
-        FALSE =270
+        OPERATOR = 321,
+        TRUE = 322,
+        FALSE =323
     };
 
     public abstract class ScanBase
