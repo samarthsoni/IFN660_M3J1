@@ -70,7 +70,15 @@ while        { return (int)Tokens.WHILE; }
 {digit}*{dot}?({digit})*{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
 0[xX]{hexDigit}*{dot}                                { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
 {quote}({stringCharacter})*{quote}                             { yylval.stringValue = GetStringValue(yytext); return (int)Tokens.STRINGLITERAL; }
+true						 { yylval.boolValue = true; return (int)Tokens.TRUE; }
 
+false						 { yylval.boolValue = false; return (int)Tokens.FALSE; }
+
+"&&"  						 { yylval.name = "&&"; return (int)Tokens.OPERATOR; }
+
+"||" 						 { yylval.name = "||"; return (int)Tokens.OPERATOR; }
+
+"!"  						 { yylval.name = "!"; return (int)Tokens.OPERATOR; }
 
 
 "="                          { return '='; }

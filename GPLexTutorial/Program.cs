@@ -8,6 +8,7 @@ namespace GPLexTutorial
         public string name;
         public float floatValue;
         public string stringValue;
+        public bool boolValue;
     };
 
     public enum Tokens
@@ -68,7 +69,10 @@ namespace GPLexTutorial
         VOID = 315,
         VOLATILE = 316,
         WHILE = 317,
-        NULL = 318
+        NULL = 318,
+        OPERATOR = 268,
+        TRUE = 269,
+        FALSE = 270
     };
 
     public abstract class ScanBase
@@ -121,6 +125,13 @@ namespace GPLexTutorial
                                 break;
                             case Tokens.STRINGLITERAL:
                                 Console.WriteLine($"{token.ToString().ToUpper()} ({scanner.yylval.stringValue})");
+                                break;
+                            case Tokens.TRUE:
+                            case Tokens.FALSE:
+                                Console.WriteLine("BOOL ({0})", scanner.yylval.boolValue);
+                                break;
+                            case Tokens.OPERATOR:
+                                Console.WriteLine("'{0}'", scanner.yylval.name);
                                 break;
                             default:
                                 if(Enum.IsDefined(typeof(Tokens),token))
