@@ -1,4 +1,10 @@
+%{
+int lines = 0;
+%}
+
 %namespace GPLexTutorial
+
+
 
 digit [0-9]
 hexDigit [0-9a-fA-F]
@@ -101,7 +107,9 @@ false						 { yylval.boolValue = false; return (int)Tokens.FALSE; }
 "}"                          { return '}'; }
 ";"                          { return ';'; }
 
-[ \r\n\t]                    /* skip whitespace */
+[\n]		{ lines++;    }
+[ \t\r]      /* ignore other whitespace */
+
 
 .                            { 
                                  throw new Exception(
@@ -110,3 +118,8 @@ false						 { yylval.boolValue = false; return (int)Tokens.FALSE; }
                              }
 
 %%
+public override void yyerror( string format, params object[] args )
+{
+    System.Console.Error.WriteLine("Error: line {0}, {1}", lines,
+        String.Format(format, args));
+}
