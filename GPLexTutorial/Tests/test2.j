@@ -1,1 +1,2 @@
-x = 42;
+import system.IO;
+public class

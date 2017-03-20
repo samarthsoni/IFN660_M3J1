@@ -1,4 +1,15 @@
-﻿%namespace GPLexTutorial
+
+// ==========================================================================
+//  GPPG error listing for yacc source file <parser.y - 3/21/2017 12:06:43 AM>
+// ==========================================================================
+//  Version:  1.5.2
+//  Machine:  DESKTOP-VKITI27
+//  DateTime: 3/21/2017 12:06:44 AM
+//  UserName: Juan Camilo
+// ==========================================================================
+
+
+%namespace GPLexTutorial
 
 %union
 {
@@ -22,6 +33,12 @@
 %left '+'
 
 %%
+// Error: NonTerminal symbol "ClassModifier" has no productions
+// Warning: Terminating ClassModifier fixes the following size-1 NonTerminal set
+   // {ClassModifier}
+// Error: There are 1 non-terminating NonTerminal Symbols
+   //  {ClassModifier}
+// -----------------------------------------------------------------------------
 
 CompilationUnit : ImportDeclarations TypeDeclarations
         ;
@@ -48,16 +65,7 @@ ClassModifiers:			ClassModifier
 					//|	ClassModifier ClassModifiers
 					|	nothing;
 
-ClassModifier:		nothing
-					;
 
-					//PUBLIC 
-					//|	PROTECTED 
-					//|	PRIVATE
-					//|	ABSTRACT
-					//|	STATIC
-					//|	FINAL
-					//|	nothing;
 
 EnumDeclaration : nothing;
 
@@ -78,3 +86,5 @@ nothing: /* empty */;
 public Parser(Scanner scanner) : base(scanner)
 {
 }
+// ==========================================================================
+

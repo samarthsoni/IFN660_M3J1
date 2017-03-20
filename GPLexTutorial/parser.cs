@@ -4,9 +4,9 @@
 
 // GPPG version 1.5.2
 // Machine:  DESKTOP-VKITI27
-// DateTime: 3/20/2017 10:48:58 PM
+// DateTime: 3/21/2017 12:08:26 AM
 // UserName: Juan Camilo
-// Input file <parser.y - 3/20/2017 10:45:31 PM>
+// Input file <parser.y - 3/21/2017 12:08:25 AM>
 
 // options: lines gplex
 
@@ -19,18 +19,17 @@ using QUT.Gppg;
 
 namespace GPLexTutorial
 {
-public enum Tokens {
-    error=127,EOF=128,NUMBER=129,IDENT=130,FLOATLITERAL=131,STRINGLITERAL=132,
-    BOOL=133,ABSTRACT=134,ASSERT=135,BOOLEAN=136,BREAK=137,BYTE=138,
-    CASE=139,CATCH=140,CHAR=141,CLASS=142,CONST=143,CONTINUE=144,
-    DEFAULT=145,DO=146,DOUBLE=147,ELSE=148,ENUM=149,EXTENDS=150,
-    FINAL=151,FINALLY=152,FLOAT=153,FOR=154,IF=155,GOTO=156,
-    IMPLEMENTS=157,IMPORT=158,INSTANCEOF=159,INT=160,INTERFACE=161,LONG=162,
-    NATIVE=163,NEW=164,PACKAGE=165,PRIVATE=166,PROTECTED=167,PUBLIC=168,
-    RETURN=169,SHORT=170,STATIC=171,STRICTFP=172,SUPER=173,SWITCH=174,
-    SYNCHRONIZED=175,THIS=176,THROW=177,THROWS=178,TRANSIENT=179,TRY=180,
-    VOID=181,VOLATILE=182,WHILE=183,IntegerLiteral=184,CharacterLiteral=185,NULL=186,
-    OPERATOR=187,TRUE=188,FALSE=189};
+public enum Tokens {error=63,EOF=64,NUMBER=65,IDENT=66,
+    FLOATLITERAL=67,STRINGLITERAL=68,BOOL=69,ABSTRACT=70,ASSERT=71,BOOLEAN=72,
+    BREAK=73,BYTE=74,CASE=75,CATCH=76,CHAR=77,CLASS=78,
+    CONST=79,CONTINUE=80,DEFAULT=81,DO=82,DOUBLE=83,ELSE=84,
+    ENUM=85,EXTENDS=86,FINAL=87,FINALLY=88,FLOAT=89,FOR=90,
+    IF=91,GOTO=92,IMPLEMENTS=93,IMPORT=94,INSTANCEOF=95,INT=96,
+    INTERFACE=97,LONG=98,NATIVE=99,NEW=100,PACKAGE=101,PRIVATE=102,
+    PROTECTED=103,PUBLIC=104,RETURN=105,SHORT=106,STATIC=107,STRICTFP=108,
+    SUPER=109,SWITCH=110,SYNCHRONIZED=111,THIS=112,THROW=113,THROWS=114,
+    TRANSIENT=115,TRY=116,VOID=117,VOLATILE=118,WHILE=119,IntegerLiteral=120,
+    CharacterLiteral=121,NULL=122,OPERATOR=123,TRUE=124,FALSE=125};
 
 public struct ValueType
 #line 4 "parser.y"
@@ -67,61 +66,69 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
 #pragma warning disable 649
   private static Dictionary<int, string> aliases;
 #pragma warning restore 649
-  private static Rule[] rules = new Rule[16];
-  private static State[] states = new State[30];
+  private static Rule[] rules = new Rule[26];
+  private static State[] states = new State[26];
   private static string[] nonTerms = new string[] {
-      "Program", "$accept", "Statement", "Expression", "StatementList", "Type", 
-      };
+      "CompilationUnit", "$accept", "ImportDeclarations", "TypeDeclarations", 
+      "ImportDeclaration", "nothing", "SingleTypeImportDeclaration", "TypeDeclaration", 
+      "ClassDeclaration", "InterfaceDeclaration", "NormalClassDeclaration", "EnumDeclaration", 
+      "ClassModifiers", "ClassModifier", "TypeName", "PackageOrTypeName", };
 
   static Parser() {
-    states[0] = new State(new int[]{155,4,123,11,129,23,130,24,160,28,133,29},new int[]{-1,1,-3,3,-4,15,-6,25});
-    states[1] = new State(new int[]{128,2});
+    states[0] = new State(new int[]{94,18,78,-25,64,-25},new int[]{-1,1,-3,3,-5,15,-7,17,-6,25});
+    states[1] = new State(new int[]{64,2});
     states[2] = new State(-1);
-    states[3] = new State(-2);
-    states[4] = new State(new int[]{40,5});
-    states[5] = new State(new int[]{129,23,130,24},new int[]{-4,6});
-    states[6] = new State(new int[]{41,7,61,17,43,19,60,21});
-    states[7] = new State(new int[]{155,4,123,11,129,23,130,24,160,28,133,29},new int[]{-3,8,-4,15,-6,25});
-    states[8] = new State(new int[]{148,9});
-    states[9] = new State(new int[]{155,4,123,11,129,23,130,24,160,28,133,29},new int[]{-3,10,-4,15,-6,25});
-    states[10] = new State(-3);
-    states[11] = new State(-10,new int[]{-5,12});
-    states[12] = new State(new int[]{125,13,155,4,123,11,129,23,130,24,160,28,133,29},new int[]{-3,14,-4,15,-6,25});
-    states[13] = new State(-4);
-    states[14] = new State(-9);
-    states[15] = new State(new int[]{59,16,61,17,43,19,60,21});
-    states[16] = new State(-5);
-    states[17] = new State(new int[]{129,23,130,24},new int[]{-4,18});
-    states[18] = new State(new int[]{61,-13,43,19,60,21,59,-13,41,-13});
-    states[19] = new State(new int[]{129,23,130,24},new int[]{-4,20});
-    states[20] = new State(-14);
-    states[21] = new State(new int[]{129,23,130,24},new int[]{-4,22});
-    states[22] = new State(new int[]{61,-15,43,19,41,-15,59,-15});
-    states[23] = new State(-11);
-    states[24] = new State(-12);
-    states[25] = new State(new int[]{130,26});
-    states[26] = new State(new int[]{59,27});
-    states[27] = new State(-6);
-    states[28] = new State(-7);
-    states[29] = new State(-8);
+    states[3] = new State(-25,new int[]{-4,4,-8,5,-9,7,-11,8,-13,9,-14,11,-6,12,-12,13,-10,14});
+    states[4] = new State(-2);
+    states[5] = new State(new int[]{64,-7,78,-25},new int[]{-4,6,-8,5,-9,7,-11,8,-13,9,-14,11,-6,12,-12,13,-10,14});
+    states[6] = new State(-8);
+    states[7] = new State(-10);
+    states[8] = new State(-12);
+    states[9] = new State(new int[]{78,10});
+    states[10] = new State(-14);
+    states[11] = new State(-15);
+    states[12] = new State(new int[]{78,-16,64,-9});
+    states[13] = new State(-13);
+    states[14] = new State(-11);
+    states[15] = new State(new int[]{94,18,78,-3,64,-3},new int[]{-3,16,-5,15,-7,17,-6,25});
+    states[16] = new State(-4);
+    states[17] = new State(-6);
+    states[18] = new State(new int[]{66,21},new int[]{-15,19,-16,22});
+    states[19] = new State(new int[]{59,20});
+    states[20] = new State(-20);
+    states[21] = new State(new int[]{59,-21,46,-23});
+    states[22] = new State(new int[]{46,23});
+    states[23] = new State(new int[]{66,24});
+    states[24] = new State(new int[]{59,-22,46,-24});
+    states[25] = new State(-5);
 
     for (int sNo = 0; sNo < states.Length; sNo++) states[sNo].number = sNo;
 
-    rules[1] = new Rule(-2, new int[]{-1,128});
-    rules[2] = new Rule(-1, new int[]{-3});
-    rules[3] = new Rule(-3, new int[]{155,40,-4,41,-3,148,-3});
-    rules[4] = new Rule(-3, new int[]{123,-5,125});
-    rules[5] = new Rule(-3, new int[]{-4,59});
-    rules[6] = new Rule(-3, new int[]{-6,130,59});
-    rules[7] = new Rule(-6, new int[]{160});
-    rules[8] = new Rule(-6, new int[]{133});
-    rules[9] = new Rule(-5, new int[]{-5,-3});
-    rules[10] = new Rule(-5, new int[]{});
-    rules[11] = new Rule(-4, new int[]{129});
-    rules[12] = new Rule(-4, new int[]{130});
-    rules[13] = new Rule(-4, new int[]{-4,61,-4});
-    rules[14] = new Rule(-4, new int[]{-4,43,-4});
-    rules[15] = new Rule(-4, new int[]{-4,60,-4});
+    rules[1] = new Rule(-2, new int[]{-1,64});
+    rules[2] = new Rule(-1, new int[]{-3,-4});
+    rules[3] = new Rule(-3, new int[]{-5});
+    rules[4] = new Rule(-3, new int[]{-5,-3});
+    rules[5] = new Rule(-3, new int[]{-6});
+    rules[6] = new Rule(-5, new int[]{-7});
+    rules[7] = new Rule(-4, new int[]{-8});
+    rules[8] = new Rule(-4, new int[]{-8,-4});
+    rules[9] = new Rule(-4, new int[]{-6});
+    rules[10] = new Rule(-8, new int[]{-9});
+    rules[11] = new Rule(-8, new int[]{-10});
+    rules[12] = new Rule(-9, new int[]{-11});
+    rules[13] = new Rule(-9, new int[]{-12});
+    rules[14] = new Rule(-11, new int[]{-13,78});
+    rules[15] = new Rule(-13, new int[]{-14});
+    rules[16] = new Rule(-13, new int[]{-6});
+    rules[17] = new Rule(-14, new int[]{-6});
+    rules[18] = new Rule(-12, new int[]{-6});
+    rules[19] = new Rule(-10, new int[]{-6});
+    rules[20] = new Rule(-7, new int[]{94,-15,59});
+    rules[21] = new Rule(-15, new int[]{66});
+    rules[22] = new Rule(-15, new int[]{-16,46,66});
+    rules[23] = new Rule(-16, new int[]{66});
+    rules[24] = new Rule(-16, new int[]{-16,46,66});
+    rules[25] = new Rule(-6, new int[]{});
   }
 
   protected override void Initialize() {
@@ -150,7 +157,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
         return CharToString((char)terminal);
   }
 
-#line 51 "parser.y"
+#line 77 "parser.y"
 
 public Parser(Scanner scanner) : base(scanner)
 {
