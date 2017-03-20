@@ -10,7 +10,15 @@ signedInteger {sign}?{digit}+
 exponentPart {exponentIndicator}{signedInteger}
 quote [\"]
 stringCharacter [^\"]
-
+Underscore [_]
+NonZeroDigit [1-9]
+IntegerTypeSuffix [lL]
+OctalDigit [0-7]
+cr [\][r]
+lf [\][n]
+SingleCharacter [\\][u]{hexDigit}{4}
+zeroToThree [0123]
+EscapeSequence [\\]([btnfr\"'\\]|{zeroToThree}{OctalDigit}{2}|{OctalDigit}{2}|{OctalDigit})
 %%
 
 abstract        { return (int)Tokens.ABSTRACT; }
@@ -36,6 +44,7 @@ float        { return (int)Tokens.FLOAT; }
 for        { return (int)Tokens.FOR; }
 if        { return (int)Tokens.IF; }
 goto        { return (int)Tokens.GOTO; }
+
 implements        { return (int)Tokens.IMPLEMENTS; }
 import        { return (int)Tokens.IMPORT; }
 instanceof        { return (int)Tokens.INSTANCEOF; }
@@ -70,6 +79,9 @@ while        { return (int)Tokens.WHILE; }
 {digit}*{dot}?({digit})*{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
 0[xX]{hexDigit}*{dot}                                { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
 {quote}({stringCharacter})*{quote}                             { yylval.stringValue = GetStringValue(yytext); return (int)Tokens.STRINGLITERAL; }
+([0]|{NonZeroDigit}({Underscore}|{digit})*{digit}){IntegerTypeSuffix}             {yylval.name = yytext; return (int)Tokens.IntegerLiteral;}
+[0]({OctalDigit}|{Underscore})*{OctalDigit}{IntegerTypeSuffix}             {yylval.name = yytext; return (int)Tokens.IntegerLiteral; }
+[']({SingleCharacter}|{EscapeSequence})[']  {yylval.name = yytext; return (int)Tokens.CharacterLiteral; }
 true						 { yylval.boolValue = true; return (int)Tokens.TRUE; }
 
 false						 { yylval.boolValue = false; return (int)Tokens.FALSE; }
@@ -79,7 +91,6 @@ false						 { yylval.boolValue = false; return (int)Tokens.FALSE; }
 "||" 						 { yylval.name = "||"; return (int)Tokens.OPERATOR; }
 
 "!"  						 { yylval.name = "!"; return (int)Tokens.OPERATOR; }
-
 
 "="                          { return '='; }
 "+"                          { return '+'; }

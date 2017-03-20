@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace GPLexTutorial
 {
@@ -69,10 +69,12 @@ namespace GPLexTutorial
         VOID = 315,
         VOLATILE = 316,
         WHILE = 317,
-        NULL = 318,
-        OPERATOR = 268,
-        TRUE = 269,
-        FALSE = 270
+        IntegerLiteral = 318,
+        CharacterLiteral = 319,
+        NULL = 320,
+        OPERATOR = 321,
+        TRUE = 322,
+        FALSE =323
     };
 
     public abstract class ScanBase
@@ -123,6 +125,12 @@ namespace GPLexTutorial
                             case Tokens.FLOATLITERAL:
                                 Console.WriteLine($"FLOATLITERAL ({scanner.yylval.floatValue})");
                                 break;
+                            case Tokens.IntegerLiteral:
+                                Console.WriteLine("INTEGER LITERAL ({0})", scanner.yylval.name);
+                                break;
+                            case Tokens.CharacterLiteral:
+                                Console.WriteLine("CHARACTER LITERAL ({0})", scanner.yylval.name);
+                                break;
                             case Tokens.STRINGLITERAL:
                                 Console.WriteLine($"{token.ToString().ToUpper()} ({scanner.yylval.stringValue})");
                                 break;
@@ -130,9 +138,9 @@ namespace GPLexTutorial
                             case Tokens.FALSE:
                                 Console.WriteLine("BOOL ({0})", scanner.yylval.boolValue);
                                 break;
-                            case Tokens.OPERATOR:
+                           case Tokens.OPERATOR:
                                 Console.WriteLine("'{0}'", scanner.yylval.name);
-                                break;
+                                break;   
                             default:
                                 if(Enum.IsDefined(typeof(Tokens),token))
                                     Console.WriteLine($"{token.ToString().ToUpper()}");
