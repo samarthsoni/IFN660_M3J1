@@ -14,6 +14,7 @@ Underscore [_]
 NonZeroDigit [1-9]
 IntegerTypeSuffix [lL]
 OctalDigit [0-7]
+inputcharacter [^\r\n]
 forwardslash [\/]
 hexdigit [0-9a-fA-F]
 hexdigitandunderscore _{hexdigit}

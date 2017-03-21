@@ -158,6 +158,7 @@ namespace GPLexTutorial
                         }
                     }
                     while (token != Tokens.EOF);
+                    Console.Read();
                 }
             }
             catch (Exception e)
