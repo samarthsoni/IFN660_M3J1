@@ -4,7 +4,7 @@
 // ==========================================================================
 //  Version:  1.2.2
 //  Machine:  DESKTOP-VKITI27
-//  DateTime: 3/21/2017 12:08:26 AM
+//  DateTime: 3/21/2017 3:22:23 PM
 //  UserName: Juan Camilo
 // ==========================================================================
 
@@ -34,8 +34,14 @@ Underscore [_]
 NonZeroDigit [1-9]
 IntegerTypeSuffix [lL]
 OctalDigit [0-7]
-cr [\][r]
-lf [\][n]
+inputcharacter [^\r\n]
+forwardslash [\/]
+hexdigit [0-9a-fA-F]
+hexdigitandunderscore _{hexdigit}
+zerox 0x|0X
+cr [\r]
+lf [\n]
+space [ ]
 SingleCharacter [\\][u]{hexDigit}{4}
 zeroToThree [0123]
 EscapeSequence [\\]([btnfr\"'\\]|{zeroToThree}{OctalDigit}{2}|{OctalDigit}{2}|{OctalDigit})
@@ -106,6 +112,13 @@ while        { return (int)Tokens.WHILE; }
 ([0]|{NonZeroDigit}({Underscore}|{digit})*{digit}){IntegerTypeSuffix}             {yylval.name = yytext; return (int)Tokens.IntegerLiteral;}
 [0]({OctalDigit}|{Underscore})*{OctalDigit}{IntegerTypeSuffix}             {yylval.name = yytext; return (int)Tokens.IntegerLiteral; }
 [']({SingleCharacter}|{EscapeSequence})[']  {yylval.name = yytext; return (int)Tokens.CharacterLiteral; }
+
+{forwardslash}{2}{inputcharacter}*({cr}|{lf}|{cr}{lf}) {return (int)Tokens.EndOfLineComment; }
+
+{forwardslash}[*]([^*]|[*][^\/]|[^\/*][\/][*]|({cr}|{lf}|{cr}{lf}))*[*]{forwardslash}   {return (int)Tokens.TraditionalComment;}
+ 
+{zerox}{hexdigit}{hexdigitandunderscore}*{IntegerTypeSuffix} {return (int)Tokens.IntegerLiteral;}
+
 true						 { yylval.boolValue = true; return (int)Tokens.TRUE; }
 //^^
 // Warning: This pattern always overridden by "{letter}({letter}|{digit})*" 

@@ -4,9 +4,9 @@
 
 // GPPG version 1.5.2
 // Machine:  DESKTOP-VKITI27
-// DateTime: 3/21/2017 12:08:26 AM
+// DateTime: 3/21/2017 3:22:23 PM
 // UserName: Juan Camilo
-// Input file <parser.y - 3/21/2017 12:08:25 AM>
+// Input file <parser.y - 3/21/2017 3:21:29 PM>
 
 // options: lines gplex
 
@@ -29,7 +29,8 @@ public enum Tokens {error=63,EOF=64,NUMBER=65,IDENT=66,
     PROTECTED=103,PUBLIC=104,RETURN=105,SHORT=106,STATIC=107,STRICTFP=108,
     SUPER=109,SWITCH=110,SYNCHRONIZED=111,THIS=112,THROW=113,THROWS=114,
     TRANSIENT=115,TRY=116,VOID=117,VOLATILE=118,WHILE=119,IntegerLiteral=120,
-    CharacterLiteral=121,NULL=122,OPERATOR=123,TRUE=124,FALSE=125};
+    CharacterLiteral=121,NULL=122,OPERATOR=123,TRUE=124,FALSE=125,EndOfLineComment=126,
+    TraditionalComment=127};
 
 public struct ValueType
 #line 4 "parser.y"
@@ -157,8 +158,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
         return CharToString((char)terminal);
   }
 
-#line 77 "parser.y"
-
+#line 78 "parser.y"
 public Parser(Scanner scanner) : base(scanner)
 {
 }
