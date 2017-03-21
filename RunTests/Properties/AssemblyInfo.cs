@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GPLexTutorial")]
+[assembly: AssemblyTitle("RunTests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("GPLexTutorial")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCompany("QUT")]
+[assembly: AssemblyProduct("RunTests")]
+[assembly: AssemblyCopyright("Copyright © QUT 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("b9cd4b82-b208-4ad9-9bcf-48cb9b116451")]
+[assembly: Guid("60b00041-bf90-42d3-bccf-e5227fb3ea86")]
 
 // Version information for an assembly consists of the following four values:
 //
