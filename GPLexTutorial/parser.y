@@ -23,55 +23,95 @@
 
 %%
 
-CompilationUnit : ImportDeclarations TypeDeclarations
-        ;
 
-ImportDeclarations :	ImportDeclaration
-					|	ImportDeclaration ImportDeclarations
-					|	nothing;
 
-ImportDeclaration:		SingleTypeImportDeclaration ;
+CompilationUnit : 
+	ImportDeclarations TypeDeclarations;
 
-TypeDeclarations:		TypeDeclaration
-					|	TypeDeclaration TypeDeclarations
-					|	nothing;
+ImportDeclarations :	
+		ImportDeclaration
+	|	ImportDeclaration ImportDeclarations
+	|	/* empty */;
 
-TypeDeclaration:		ClassDeclaration 
-					|	InterfaceDeclaration;
+ImportDeclaration:		
+	SingleTypeImportDeclaration ;
 
-ClassDeclaration:		NormalClassDeclaration 
-					|	EnumDeclaration ;
+TypeDeclarations:		
+		TypeDeclaration
+	|	TypeDeclaration TypeDeclarations
+	|	/* empty */;
 
-NormalClassDeclaration: ClassModifiers CLASS;
+TypeDeclaration:		
+		ClassDeclaration 
+	|	InterfaceDeclaration;
 
-ClassModifiers:			ClassModifier
-					//|	ClassModifier ClassModifiers
-					|	nothing;
+ClassDeclaration:		
+		NormalClassDeclaration 
+	|	EnumDeclaration;
 
-ClassModifier:		nothing
-					;
+NormalClassDeclaration: 
+	ClassModifiers CLASS IDENT '{' ClassBody '}';
 
-					//PUBLIC 
-					//|	PROTECTED 
-					//|	PRIVATE
-					//|	ABSTRACT
-					//|	STATIC
-					//|	FINAL
-					//|	nothing;
+ClassModifiers:			
+		ClassModifier
+	|	ClassModifier ClassModifiers
+	|	/* empty */;
 
-EnumDeclaration : nothing;
+ClassModifier:		
+		PUBLIC 
+	|	PROTECTED 
+	|	PRIVATE
+	|	ABSTRACT
+	|	STATIC
+	|	FINAL;
 
-InterfaceDeclaration : nothing;
+ClassBody:
+	/* empty */;
 
-SingleTypeImportDeclaration : IMPORT TypeName ';' ;
 
-TypeName			:	IDENT
-					|	PackageOrTypeName '.' IDENT ;
+EnumDeclaration : 
+	ClassModifiers ENUM IDENT Superinderfaces EnumBody;
+Superinderfaces:	
+	/* empty */;
+EnumBody:			
+	/* empty */;
 
-PackageOrTypeName:		IDENT 
-					|	PackageOrTypeName '.' IDENT ;
+InterfaceDeclaration : 
+	InterfaceModifiers INTERFACE TypeParameters ExtendsInterfaces InterfaceBody;
 
-nothing: /* empty */;
+TypeParameters : 
+	/* empty */;
+
+ExtendsInterfaces:
+	/* empty */;
+
+InterfaceBody:
+	/* empty */;
+
+InterfaceModifiers :	
+		InterfaceModifier
+	|	InterfaceModifier InterfaceModifiers
+	|	/* empty */;
+
+InterfaceModifier:		
+		PUBLIC 
+	|	PROTECTED 
+	|	PRIVATE
+	|	ABSTRACT
+	|	STATIC;
+
+SingleTypeImportDeclaration : 
+	IMPORT TypeName ';' ;
+
+TypeName:	
+		IDENT
+	|	PackageOrTypeName '.' IDENT ;
+
+PackageOrTypeName:		
+		IDENT 
+	|	PackageOrTypeName '.' IDENT ;
+
+
 
 %%
 
