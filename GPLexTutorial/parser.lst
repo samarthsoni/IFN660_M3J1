@@ -1,10 +1,10 @@
 
 // ==========================================================================
-//  GPPG error listing for yacc source file <parser.y - 3/21/2017 6:35:51 PM>
+//  GPPG error listing for yacc source file <parser.y - 3/21/2017 8:10:17 PM>
 // ==========================================================================
 //  Version:  1.5.2
 //  Machine:  DESKTOP-VKITI27
-//  DateTime: 3/21/2017 6:35:54 PM
+//  DateTime: 3/21/2017 8:10:21 PM
 //  UserName: Juan Camilo
 // ==========================================================================
 
@@ -33,11 +33,56 @@
 %left '+'
 
 %%
+// Error: NonTerminal symbol "AnnotationTypeDeclaration" has no productions
+// Warning: Terminating AnnotationTypeDeclaration fixes the following size-1 NonTerminal set
+   // {AnnotationTypeDeclaration}
+// Error: There are 1 non-terminating NonTerminal Symbols
+   //  {AnnotationTypeDeclaration}
+// -----------------------------------------------------------------------------------------
 
 
 
 CompilationUnit : 
-	ImportDeclarations TypeDeclarations;
+	PackageDeclarations ImportDeclarations TypeDeclarations;
+
+PackageDeclarations:
+	PackageDeclaration
+	|	PackageDeclaration PackageDeclarations;
+
+PackageDeclaration:
+	PackageModifiers PACKAGE IDENT ColonSeparatedIdents ';';
+
+PackageModifiers:
+	PackageModifier
+	|	PackageModifier PackageModifiers
+	|	/* empty */;
+
+PackageModifier:
+	Annotation;
+
+Annotations:
+	Annotation
+	|	Annotation Annotations
+	|	/* empty */;
+
+Annotation:
+	NormalAnnotation 
+	|	MarkerAnnotation
+	|	SingleElementAnnotation;
+
+ColonSeparatedIdents:
+	'.' IDENT
+	|	'.' IDENT ColonSeparatedIdents
+	|	/* empty */;
+
+NormalAnnotation:
+	/* empty */;
+
+MarkerAnnotation:
+	/* empty */;
+
+SingleElementAnnotation:
+	/* empty */;
 
 ImportDeclarations :	
 		ImportDeclaration
@@ -45,7 +90,11 @@ ImportDeclarations :
 	|	/* empty */;
 
 ImportDeclaration:		
-	SingleTypeImportDeclaration ;
+	SingleTypeImportDeclaration 
+	|	TypeImportOnDemandDeclaration
+	|	SingleStaticImportDeclaration 
+	|	StaticImportOnDemandDeclaration;
+
 
 TypeDeclarations:		
 		TypeDeclaration
@@ -61,7 +110,41 @@ ClassDeclaration:
 	|	EnumDeclaration;
 
 NormalClassDeclaration: 
-	ClassModifiers CLASS IDENT '{' ClassBody '}';
+	ClassModifiers CLASS IDENT TypeParameters Superclasses Superinterfaces '{' ClassBody '}';
+
+Superclasses:
+	Superclass
+	|	Superclass Superclasses
+	|	/* empty */;
+
+Superclass:
+	EXTENDS ClassType;
+
+ClassType:
+	Annotations IDENT TypeArguments
+	| ClassOrInterfaceType '.' Annotations IDENT TypeArguments;
+
+ClassOrInterfaceType:
+	ClassType
+	|	InterfaceType;
+
+TypeArguments:
+	/* empty */;
+
+Superinterfaces:
+	IMPLEMENTS InterfaceTypeList
+	|	/* empty */;
+
+InterfaceTypeList:
+	InterfaceType ComaSeparatedInterfaceTypeList;
+
+ComaSeparatedInterfaceTypeList:
+	',' InterfaceType
+	|	',' InterfaceType ComaSeparatedInterfaceTypeList
+	|	/* empty */;
+
+InterfaceType:
+	ClassType;
 
 ClassModifiers:			
 		ClassModifier
@@ -77,34 +160,29 @@ ClassModifier:
 	|	FINAL;
 
 ClassBody:
-	% empty %;
-//------^^^
-// Error: This character is invalid in this context
-// Error: Unknown %keyword in this context
-// ------------------------------------------------
+	/* empty */;
 
 
 EnumDeclaration : 
-//^^^^^^^^^^^^^
-// Error: Syntax error, unexpected anchoredSymbol
-// ----------------------------------------------
-	ClassModifiers ENUM IDENT Superinderfaces EnumBody;
-Superinderfaces:	
-	/* empty */;
+	ClassModifiers ENUM IDENT Superinterfaces EnumBody;
 EnumBody:			
-	/* empty */;
+	'{' /* empty */ '}';
 
 InterfaceDeclaration : 
-	InterfaceModifiers INTERFACE TypeParameters ExtendsInterfaces InterfaceBody;
+	NormalInterfaceDeclaration 
+	|	AnnotationTypeDeclaration ;
+
+NormalInterfaceDeclaration:
+	InterfaceModifiers INTERFACE IDENT TypeParameters ExtendsInterfaces InterfaceBody;
 
 TypeParameters : 
 	/* empty */;
 
 ExtendsInterfaces:
-	/* empty */;
+	EXTENDS InterfaceTypeList;
 
 InterfaceBody:
-	/* empty */;
+	'{' /* empty */ '}';
 
 InterfaceModifiers :	
 		InterfaceModifier
@@ -120,6 +198,15 @@ InterfaceModifier:
 
 SingleTypeImportDeclaration : 
 	IMPORT TypeName ';' ;
+
+TypeImportOnDemandDeclaration:
+	IMPORT PackageOrTypeName '.' '*' ';';
+
+SingleStaticImportDeclaration:
+	IMPORT STATIC TypeName ';';
+
+StaticImportOnDemandDeclaration:
+	IMPORT STATIC PackageOrTypeName '.' '*' ';';
 
 TypeName:	
 		IDENT

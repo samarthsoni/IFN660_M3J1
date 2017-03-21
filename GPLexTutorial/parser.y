@@ -26,7 +26,46 @@
 
 
 CompilationUnit : 
-	ImportDeclarations TypeDeclarations;
+	PackageDeclarations ImportDeclarations TypeDeclarations;
+
+PackageDeclarations:
+	PackageDeclaration
+	|	PackageDeclaration PackageDeclarations;
+
+PackageDeclaration:
+	PackageModifiers PACKAGE IDENT ColonSeparatedIdents ';';
+
+PackageModifiers:
+	PackageModifier
+	|	PackageModifier PackageModifiers
+	|	/* empty */;
+
+PackageModifier:
+	Annotation;
+
+Annotations:
+	Annotation
+	|	Annotation Annotations
+	|	/* empty */;
+
+Annotation:
+	NormalAnnotation 
+	|	MarkerAnnotation
+	|	SingleElementAnnotation;
+
+ColonSeparatedIdents:
+	'.' IDENT
+	|	'.' IDENT ColonSeparatedIdents
+	|	/* empty */;
+
+NormalAnnotation:
+	/* empty */;
+
+MarkerAnnotation:
+	/* empty */;
+
+SingleElementAnnotation:
+	/* empty */;
 
 ImportDeclarations :	
 		ImportDeclaration
@@ -34,7 +73,11 @@ ImportDeclarations :
 	|	/* empty */;
 
 ImportDeclaration:		
-	SingleTypeImportDeclaration ;
+	SingleTypeImportDeclaration 
+	|	TypeImportOnDemandDeclaration
+	|	SingleStaticImportDeclaration 
+	|	StaticImportOnDemandDeclaration;
+
 
 TypeDeclarations:		
 		TypeDeclaration
@@ -50,7 +93,41 @@ ClassDeclaration:
 	|	EnumDeclaration;
 
 NormalClassDeclaration: 
-	ClassModifiers CLASS IDENT '{' ClassBody '}';
+	ClassModifiers CLASS IDENT TypeParameters Superclasses Superinterfaces '{' ClassBody '}';
+
+Superclasses:
+	Superclass
+	|	Superclass Superclasses
+	|	/* empty */;
+
+Superclass:
+	EXTENDS ClassType;
+
+ClassType:
+	Annotations IDENT TypeArguments
+	| ClassOrInterfaceType '.' Annotations IDENT TypeArguments;
+
+ClassOrInterfaceType:
+	ClassType
+	|	InterfaceType;
+
+TypeArguments:
+	/* empty */;
+
+Superinterfaces:
+	IMPLEMENTS InterfaceTypeList
+	|	/* empty */;
+
+InterfaceTypeList:
+	InterfaceType ComaSeparatedInterfaceTypeList;
+
+ComaSeparatedInterfaceTypeList:
+	',' InterfaceType
+	|	',' InterfaceType ComaSeparatedInterfaceTypeList
+	|	/* empty */;
+
+InterfaceType:
+	ClassType;
 
 ClassModifiers:			
 		ClassModifier
@@ -70,23 +147,31 @@ ClassBody:
 
 
 EnumDeclaration : 
-	ClassModifiers ENUM IDENT Superinderfaces EnumBody;
-Superinderfaces:	
-	/* empty */;
+	ClassModifiers ENUM IDENT Superinterfaces EnumBody;
 EnumBody:			
-	/* empty */;
+	'{' /* empty */ '}';
 
 InterfaceDeclaration : 
-	InterfaceModifiers INTERFACE TypeParameters ExtendsInterfaces InterfaceBody;
+	NormalInterfaceDeclaration 
+	|	AnnotationTypeDeclaration ;
+
+NormalInterfaceDeclaration:
+	InterfaceModifiers INTERFACE IDENT TypeParameters ExtendsInterfaces InterfaceBody;
+
+AnnotationTypeDeclaration:
+	InterfaceModifiers '@' INTERFACE IDENT AnnotationTypeBody ;
+
+AnnotationTypeBody:
+	'{' /* empty */ '}';
 
 TypeParameters : 
 	/* empty */;
 
 ExtendsInterfaces:
-	/* empty */;
+	EXTENDS InterfaceTypeList;
 
 InterfaceBody:
-	/* empty */;
+	'{' /* empty */ '}';
 
 InterfaceModifiers :	
 		InterfaceModifier
@@ -102,6 +187,15 @@ InterfaceModifier:
 
 SingleTypeImportDeclaration : 
 	IMPORT TypeName ';' ;
+
+TypeImportOnDemandDeclaration:
+	IMPORT PackageOrTypeName '.' '*' ';';
+
+SingleStaticImportDeclaration:
+	IMPORT STATIC TypeName ';';
+
+StaticImportOnDemandDeclaration:
+	IMPORT STATIC PackageOrTypeName '.' '*' ';';
 
 TypeName:	
 		IDENT

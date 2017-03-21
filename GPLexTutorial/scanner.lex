@@ -120,6 +120,9 @@ false						 { yylval.boolValue = false; return (int)Tokens.FALSE; }
 "}"                          { return '}'; }
 ";"                          { return ';'; }
 "."                          { return '.'; }
+"*"							 { return '*'; }
+","							 { return ','; }
+"@"							 { return '@'; }
 
 [\n]		{ lines++;    }
 [ \t\r]      /* ignore other whitespace */
