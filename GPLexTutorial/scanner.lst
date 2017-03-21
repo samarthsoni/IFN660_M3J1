@@ -3,13 +3,19 @@
 //  GPLEX error listing for lex source file <scanner.lex>
 // ==========================================================================
 //  Version:  1.2.2
-//  Machine:  DESKTOP-IRIVFD3
-//  DateTime: 21/03/2017 12:15:18 PM
-//  UserName: Samarth
+//  Machine:  DESKTOP-VKITI27
+//  DateTime: 3/21/2017 12:08:26 AM
+//  UserName: Juan Camilo
 // ==========================================================================
 
 
+%{
+int lines = 0;
+%}
+
 %namespace GPLexTutorial
+
+
 
 digit [0-9]
 hexDigit [0-9a-fA-F]
@@ -28,14 +34,8 @@ Underscore [_]
 NonZeroDigit [1-9]
 IntegerTypeSuffix [lL]
 OctalDigit [0-7]
-inputcharacter [^\r\n]
-forwardslash [\/]
-hexdigit [0-9a-fA-F]
-hexdigitandunderscore _{hexdigit}
-zerox 0x|0X
-cr [\r]
-lf [\n]
-space [ ]
+cr [\][r]
+lf [\][n]
 SingleCharacter [\\][u]{hexDigit}{4}
 zeroToThree [0123]
 EscapeSequence [\\]([btnfr\"'\\]|{zeroToThree}{OctalDigit}{2}|{OctalDigit}{2}|{OctalDigit})
@@ -100,19 +100,12 @@ while        { return (int)Tokens.WHILE; }
 // Warning: This pattern always overrides "true" 
 // -----------------------------------------------
 {digit}+	                 { yylval.num = int.Parse(yytext); return (int)Tokens.NUMBER; }
-{digit}*{dot}?({digit})*{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
-0[xX]{hexDigit}*{dot}                                { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
+{digit}+{dot}?({digit})*{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
+{digit}*{dot}?({digit})+{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
 {quote}({stringCharacter})*{quote}                             { yylval.stringValue = GetStringValue(yytext); return (int)Tokens.STRINGLITERAL; }
 ([0]|{NonZeroDigit}({Underscore}|{digit})*{digit}){IntegerTypeSuffix}             {yylval.name = yytext; return (int)Tokens.IntegerLiteral;}
 [0]({OctalDigit}|{Underscore})*{OctalDigit}{IntegerTypeSuffix}             {yylval.name = yytext; return (int)Tokens.IntegerLiteral; }
 [']({SingleCharacter}|{EscapeSequence})[']  {yylval.name = yytext; return (int)Tokens.CharacterLiteral; }
-
-{forwardslash}{2}{inputcharacter}*({cr}|{lf}|{cr}{lf}) {return (int)Tokens.EndOfLineComment; }
-
-{forwardslash}[*]([^*]|[*][^\/]|[^\/*][\/][*]|({cr}|{lf}|{cr}{lf}))*[*]{forwardslash}   {return (int)Tokens.TraditionalComment;}
- 
-{zerox}{hexdigit}{hexdigitandunderscore}*{IntegerTypeSuffix} {return (int)Tokens.IntegerLiteral;}
-
 true						 { yylval.boolValue = true; return (int)Tokens.TRUE; }
 //^^
 // Warning: This pattern always overridden by "{letter}({letter}|{digit})*" 
@@ -137,8 +130,11 @@ false						 { yylval.boolValue = false; return (int)Tokens.FALSE; }
 "{"                          { return '{'; }
 "}"                          { return '}'; }
 ";"                          { return ';'; }
+"."                          { return '.'; }
 
-[ \r\n\t]                    /* skip whitespace */
+[\n]		{ lines++;    }
+[ \t\r]      /* ignore other whitespace */
+
 
 .                            { 
                                  throw new Exception(
@@ -147,5 +143,10 @@ false						 { yylval.boolValue = false; return (int)Tokens.FALSE; }
                              }
 
 %%
+public override void yyerror( string format, params object[] args )
+{
+    System.Console.Error.WriteLine("Error: line {0}, {1}", lines,
+        String.Format(format, args));
+}
 // ==========================================================================
 

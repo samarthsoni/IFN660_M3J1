@@ -1,171 +1,19 @@
 using System;
 
+using System.IO;
+
 namespace GPLexTutorial
 {
-    public struct MyValueType
-    {
-        public int num;
-        public string name;
-        public float floatValue;
-        public string stringValue;
-        public bool boolValue;
-    };
-
-    public enum Tokens
-    {
-        NUMBER = 258,
-        IDENT = 259,
-        BOOL = 263,
-        EOF = 264,
-        FLOATLITERAL = 265,
-        STRINGLITERAL = 266,
-        ABSTRACT = 268,
-        ASSERT = 269,
-        BOOLEAN = 270,
-        BREAK = 271,
-        BYTE = 272,
-        CASE = 273,
-        CATCH = 274,
-        CHAR = 275,
-        CLASS = 276,
-        CONST = 277,
-        CONTINUE = 278,
-        DEFAULT = 279,
-        DO = 280,
-        DOUBLE = 281,
-        ELSE = 282,
-        ENUM = 283,
-        EXTENDS = 284,
-        FINAL = 285,
-        FINALLY = 286,
-        FLOAT = 287,
-        FOR = 288,
-        IF = 289,
-        GOTO = 290,
-        IMPLEMENTS = 291,
-        IMPORT = 292,
-        INSTANCEOF = 293,
-        INT = 294,
-        INTERFACE = 295,
-        LONG = 296,
-        NATIVE = 297,
-        NEW = 298,
-        PACKAGE = 299,
-        PRIVATE = 300,
-        PROTECTED = 301,
-        PUBLIC = 302,
-        RETURN = 303,
-        SHORT = 304,
-        STATIC = 305,
-        STRICTFP = 306,
-        SUPER = 307,
-        SWITCH = 308,
-        SYNCHRONIZED = 309,
-        THIS = 310,
-        THROW = 311,
-        THROWS = 312,
-        TRANSIENT = 313,
-        TRY = 314,
-        VOID = 315,
-        VOLATILE = 316,
-        WHILE = 317,
-        IntegerLiteral = 318,
-        CharacterLiteral = 319,
-        NULL = 320,
-        OPERATOR = 321,
-        TRUE = 322,
-        FALSE =323,
-		EndOfLineComment = 324,
-        TraditionalComment=326
-    };
-
-    public abstract class ScanBase
-    {
-        public MyValueType yylval;
-        public abstract int yylex();
-        protected virtual bool yywrap() { return true; }
-    }
-
     class Program
     {
         static void Main(string[] args)
         {
-            try
-            {
-
-                using (var input = System.IO.File.OpenRead(args[0]))
-                {
-                    Scanner scanner = new Scanner(input);
-
-                    Tokens token;
-                    do
-                    {
-                        token = (Tokens)scanner.yylex();
-                        switch (token)
-                        {
-                            case Tokens.NUMBER:
-                                Console.WriteLine("NUMBER ({0})", scanner.yylval.num);
-                                break;
-                            case Tokens.IDENT:
-                                Console.WriteLine("IDENT ({0})", scanner.yylval.name);
-                                break;
-                            case Tokens.IF:
-                                Console.WriteLine("IF");
-                                break;
-                            case Tokens.ELSE:
-                                Console.WriteLine("ELSE");
-                                break;
-                            case Tokens.INT:
-                                Console.WriteLine("INT");
-                                break;
-                            case Tokens.BOOL:
-                                Console.WriteLine("BOOL");
-                                break;
-                            case Tokens.EOF:
-                                Console.WriteLine("EOF");
-                                break;
-                            case Tokens.FLOATLITERAL:
-                                Console.WriteLine($"FLOATLITERAL ({scanner.yylval.floatValue})");
-                                break;
-                            case Tokens.IntegerLiteral:
-                                Console.WriteLine("INTEGER LITERAL ({0})", scanner.yylval.name);
-                                break;
-                            case Tokens.CharacterLiteral:
-                                Console.WriteLine("CHARACTER LITERAL ({0})", scanner.yylval.name);
-                                break;
-                            case Tokens.STRINGLITERAL:
-                                Console.WriteLine($"{token.ToString().ToUpper()} ({scanner.yylval.stringValue})");
-                                break;
-                            case Tokens.TRUE:
-                            case Tokens.FALSE:
-                                Console.WriteLine("BOOL ({0})", scanner.yylval.boolValue);
-                                break;
-                            case Tokens.OPERATOR:
-                                Console.WriteLine("'{0}'", scanner.yylval.name);
-                                break;
-							case Tokens.EndOfLineComment:
-								Console.WriteLine("EndOfLineComment");
-								break;
-							case Tokens.TraditionalComment:
-								Console.WriteLine("TraditionalComment");
-								break;
-                            default:
-                                if(Enum.IsDefined(typeof(Tokens),token))
-                                    Console.WriteLine($"{token.ToString().ToUpper()}");
-                                else
-                                    Console.WriteLine("'{0}'", (char)token);
-                                break;
-                        }
-                    }
-                    while (token != Tokens.EOF);
-                    Console.Read();
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            Scanner scanner = new Scanner(
+                new FileStream(args[0], FileMode.Open));
+            Parser parser = new Parser(scanner);
+            parser.Parse();
         }
     }
 }
+
 
