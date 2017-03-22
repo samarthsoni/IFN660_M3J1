@@ -30,7 +30,8 @@ CompilationUnit :
 
 PackageDeclarations:
 	PackageDeclaration
-	|	PackageDeclaration PackageDeclarations;
+	|	PackageDeclaration PackageDeclarations
+	|	/* empty */;
 
 PackageDeclaration:
 	PackageModifiers PACKAGE IDENT ColonSeparatedIdents ';';
