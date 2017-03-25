@@ -1,11 +1,11 @@
 
 // ==========================================================================
-//  GPPG error listing for yacc source file <parser.y - 3/21/2017 8:10:17 PM>
+//  GPPG error listing for yacc source file <parser.y - 25/03/2017 5:29:22 PM>
 // ==========================================================================
 //  Version:  1.5.2
-//  Machine:  DESKTOP-VKITI27
-//  DateTime: 3/21/2017 8:10:21 PM
-//  UserName: Juan Camilo
+//  Machine:  DESKTOP-IRIVFD3
+//  DateTime: 25/03/2017 5:29:45 PM
+//  UserName: Samarth
 // ==========================================================================
 
 
@@ -33,12 +33,12 @@
 %left '+'
 
 %%
-// Error: NonTerminal symbol "AnnotationTypeDeclaration" has no productions
-// Warning: Terminating AnnotationTypeDeclaration fixes the following size-1 NonTerminal set
-   // {AnnotationTypeDeclaration}
+// Error: NonTerminal symbol "VarVariableDeclaratorId" has no productions
+// Warning: Terminating VarVariableDeclaratorId fixes the following size-1 NonTerminal set
+   // {VarVariableDeclaratorId}
 // Error: There are 1 non-terminating NonTerminal Symbols
-   //  {AnnotationTypeDeclaration}
-// -----------------------------------------------------------------------------------------
+   //  {VarVariableDeclaratorId}
+// ---------------------------------------------------------------------------------------
 
 
 
@@ -47,7 +47,8 @@ CompilationUnit :
 
 PackageDeclarations:
 	PackageDeclaration
-	|	PackageDeclaration PackageDeclarations;
+	|	PackageDeclaration PackageDeclarations
+	|	/* empty */;
 
 PackageDeclaration:
 	PackageModifiers PACKAGE IDENT ColonSeparatedIdents ';';
@@ -160,11 +161,97 @@ ClassModifier:
 	|	FINAL;
 
 ClassBody:
-	/* empty */;
+	'{' ClassBodyDeclarations '}'
+	|	/* empty */;
 
+ClassBodyDeclarations:	
+	ClassBodyDeclaration	
+	 |	/* empty */;
+
+ClassBodyDeclaration:
+	ClassMemberDeclaration
+	|	/* empty */;
+
+ClassMemberDeclaration:
+	MethodDeclaration 
+	|	/*empty*/ ;
+
+MethodDeclaration :
+	MethodModifiers MethodHeader MethodBody
+	|	/*empty*/ ;
+
+MethodModifiers :
+	/*empty*/ ;
+
+MethodHeader :
+	/*empty*/ ;
+
+MethodBody :
+	Block
+	|	/*empty*/ ;
+
+Block:
+	'{' BlockStatements '}'
+	|	BlockStatement BlockStatements ;
+
+BlockStatements:
+	/* empty */ ;
+
+BlockStatement:
+	LocalVariableDeclarationStatement;
+
+LocalVariableDeclarationStatement:
+	LocalVariableDeclaration ';' ;
+
+LocalVariableDeclaration:
+	VariableModifiers UnannType VariableDeclaratorList ;
+
+VariableModifiers:
+	/* empty */ ;
+
+UnannType:
+	UnannPrimitiveType ; 
+
+UnannPrimitiveType:
+	NumericType ;
+
+NumericType:
+	IntegralType ;
+
+IntegralType:
+	BYTE
+	|	SHORT
+	|	INT
+	|	LONG
+	|	CHAR ;
+
+VariableDeclaratorList:
+	VariableDeclarator
+	| VariableDeclarator VariableDeclarators;
+
+VariableDeclarators:
+	/* empty */ ;
+
+VariableDeclarator:
+	VarVariableDeclaratorId
+	|VariableDeclaratorId '=' VariableInitializer;
+
+VariableDeclaratorId:
+	Identifier
+	|Identifier Dims;
+
+Identifier:
+	IDENT;
+
+Dims:
+	/* empty */ ;
+
+VariableInitializer:
+	/* empty */ ;
 
 EnumDeclaration : 
 	ClassModifiers ENUM IDENT Superinterfaces EnumBody;
+
 EnumBody:			
 	'{' /* empty */ '}';
 
@@ -174,6 +261,12 @@ InterfaceDeclaration :
 
 NormalInterfaceDeclaration:
 	InterfaceModifiers INTERFACE IDENT TypeParameters ExtendsInterfaces InterfaceBody;
+
+AnnotationTypeDeclaration:
+	InterfaceModifiers '@' INTERFACE IDENT AnnotationTypeBody ;
+
+AnnotationTypeBody:
+	'{' /* empty */ '}';
 
 TypeParameters : 
 	/* empty */;
@@ -215,8 +308,6 @@ TypeName:
 PackageOrTypeName:		
 		IDENT 
 	|	PackageOrTypeName '.' IDENT ;
-
-
 
 %%
 

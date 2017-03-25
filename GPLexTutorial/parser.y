@@ -209,10 +209,32 @@ IntegralType:
 	|	CHAR ;
 
 VariableDeclaratorList:
+	VariableDeclarator
+	| VariableDeclarator VariableDeclarators;
+
+VariableDeclarators:
+	/* empty */ ;
+
+VariableDeclarator:
+	VariableDeclaratorId
+	|VariableDeclaratorId '=' VariableInitializer;
+
+VariableDeclaratorId:
+	Identifier
+	|Identifier Dims;
+
+Identifier:
+	IDENT;
+
+Dims:
+	/* empty */ ;
+
+VariableInitializer:
 	/* empty */ ;
 
 EnumDeclaration : 
 	ClassModifiers ENUM IDENT Superinterfaces EnumBody;
+
 EnumBody:			
 	'{' /* empty */ '}';
 
