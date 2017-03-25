@@ -1,4 +1,10 @@
+%{
+int lines = 0;
+%}
+
 %namespace GPLexTutorial
+
+
 
 digit [0-9]
 hexDigit [0-9a-fA-F]
@@ -82,8 +88,8 @@ while        { return (int)Tokens.WHILE; }
 
 {letter}({letter}|{digit})*  { yylval.name = yytext; return (int)Tokens.IDENT; }
 {digit}+	                 { yylval.num = int.Parse(yytext); return (int)Tokens.NUMBER; }
-{digit}*{dot}?({digit})*{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
-0[xX]{hexDigit}*{dot}                                { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
+{digit}+{dot}?({digit})*{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
+{digit}*{dot}?({digit})+{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
 {quote}({stringCharacter})*{quote}                             { yylval.stringValue = GetStringValue(yytext); return (int)Tokens.STRINGLITERAL; }
 ([0]|{NonZeroDigit}({Underscore}|{digit})*{digit}){IntegerTypeSuffix}             {yylval.name = yytext; return (int)Tokens.IntegerLiteral;}
 [0]({OctalDigit}|{Underscore})*{OctalDigit}{IntegerTypeSuffix}             {yylval.name = yytext; return (int)Tokens.IntegerLiteral; }
@@ -113,8 +119,14 @@ false						 { yylval.boolValue = false; return (int)Tokens.FALSE; }
 "{"                          { return '{'; }
 "}"                          { return '}'; }
 ";"                          { return ';'; }
+"."                          { return '.'; }
+"*"							 { return '*'; }
+","							 { return ','; }
+"@"							 { return '@'; }
 
-[ \r\n\t]                    /* skip whitespace */
+[\n]		{ lines++;    }
+[ \t\r]      /* ignore other whitespace */
+
 
 .                            { 
                                  throw new Exception(
@@ -123,3 +135,8 @@ false						 { yylval.boolValue = false; return (int)Tokens.FALSE; }
                              }
 
 %%
+public override void yyerror( string format, params object[] args )
+{
+    System.Console.Error.WriteLine("Error: line {0}, {1}", lines,
+        String.Format(format, args));
+}

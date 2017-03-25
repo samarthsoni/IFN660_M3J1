@@ -13,3 +13,14 @@ D:\QUT\sem1-2017\660\workspace\IFN660_M3J1\GPLexTutorial\obj\Debug\GPLexTutorial
 D:\QUT\sem1-2017\660\workspace\IFN660_M3J1\GPLexTutorial\obj\Debug\GPLexTutorial.pdb
 D:\QUT\sem1-2017\660\workspace\IFN660_M3J1\GPLexTutorial\bin\Debug\GPLexTutorial.exe
 D:\QUT\sem1-2017\660\workspace\IFN660_M3J1\GPLexTutorial\bin\Debug\GPLexTutorial.pdb
+<<<<<<< HEAD
+=======
+D:\QUT\sem1-2017\660\workspace\IFN660_M3J1\GPLexTutorial\obj\Debug\GPLexTutorial.csprojResolveAssemblyReference.cache
+C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\GPLexTutorial\bin\Debug\GPLexTutorial.exe.config
+C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\GPLexTutorial\obj\Debug\GPLexTutorial.exe
+C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\GPLexTutorial\obj\Debug\GPLexTutorial.pdb
+C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\GPLexTutorial\obj\Debug\GPLexTutorial.csprojResolveAssemblyReference.cache
+C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\GPLexTutorial\bin\Debug\GPLexTutorial.exe
+C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\GPLexTutorial\bin\Debug\GPLexTutorial.pdb
+C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\GPLexTutorial\bin\Debug\QUT.ShiftReduceParser.dll
+>>>>>>> 66abffff930f2270bf4f1e91bad3f6f8aeeae12c
