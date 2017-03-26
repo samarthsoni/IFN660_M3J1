@@ -208,8 +208,74 @@ PackageOrTypeName:
 
 
 
+ClassBody:
+         ClassBodyDeclaration;
+
+ClassBodyDeclaration:
+     ClassMemberDecleration
+	 |    InstanceInitializer 
+	 |    StaticInitializer 
+	 |    ConstructorDeclaration;
+
+ ClassMemberDeclerations:
+        ClassMemberDecleration
+		     |  ClassMemberDecleration  ClassMemberDeclerations
+			 |  /* empty */;
+
+ ClassMemberDecleration
+       FieldDeclaration 
+           |  MethodDeclaration 
+           |  ClassDeclaration 
+           |  InterfaceDeclaration; 
+
+MethodDeclaration
+         MethodModifier
+		      | MethodHeader
+	          | MethodBody; 
+			 
+MethodModifier
+         public
+		    |  protected
+			|  private  
+	        |  abstract
+			|  static
+			|  final;
+
+MethodHeader
+        Result
+		   | MethodDeclarator
+           | Throws;
+
+Result
+     UnannType|   
+	      | void
+		  | /* empty */;
+
+Throws
+     /* empty */;
+
+MethodDeclarator
+       Identifier  FormalParameterList  Dims;       
+	   
+Identifier
+       IdentifierChars
+	       |  /* empty */;
+
+FormalParameterList
+       /* empty */;
+
+Dims
+   Annotation  
+        /* empty */;
+       
+
+
+	
+
+
 %%
 
 public Parser(Scanner scanner) : base(scanner)
+
 {
 }
