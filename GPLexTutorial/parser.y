@@ -14,7 +14,7 @@
 %token <floatValue> FLOATLITERAL
 %token <stringValue> STRINGLITERAL
 %token <boolValue> BOOL
-%token EOF ABSTRACT ASSERT BOOLEAN BREAK BYTE CASE CATCH CHAR CLASS CONST CONTINUE DEFAULT DO DOUBLE ELSE ENUM EXTENDS FINAL FINALLY FLOAT FOR IF GOTO IMPLEMENTS IMPORT INSTANCEOF INT INTERFACE LONG NATIVE NEW PACKAGE PRIVATE PROTECTED PUBLIC RETURN SHORT STATIC STRICTFP SUPER SWITCH SYNCHRONIZED THIS THROW THROWS TRANSIENT TRY VOID VOLATILE WHILE IntegerLiteral CharacterLiteral NULL OPERATOR TRUE FALSE EndOfLineComment TraditionalComment
+%token EOF ABSTRACT ASSERT BOOLEAN BREAK BYTE CASE CATCH CHAR CLASS CONST CONTINUE DEFAULT DO DOUBLE ELSE ENUM EXTENDS FINAL FINALLY FLOAT FOR IF GOTO IMPLEMENTS IMPORT INSTANCEOF INT INTERFACE LONG NATIVE NEW PACKAGE PRIVATE PROTECTED PUBLIC RETURN SHORT STATIC STRICTFP SUPER SWITCH SYNCHRONIZED THIS THROW THROWS TRANSIENT TRY VOID VOLATILE WHILE IntegerLiteral CharacterLiteral NULL OPERATOR TRUE FALSE EndOfLineComment TraditionalComment SEPARATOR
 
 
 %left '='
@@ -205,6 +205,67 @@ TypeName:
 PackageOrTypeName:		
 		IDENT 
 	|	PackageOrTypeName '.' IDENT ;
+
+
+
+BlockStatements:
+	BlockStatement
+	|	BlockStatement BlockStatements
+	|	/* empty */;
+
+BlockStatement : 
+	LocalVariableDeclarationStatement ClassDeclaration Statement;
+
+LocalVariableDeclarationStatment:
+	LocalVariableDeclaration;
+
+LocalVarialeDeclaration:
+	VariableModifier
+	|	UnannType
+	|	VariableDeclaratorList
+	|	/* empty */;
+
+ClassDeclaration:
+	NormalClassDeclaration EnumDeclaration;
+
+NormalClassDeclaration:
+	ClassModifier;
+
+ClassModifier:
+	ClassIdentifier
+	|	TypeParameters
+	|	Superclass
+	|	Superinterfaces
+	|	/* empty */;
+
+EnumDeclaration:
+	ClassModifier;
+
+ClassModifier:
+	EnumIdentifier
+	|	Superinterfaces
+	|	EnumBody
+	|	/* empty */;
+
+Statement:
+	StatementWithoutTrailingSubstatement LabeledStatement IfThenElseStatementNoShortIf WhileStatementNoShortIf ForStatementNoShortIf;
+
+StateWithoutTrailingSubstatement:
+	Block EmptyStatement ExpressionStatement AssertStatement SwitchStatement Dostatement BreakStatement ContinueStatement ReturnStatement SynchronizedStatement ThrowStatement TryStatement;
+	
+
+ExpressionStatement:
+	';'SEPARATOR
+	|	';'SEPARATOR ColonSeparatedIdents
+	|	/* empty */;
+
+ExpressionStatment:
+	StatementExpression;
+
+StatementExpression:
+	Assignment PreIncrementExpression PreDecrementExpression PostIncrementExpression PostDecrementExpression MethodInvoation ClassInstanceCreationExpression;
+
+
 
 
 
