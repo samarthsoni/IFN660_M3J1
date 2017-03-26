@@ -105,22 +105,90 @@ true						 { yylval.boolValue = true; return (int)Tokens.TRUE; }
 
 false						 { yylval.boolValue = false; return (int)Tokens.FALSE; }
 
+
 "&&"  						 { yylval.name = "&&"; return (int)Tokens.OPERATOR; }
 
 "||" 						 { yylval.name = "||"; return (int)Tokens.OPERATOR; }
 
 "!"  						 { yylval.name = "!"; return (int)Tokens.OPERATOR; }
 
-"="                          { return '='; }
-"+"                          { return '+'; }
-"<"                          { return '<'; }
+"="							 { yylval.name = "="; return (int)Tokens.OPERATOR; }
+
+">"							 { yylval.name = ">"; return (int)Tokens.OPERATOR; }
+
+"<"							 { yylval.name = "<"; return (int)Tokens.OPERATOR; }
+
+"~"							 { yylval.name = "~"; return (int)Tokens.OPERATOR; }
+
+"?"							 { yylval.name = "?"; return (int)Tokens.OPERATOR; }
+
+":"							 { yylval.name = ":"; return (int)Tokens.OPERATOR; }
+
+"->"						 { yylval.name = "->"; return (int)Tokens.OPERATOR; }
+
+"=="						 { yylval.name = "=="; return (int)Tokens.OPERATOR; }
+
+">="						 { yylval.name = ">="; return (int)Tokens.OPERATOR; }
+
+"<="						 { yylval.name = "<="; return (int)Tokens.OPERATOR; }
+
+"!="						 { yylval.name = "!="; return (int)Tokens.OPERATOR; }
+
+"++"						{ yylval.name = "++"; return (int)Tokens.OPERATOR; }
+
+"--"						{ yylval.name = "--"; return (int)Tokens.OPERATOR; }
+
+"+"							{ yylval.name = "+"; return (int)Tokens.OPERATOR; }
+
+"-"						    { yylval.name = "-"; return (int)Tokens.OPERATOR; }
+
+"*"						    { yylval.name = "*"; return (int)Tokens.OPERATOR; }
+
+"/"						    { yylval.name = "/"; return (int)Tokens.OPERATOR; }
+
+"&"							{ yylval.name = "&"; return (int)Tokens.OPERATOR; }
+
+"|"						    { yylval.name = "|"; return (int)Tokens.OPERATOR; }
+
+"^"						    { yylval.name = "^"; return (int)Tokens.OPERATOR; }
+
+"%"							{ yylval.name = "%"; return (int)Tokens.OPERATOR; }
+
+"<<"						{ yylval.name = "<<"; return (int)Tokens.OPERATOR; }
+
+">>"						{ yylval.name = ">>"; return (int)Tokens.OPERATOR; }
+
+">>>"						{ yylval.name = ">>>"; return (int)Tokens.OPERATOR; }
+
+"+="						{ yylval.name = "+="; return (int)Tokens.OPERATOR; }
+
+"-="						{ yylval.name = "-="; return (int)Tokens.OPERATOR; }
+
+"*="					    { yylval.name = "*="; return (int)Tokens.OPERATOR; }
+
+"/="						{ yylval.name = "/="; return (int)Tokens.OPERATOR; }
+
+"&="						{ yylval.name = "&="; return (int)Tokens.OPERATOR; }
+
+"|="						{ yylval.name = "|="; return (int)Tokens.OPERATOR; }
+
+"^="						{ yylval.name = "^="; return (int)Tokens.OPERATOR; }
+
+"%="						{ yylval.name = "%="; return (int)Tokens.OPERATOR; }
+
+"<<="						{ yylval.name = "<<="; return (int)Tokens.OPERATOR; }
+
+">>="						{ yylval.name = ">>="; return (int)Tokens.OPERATOR; }
+
+">>>="						{ yylval.name = ">>>="; return (int)Tokens.OPERATOR; }
+
+
 "("                          { return '('; }
 ")"                          { return ')'; }
 "{"                          { return '{'; }
 "}"                          { return '}'; }
 ";"                          { return ';'; }
 "."                          { return '.'; }
-"*"							 { return '*'; }
 ","							 { return ','; }
 "@"							 { return '@'; }
 
