@@ -144,11 +144,97 @@ ClassModifier:
 	|	FINAL;
 
 ClassBody:
-	/* empty */;
+	'{' ClassBodyDeclarations '}'
+	|	/* empty */;
 
+ClassBodyDeclarations:	
+	ClassBodyDeclaration	
+	 |	/* empty */;
+
+ClassBodyDeclaration:
+	ClassMemberDeclaration
+	|	/* empty */;
+
+ClassMemberDeclaration:
+	MethodDeclaration 
+	|	/*empty*/ ;
+
+MethodDeclaration :
+	MethodModifiers MethodHeader MethodBody
+	|	/*empty*/ ;
+
+MethodModifiers :
+	/*empty*/ ;
+
+MethodHeader :
+	/*empty*/ ;
+
+MethodBody :
+	Block
+	|	/*empty*/ ;
+
+Block:
+	'{' BlockStatements '}'
+	|	BlockStatement BlockStatements ;
+
+BlockStatements:
+	/* empty */ ;
+
+BlockStatement:
+	LocalVariableDeclarationStatement;
+
+LocalVariableDeclarationStatement:
+	LocalVariableDeclaration ';' ;
+
+LocalVariableDeclaration:
+	VariableModifiers UnannType VariableDeclaratorList ;
+
+VariableModifiers:
+	/* empty */ ;
+
+UnannType:
+	UnannPrimitiveType ; 
+
+UnannPrimitiveType:
+	NumericType ;
+
+NumericType:
+	IntegralType ;
+
+IntegralType:
+	BYTE
+	|	SHORT
+	|	INT
+	|	LONG
+	|	CHAR ;
+
+VariableDeclaratorList:
+	VariableDeclarator
+	| VariableDeclarator VariableDeclarators;
+
+VariableDeclarators:
+	/* empty */ ;
+
+VariableDeclarator:
+	VariableDeclaratorId
+	|VariableDeclaratorId '=' VariableInitializer;
+
+VariableDeclaratorId:
+	Identifier
+	|Identifier Dims;
+
+Identifier:
+	IDENT;
+
+Dims:
+	/* empty */ ;
+
+VariableInitializer:
+	/* empty */ ;
 
 EnumDeclaration : 
 	ClassModifiers ENUM IDENT Superinterfaces EnumBody;
+
 EnumBody:			
 	'{' /* empty */ '}';
 
@@ -205,8 +291,6 @@ TypeName:
 PackageOrTypeName:		
 		IDENT 
 	|	PackageOrTypeName '.' IDENT ;
-
-
 
 %%
 

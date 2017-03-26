@@ -3,10 +3,11 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-.exe
-.pdb
 Debug/
 bin/
+.exe
+.pdb
+.vs/
 
 # User-specific files
 *.suo

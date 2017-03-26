@@ -1,7 +1,0 @@
-C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\GPlex.Tests\bin\Debug\GPlex.Tests.dll
-C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\GPlex.Tests\bin\Debug\GPlex.Tests.pdb
-C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\GPlex.Tests\bin\Debug\GPLexTutorial.exe
-C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\GPlex.Tests\bin\Debug\GPLexTutorial.pdb
-C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\GPlex.Tests\obj\Debug\GPlex.Tests.csprojResolveAssemblyReference.cache
-C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\GPlex.Tests\obj\Debug\GPlex.Tests.dll
-C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\GPlex.Tests\obj\Debug\GPlex.Tests.pdb
