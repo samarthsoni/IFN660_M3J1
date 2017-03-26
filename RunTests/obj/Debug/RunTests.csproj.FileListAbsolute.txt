@@ -19,3 +19,6 @@ C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\RunTests\obj\Debug\RunTests.csproj
 C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\RunTests\obj\Debug\RunTests.exe
 C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\RunTests\obj\Debug\RunTests.pdb
 >>>>>>> 66abffff930f2270bf4f1e91bad3f6f8aeeae12c
+C:\Users\b9b20\Source\Repos\IFN660_M3J1\RunTests\bin\Debug\RunTests.exe.config
+C:\Users\b9b20\Source\Repos\IFN660_M3J1\RunTests\obj\Debug\RunTests.exe
+C:\Users\b9b20\Source\Repos\IFN660_M3J1\RunTests\obj\Debug\RunTests.pdb

@@ -24,3 +24,9 @@ C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\GPLexTutorial\bin\Debug\GPLexTutor
 C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\GPLexTutorial\bin\Debug\GPLexTutorial.pdb
 C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\GPLexTutorial\bin\Debug\QUT.ShiftReduceParser.dll
 >>>>>>> 66abffff930f2270bf4f1e91bad3f6f8aeeae12c
+C:\Users\b9b20\Source\Repos\IFN660_M3J1\GPLexTutorial\bin\Debug\GPLexTutorial.exe.config
+C:\Users\b9b20\Source\Repos\IFN660_M3J1\GPLexTutorial\bin\Debug\GPLexTutorial.exe
+C:\Users\b9b20\Source\Repos\IFN660_M3J1\GPLexTutorial\bin\Debug\GPLexTutorial.pdb
+C:\Users\b9b20\Source\Repos\IFN660_M3J1\GPLexTutorial\obj\Debug\GPLexTutorial.csprojResolveAssemblyReference.cache
+C:\Users\b9b20\Source\Repos\IFN660_M3J1\GPLexTutorial\obj\Debug\GPLexTutorial.exe
+C:\Users\b9b20\Source\Repos\IFN660_M3J1\GPLexTutorial\obj\Debug\GPLexTutorial.pdb
