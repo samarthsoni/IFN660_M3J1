@@ -3,9 +3,21 @@
 //  GPLEX error listing for lex source file <scanner.lex>
 // ==========================================================================
 //  Version:  1.2.2
+<<<<<<< HEAD
 //  Machine:  DESKTOP-IRIVFD3
 //  DateTime: 25/03/2017 5:38:38 PM
 //  UserName: Samarth
+=======
+<<<<<<< HEAD
+//  Machine:  DESKTOP-IRIVFD3
+//  DateTime: 21/03/2017 3:17:51 PM
+//  UserName: Samarth
+=======
+//  Machine:  DESKTOP-VKITI27
+//  DateTime: 3/21/2017 8:14:43 PM
+//  UserName: Juan Camilo
+>>>>>>> 66abffff930f2270bf4f1e91bad3f6f8aeeae12c
+>>>>>>> master
 // ==========================================================================
 
 

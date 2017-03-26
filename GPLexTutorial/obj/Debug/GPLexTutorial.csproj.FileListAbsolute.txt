@@ -1,0 +1,24 @@
+F:\QUT\sem1 2017\660\week1\tutorial\GPLexTutorial\GPLexTutorial\bin\Debug\GPLexTutorial.exe.config
+F:\QUT\sem1 2017\660\week1\tutorial\GPLexTutorial\GPLexTutorial\bin\Debug\GPLexTutorial.exe
+F:\QUT\sem1 2017\660\week1\tutorial\GPLexTutorial\GPLexTutorial\bin\Debug\GPLexTutorial.pdb
+F:\QUT\sem1 2017\660\week1\tutorial\GPLexTutorial\GPLexTutorial\obj\Debug\GPLexTutorial.exe
+F:\QUT\sem1 2017\660\week1\tutorial\GPLexTutorial\GPLexTutorial\obj\Debug\GPLexTutorial.pdb
+F:\QUT\sem1 2017\660\workspace\IFN660_M3J1\GPLexTutorial\bin\Debug\GPLexTutorial.exe.config
+F:\QUT\sem1 2017\660\workspace\IFN660_M3J1\GPLexTutorial\bin\Debug\GPLexTutorial.exe
+F:\QUT\sem1 2017\660\workspace\IFN660_M3J1\GPLexTutorial\bin\Debug\GPLexTutorial.pdb
+F:\QUT\sem1 2017\660\workspace\IFN660_M3J1\GPLexTutorial\obj\Debug\GPLexTutorial.exe
+F:\QUT\sem1 2017\660\workspace\IFN660_M3J1\GPLexTutorial\obj\Debug\GPLexTutorial.pdb
+C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\GPLexTutorial\bin\Debug\GPLexTutorial.exe.config
+C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\GPLexTutorial\obj\Debug\GPLexTutorial.exe
+C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\GPLexTutorial\obj\Debug\GPLexTutorial.pdb
+C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\GPLexTutorial\obj\Debug\GPLexTutorial.csprojResolveAssemblyReference.cache
+C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\GPLexTutorial\bin\Debug\GPLexTutorial.exe
+C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\GPLexTutorial\bin\Debug\GPLexTutorial.pdb
+C:\Users\Juan Camilo\Source\Repos\IFN660_M3J1\GPLexTutorial\bin\Debug\QUT.ShiftReduceParser.dll
+D:\QUT\sem1-2017\660\workspace\IFN660_M3J1\GPLexTutorial\bin\Debug\GPLexTutorial.exe.config
+D:\QUT\sem1-2017\660\workspace\IFN660_M3J1\GPLexTutorial\bin\Debug\GPLexTutorial.exe
+D:\QUT\sem1-2017\660\workspace\IFN660_M3J1\GPLexTutorial\bin\Debug\GPLexTutorial.pdb
+D:\QUT\sem1-2017\660\workspace\IFN660_M3J1\GPLexTutorial\bin\Debug\QUT.ShiftReduceParser.dll
+D:\QUT\sem1-2017\660\workspace\IFN660_M3J1\GPLexTutorial\obj\Debug\GPLexTutorial.csprojResolveAssemblyReference.cache
+D:\QUT\sem1-2017\660\workspace\IFN660_M3J1\GPLexTutorial\obj\Debug\GPLexTutorial.exe
+D:\QUT\sem1-2017\660\workspace\IFN660_M3J1\GPLexTutorial\obj\Debug\GPLexTutorial.pdb
