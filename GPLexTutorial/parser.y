@@ -94,7 +94,7 @@ ClassDeclaration:
 	|	EnumDeclaration;
 
 NormalClassDeclaration: 
-	ClassModifiers CLASS IDENT TypeParameters Superclasses Superinterfaces '{' ClassBody '}';
+	ClassModifiers CLASS IDENT TypeParameters Superclasses Superinterfaces ClassBody;
 
 Superclasses:
 	Superclass
@@ -148,37 +148,41 @@ ClassBody:
 	|	/* empty */;
 
 ClassBodyDeclarations:	
-	ClassBodyDeclaration	
-	 |	/* empty */;
-
-ClassBodyDeclaration:
-	ClassMemberDeclaration
+		ClassBodyDeclaration
+	|	ClassBodyDeclaration ClassBodyDeclarations	
 	|	/* empty */;
 
+ClassBodyDeclaration:
+		 ClassMemberDeclaration;
+
 ClassMemberDeclaration:
-	MethodDeclaration 
-	|	/*empty*/ ;
+	MethodDeclaration  
+	|	';';
 
 MethodDeclaration :
-	MethodModifiers MethodHeader MethodBody
-	|	/*empty*/ ;
+	MethodModifiers MethodHeader MethodBody;
 
-MethodModifiers :
-	/*empty*/ ;
+MethodHeader 
+	:	Result MethodDeclarator Throws ;
 
-MethodHeader :
-	/*empty*/ ;
+MethodDeclarator
+       :Identifier '(' FormalParameterList ')'  Dims;
+Throws
+    :	/* empty */;
+
+Result
+	: VOID;
 
 MethodBody :
 	Block
-	|	/*empty*/ ;
+	|	';' ;
 
 Block:
-	'{' BlockStatements '}'
-	|	BlockStatement BlockStatements ;
+	'{' BlockStatements '}';
 
 BlockStatements:
-	/* empty */ ;
+	BlockStatement BlockStatements
+	|BlockStatement ;
 
 BlockStatement:
 	LocalVariableDeclarationStatement;
@@ -272,6 +276,18 @@ InterfaceModifier:
 	|	ABSTRACT
 	|	STATIC;
 
+MethodModifiers
+	:	MethodModifier
+	|	MethodModifier MethodModifiers
+	|	/* empty */;
+
+MethodModifier:		
+		PUBLIC 
+	|	PROTECTED 
+	|	PRIVATE
+	|	ABSTRACT
+	|	STATIC;
+
 SingleTypeImportDeclaration : 
 	IMPORT TypeName ';' ;
 
@@ -292,15 +308,12 @@ PackageOrTypeName:
 		IDENT 
 	|	PackageOrTypeName '.' IDENT ;
 
-FormalParameterLists:
-	FormalParameterList
-	| FormalParameterList FormalParameterLists;
-
 FormalParameterList:
-	FormalParameters ',' LastFormalParameters;
+		FormalParameters ',' LastFormalParameter
+	|	LastFormalParameter;
 
-LastFormalParameters:
-	/* empty */;
+LastFormalParameter:
+	VariableModifiers UnannType VariableDeclaratorId;
 
 FormalParameters:
 	FormalParameter
@@ -337,7 +350,12 @@ VariableDeclaratorId:
 	Identifier Dims;
 
 Dims:
-	/* empty */;
+	Annotations '[' ']' DimsPost;
+
+DimsPost
+	:	Annotations '[' ']' 
+	|	Annotations '[' ']' DimsPost
+	|	/* empty */;
 
 
 %%
