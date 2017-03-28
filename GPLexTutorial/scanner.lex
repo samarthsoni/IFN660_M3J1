@@ -87,7 +87,6 @@ while        { return (int)Tokens.WHILE; }
 
 
 {letter}({letter}|{digit})*  { yylval.name = yytext; return (int)Tokens.IDENT; }
-{digit}+	                 { yylval.num = int.Parse(yytext); return (int)Tokens.NUMBER; }
 {digit}+{dot}?({digit})*{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
 {digit}*{dot}?({digit})+{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
 {quote}({stringCharacter})*{quote}                             { yylval.stringValue = GetStringValue(yytext); return (int)Tokens.STRINGLITERAL; }
@@ -189,6 +188,8 @@ false						 { yylval.boolValue = false; return (int)Tokens.FALSE; }
 "*"							 { return '*'; }
 ","							 { return ','; }
 "@"							 { return '@'; }
+"["							 { return '['; }
+"]"							 { return ']'; }
 
 [\n]		{ lines++;    }
 [ \t\r]      /* ignore other whitespace */

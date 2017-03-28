@@ -185,7 +185,89 @@ BlockStatements:
 	|BlockStatement ;
 
 BlockStatement:
-	LocalVariableDeclarationStatement;
+	LocalVariableDeclarationStatement
+    | Statement ;
+
+Statement:
+    StatementWithoutTrailingSubstatement ;
+
+StatementWithoutTrailingSubstatement:
+    ExpressionStatement;
+	
+ExpressionStatement:
+	StatementExpression ';' ;
+
+StatementExpression:
+	Assignment;
+
+Assignment:
+	LeftHandSide AssignmentOperator Expression;
+
+LeftHandSide:
+	ExpressionName;
+
+ExpressionName:
+	Identifier;
+
+AssignmentOperator:
+	OPERATOR ;
+
+Expression:
+	AssignmentExpression;
+
+AssignmentExpression:
+	ConditionalExpression;
+
+ConditionalExpression:
+    ConditionalOrExpression;
+
+ConditionalOrExpression:
+    ConditionalAndExpression; 
+
+ConditionalAndExpression:
+    InclusiveOrExpression;
+
+InclusiveOrExpression:
+    ExclusiveOrExpression;
+
+ExclusiveOrExpression:
+    AndExpression;
+
+AndExpression:
+    EqualityExpression;
+
+EqualityExpression:
+    RalationalExpression;
+
+RalationalExpression:
+    ShiftExpression;
+
+ShiftExpression:
+    AddictiveExpression;
+
+AddictiveExpression:
+    MultiplicativeExpression;
+
+MultiplicativeExpression:
+    UnaryExpression;
+
+UnaryExpression:
+    UnaryExpressionNotPlusMinus;
+
+UnaryExpressionNotPlusMinus:
+    PodtfixExpression;
+
+PodtfixExpression:
+    Primary;
+
+Primary:
+    PrimaryNoNewArray;
+
+PrimaryNoNewArray:
+    Literal;
+
+Literal:
+    IntegerLiteral;
 
 LocalVariableDeclarationStatement:
 	LocalVariableDeclaration ';' ;
