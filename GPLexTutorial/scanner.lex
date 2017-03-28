@@ -98,7 +98,7 @@ while        { return (int)Tokens.WHILE; }
 
 {forwardslash}[*]([^*]|[*][^\/]|[^\/*][\/][*]|({cr}|{lf}|{cr}{lf}))*[*]{forwardslash}   {return (int)Tokens.TraditionalComment;}
  
-{zerox}{hexdigit}{hexdigitandunderscore}*{IntegerTypeSuffix} {return (int)Tokens.IntegerLiteral;}
+{zerox}{hexdigit}{hexdigitandunderscore}*{IntegerTypeSuffix}? {return (int)Tokens.IntegerLiteral;}
 
 true						 { yylval.boolValue = true; return (int)Tokens.TRUE; }
 
