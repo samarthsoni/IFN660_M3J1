@@ -87,11 +87,11 @@ while        { return (int)Tokens.WHILE; }
 
 
 {letter}({letter}|{digit})*  { yylval.name = yytext; return (int)Tokens.IDENT; }
-{digit}+{dot}?({digit})*{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
-{digit}*{dot}?({digit})+{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
+{digit}+{dot}({digit})*{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
+{digit}*{dot}({digit})+{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
 {quote}({stringCharacter})*{quote}                             { yylval.stringValue = GetStringValue(yytext); return (int)Tokens.STRINGLITERAL; }
-([0]|{NonZeroDigit}({Underscore}|{digit})*{digit}){IntegerTypeSuffix}             {yylval.name = yytext; return (int)Tokens.IntegerLiteral;}
-[0]({OctalDigit}|{Underscore})*{OctalDigit}{IntegerTypeSuffix}             {yylval.name = yytext; return (int)Tokens.IntegerLiteral; }
+([0]|{NonZeroDigit}({Underscore}|{digit})*{digit}){IntegerTypeSuffix}?             {yylval.name = yytext; return (int)Tokens.IntegerLiteral;}
+[0]({OctalDigit}|{Underscore})*{OctalDigit}{IntegerTypeSuffix}?             {yylval.name = yytext; return (int)Tokens.IntegerLiteral; }
 [']({SingleCharacter}|{EscapeSequence})[']  {yylval.name = yytext; return (int)Tokens.CharacterLiteral; }
 
 {forwardslash}{2}{inputcharacter}*({cr}|{lf}|{cr}{lf}) {return (int)Tokens.EndOfLineComment; }
