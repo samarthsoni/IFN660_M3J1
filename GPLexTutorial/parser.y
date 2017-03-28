@@ -292,6 +292,54 @@ PackageOrTypeName:
 		IDENT 
 	|	PackageOrTypeName '.' IDENT ;
 
+FormalParameterLists:
+	FormalParameterList
+	| FormalParameterList FormalParameterLists;
+
+FormalParameterList:
+	FormalParameters ',' LastFormalParameters;
+
+LastFormalParameters:
+	/* empty */;
+
+FormalParameters:
+	FormalParameter
+	| FormalParameter FormalParameters;
+
+FormalParameter:
+	VariableModifiers UnannType VariableDeclaratorId;
+
+VariableModifiers:
+	/* empty */;	 
+
+UnannType:
+	UnannReferenceType;
+
+UnannReferenceType:
+	UnannArrayType;
+
+UnannArrayType:
+	UnannClassOrInterfaceType Dims;
+
+UnannClassOrInterfaceType:
+	UnannClassType;
+
+UnannClassType:
+	Identifier TypeArguments;
+
+Identifier:
+	STRINGLITERAL;
+
+TypeArguments:
+	/* empty */;
+
+VariableDeclaratorId:
+	Identifier Dims;
+
+Dims:
+	/* empty */;
+
+
 %%
 
 public Parser(Scanner scanner) : base(scanner)
