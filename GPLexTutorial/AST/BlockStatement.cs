@@ -1,3 +1,5 @@
+using System.Security.AccessControl;
+
 namespace GPLexTutorial.AST
 {
     public class BlockStatement
@@ -11,11 +13,8 @@ namespace GPLexTutorial.AST
         public VariableDeclaratorId VariableDeclaratorId { get; set; }
     }
 
-    public class VariableDeclaratorId
+    public class ExpressionStatement : BlockStatement
     {
-        public Identifier Identifier { get; set; }
-        public Dims Dims { get; set; }
+        public Assignment Assignment { get; set; }
     }
-
-
 }
