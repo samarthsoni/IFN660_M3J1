@@ -59,7 +59,24 @@ namespace GPLexTutorial
                                             }
                                         } }
                                         
+                                    },
+                                    BlockStatement = new LocalVariableDeclarationStatement()
+                                    {
+                                        UnannType = new UnnanPrimitiveType()
+                                        {
+                                            IntegralType = IntegralType.INT
+                                        },
+                                        VariableDeclaratorId = new VariableDeclaratorId()
+                                        {
+                                            Identifier = new Identifier()
+                                            {
+                                                Name = "x"
+                                            },
+                                            Dims = null
+                                        }
                                     }
+                                    
+
                                 }
                             }
                         }

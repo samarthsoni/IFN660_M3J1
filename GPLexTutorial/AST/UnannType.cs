@@ -12,6 +12,15 @@
 
     public class UnnanPrimitiveType : UnannType
     {
+        public IntegralType IntegralType { get; set; }
+    }
 
+    public enum IntegralType
+    {
+        INT,
+        BYTE,
+        SHORT,
+        LONG,
+        CHAR
     }
 }

@@ -9,5 +9,6 @@ namespace GPLexTutorial.AST
         public List<MethodModifier> MethodModifier { get; set; }
         public Result Result { get; set; }
         public MethodDeclarator MethodDeclarator { get; set; }
+        public BlockStatement BlockStatement { get; set; }
     }
 }
