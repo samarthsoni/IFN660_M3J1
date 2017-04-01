@@ -5,9 +5,8 @@ namespace GPLexTutorial.AST
 {
     public class FormalParameter
     {
-        [JsonConverter(typeof(StringEnumConverter))]
-        public VariableModifier VariableModifier { get; set; }
+        public VariableModifier? VariableModifier { get; set; }
         public UnannType UnannType { get; set; }
-        public Identifier VariableDeclarator { get; set; }
+        public Identifier VariableDeclaratorId { get; set; }
     }
 }

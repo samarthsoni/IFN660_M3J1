@@ -39,6 +39,25 @@ namespace GPLexTutorial
                                         {
                                             Name = "main"
                                         },
+                                        FormalParameterList = new List<FormalParameter>() {new FormalParameter()
+                                        {
+                                            VariableModifier = null,
+                                            VariableDeclaratorId = new Identifier()
+                                            {
+                                                Name = "args"
+                                            },
+                                            UnannType = new UnannReferenceType()
+                                            {
+                                                Dims = null,
+                                                UnannClassOrInterfaceType = new UnannClassType()
+                                                {
+                                                    Identifier = new Identifier()
+                                                    {
+                                                        Name = "String"
+                                                    }
+                                                }
+                                            }
+                                        } }
                                         
                                     }
                                 }
