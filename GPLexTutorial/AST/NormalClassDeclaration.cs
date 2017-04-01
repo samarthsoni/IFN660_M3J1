@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace GPLexTutorial.AST
 {
-    public class NormalClassDeclaration
+    public class NormalClassDeclaration :TypeDeclaration
     {
-        public ClassModifier ClassModifier { get; set; }
+        public List<ClassModifier> ClassModifiers { get; set; }
         public Identifier Identifier { get; set; }
-        public List<ClassMemberDeclaration> ClassMemberDeclaration { get; set; }
+        public List<ClassMemberDeclaration> ClassMemberDeclarations { get; set; }
     }
 }

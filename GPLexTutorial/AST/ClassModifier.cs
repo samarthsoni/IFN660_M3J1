@@ -1,9 +1,16 @@
-﻿namespace GPLexTutorial.AST
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+namespace GPLexTutorial.AST
 {
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum ClassModifier
     {
         Public,
         Private,
-        Protected
+        Protected,
+        Static,
+        Final,
+        Abstract
     }
 }

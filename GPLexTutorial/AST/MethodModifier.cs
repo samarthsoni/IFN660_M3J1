@@ -1,6 +1,12 @@
 ﻿namespace GPLexTutorial.AST
 {
-    public class MethodModifier
+    public enum MethodModifier
     {
+        Public,
+        Private,
+        Protected,
+        Static,
+        Final,
+        Abstract
     }
 }

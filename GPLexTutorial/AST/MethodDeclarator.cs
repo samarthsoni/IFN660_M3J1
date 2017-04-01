@@ -5,6 +5,6 @@ namespace GPLexTutorial.AST
     public class MethodDeclarator
     {
         public Identifier Identifier { get; set; }
-        public List<FormalParameter> MyProperty { get; set; }
+        public List<FormalParameter> FormalParameterList { get; set; }
     }
 }

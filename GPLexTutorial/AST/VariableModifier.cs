@@ -1,6 +1,11 @@
 ﻿namespace GPLexTutorial.AST
 {
-    public class VariableModifier
+    public enum VariableModifier
     {
+        Public,
+        Private,
+        Protected,
+        Static,
+        Final
     }
 }
