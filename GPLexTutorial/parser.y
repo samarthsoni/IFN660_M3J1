@@ -94,7 +94,7 @@ ClassDeclaration:
 	|	EnumDeclaration;
 
 NormalClassDeclaration: 
-	ClassModifiers CLASS IDENT TypeParameters Superclasses Superinterfaces '{' ClassBody '}';
+	ClassModifiers CLASS IDENT TypeParameters Superclasses Superinterfaces ClassBody;
 
 Superclasses:
 	Superclass
@@ -148,40 +148,126 @@ ClassBody:
 	|	/* empty */;
 
 ClassBodyDeclarations:	
-	ClassBodyDeclaration	
-	 |	/* empty */;
-
-ClassBodyDeclaration:
-	ClassMemberDeclaration
+		ClassBodyDeclaration
+	|	ClassBodyDeclaration ClassBodyDeclarations	
 	|	/* empty */;
 
+ClassBodyDeclaration:
+		 ClassMemberDeclaration;
+
 ClassMemberDeclaration:
-	MethodDeclaration 
-	|	/*empty*/ ;
+	MethodDeclaration  
+	|	';';
 
 MethodDeclaration :
-	MethodModifiers MethodHeader MethodBody
-	|	/*empty*/ ;
+	MethodModifiers MethodHeader MethodBody;
 
-MethodModifiers :
-	/*empty*/ ;
+MethodHeader 
+	:	Result MethodDeclarator Throws ;
 
-MethodHeader :
-	/*empty*/ ;
+MethodDeclarator
+       :Identifier '(' FormalParameterList ')'  Dims;
+Throws
+    :	/* empty */;
+
+Result
+	: VOID;
 
 MethodBody :
 	Block
-	|	/*empty*/ ;
+	|	';' ;
 
 Block:
-	'{' BlockStatements '}'
-	|	BlockStatement BlockStatements ;
+	'{' BlockStatements '}';
 
 BlockStatements:
-	/* empty */ ;
+	BlockStatement BlockStatements
+	|BlockStatement ;
 
 BlockStatement:
-	LocalVariableDeclarationStatement;
+	LocalVariableDeclarationStatement
+    | Statement ;
+
+Statement:
+    StatementWithoutTrailingSubstatement ;
+
+StatementWithoutTrailingSubstatement:
+    ExpressionStatement;
+	
+ExpressionStatement:
+	StatementExpression ';' ;
+
+StatementExpression:
+	Assignment;
+
+Assignment:
+	LeftHandSide AssignmentOperator Expression;
+
+LeftHandSide:
+	ExpressionName;
+
+ExpressionName:
+	Identifier;
+
+AssignmentOperator:
+	OPERATOR ;
+
+Expression:
+	AssignmentExpression;
+
+AssignmentExpression:
+	ConditionalExpression;
+
+ConditionalExpression:
+    ConditionalOrExpression;
+
+ConditionalOrExpression:
+    ConditionalAndExpression; 
+
+ConditionalAndExpression:
+    InclusiveOrExpression;
+
+InclusiveOrExpression:
+    ExclusiveOrExpression;
+
+ExclusiveOrExpression:
+    AndExpression;
+
+AndExpression:
+    EqualityExpression;
+
+EqualityExpression:
+    RalationalExpression;
+
+RalationalExpression:
+    ShiftExpression;
+
+ShiftExpression:
+    AddictiveExpression;
+
+AddictiveExpression:
+    MultiplicativeExpression;
+
+MultiplicativeExpression:
+    UnaryExpression;
+
+UnaryExpression:
+    UnaryExpressionNotPlusMinus;
+
+UnaryExpressionNotPlusMinus:
+    PodtfixExpression;
+
+PodtfixExpression:
+    Primary;
+
+Primary:
+    PrimaryNoNewArray;
+
+PrimaryNoNewArray:
+    Literal;
+
+Literal:
+    IntegerLiteral;
 
 LocalVariableDeclarationStatement:
 	LocalVariableDeclaration ';' ;
@@ -272,6 +358,18 @@ InterfaceModifier:
 	|	ABSTRACT
 	|	STATIC;
 
+MethodModifiers
+	:	MethodModifier
+	|	MethodModifier MethodModifiers
+	|	/* empty */;
+
+MethodModifier:		
+		PUBLIC 
+	|	PROTECTED 
+	|	PRIVATE
+	|	ABSTRACT
+	|	STATIC;
+
 SingleTypeImportDeclaration : 
 	IMPORT TypeName ';' ;
 
@@ -291,6 +389,56 @@ TypeName:
 PackageOrTypeName:		
 		IDENT 
 	|	PackageOrTypeName '.' IDENT ;
+
+FormalParameterList:
+		FormalParameters ',' LastFormalParameter
+	|	LastFormalParameter;
+
+LastFormalParameter:
+	VariableModifiers UnannType VariableDeclaratorId;
+
+FormalParameters:
+	FormalParameter
+	| FormalParameter FormalParameters;
+
+FormalParameter:
+	VariableModifiers UnannType VariableDeclaratorId;
+
+VariableModifiers:
+	/* empty */;	 
+
+UnannType:
+	UnannReferenceType;
+
+UnannReferenceType:
+	UnannArrayType;
+
+UnannArrayType:
+	UnannClassOrInterfaceType Dims;
+
+UnannClassOrInterfaceType:
+	UnannClassType;
+
+UnannClassType:
+	Identifier TypeArguments;
+
+Identifier:
+	STRINGLITERAL;
+
+TypeArguments:
+	/* empty */;
+
+VariableDeclaratorId:
+	Identifier Dims;
+
+Dims:
+	Annotations '[' ']' DimsPost;
+
+DimsPost
+	:	Annotations '[' ']' 
+	|	Annotations '[' ']' DimsPost
+	|	/* empty */;
+
 
 %%
 

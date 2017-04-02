@@ -87,19 +87,18 @@ while        { return (int)Tokens.WHILE; }
 
 
 {letter}({letter}|{digit})*  { yylval.name = yytext; return (int)Tokens.IDENT; }
-{digit}+	                 { yylval.num = int.Parse(yytext); return (int)Tokens.NUMBER; }
-{digit}+{dot}?({digit})*{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
-{digit}*{dot}?({digit})+{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
+{digit}+{dot}({digit})*{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
+{digit}*{dot}({digit})+{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
 {quote}({stringCharacter})*{quote}                             { yylval.stringValue = GetStringValue(yytext); return (int)Tokens.STRINGLITERAL; }
-([0]|{NonZeroDigit}({Underscore}|{digit})*{digit}){IntegerTypeSuffix}             {yylval.name = yytext; return (int)Tokens.IntegerLiteral;}
-[0]({OctalDigit}|{Underscore})*{OctalDigit}{IntegerTypeSuffix}             {yylval.name = yytext; return (int)Tokens.IntegerLiteral; }
+([0]|{NonZeroDigit}({Underscore}|{digit})*{digit}){IntegerTypeSuffix}?             {yylval.name = yytext; return (int)Tokens.IntegerLiteral;}
+[0]({OctalDigit}|{Underscore})*{OctalDigit}{IntegerTypeSuffix}?             {yylval.name = yytext; return (int)Tokens.IntegerLiteral; }
 [']({SingleCharacter}|{EscapeSequence})[']  {yylval.name = yytext; return (int)Tokens.CharacterLiteral; }
 
 {forwardslash}{2}{inputcharacter}*({cr}|{lf}|{cr}{lf}) {return (int)Tokens.EndOfLineComment; }
 
 {forwardslash}[*]([^*]|[*][^\/]|[^\/*][\/][*]|({cr}|{lf}|{cr}{lf}))*[*]{forwardslash}   {return (int)Tokens.TraditionalComment;}
  
-{zerox}{hexdigit}{hexdigitandunderscore}*{IntegerTypeSuffix} {return (int)Tokens.IntegerLiteral;}
+{zerox}{hexdigit}{hexdigitandunderscore}*{IntegerTypeSuffix}? {return (int)Tokens.IntegerLiteral;}
 
 true						 { yylval.boolValue = true; return (int)Tokens.TRUE; }
 
@@ -111,9 +110,75 @@ false						 { yylval.boolValue = false; return (int)Tokens.FALSE; }
 
 "!"  						 { yylval.name = "!"; return (int)Tokens.OPERATOR; }
 
-"="                          { return '='; }
-"+"                          { return '+'; }
-"<"                          { return '<'; }
+"="							 { yylval.name = "="; return (int)Tokens.OPERATOR; }
+
+">"							 { yylval.name = ">"; return (int)Tokens.OPERATOR; }
+
+"<"							 { yylval.name = "<"; return (int)Tokens.OPERATOR; }
+
+"~"							 { yylval.name = "~"; return (int)Tokens.OPERATOR; }
+
+"?"							 { yylval.name = "?"; return (int)Tokens.OPERATOR; }
+
+":"							 { yylval.name = ":"; return (int)Tokens.OPERATOR; }
+
+"->"						 { yylval.name = "->"; return (int)Tokens.OPERATOR; }
+
+"=="						 { yylval.name = "=="; return (int)Tokens.OPERATOR; }
+
+">="						 { yylval.name = ">="; return (int)Tokens.OPERATOR; }
+
+"<="						 { yylval.name = "<="; return (int)Tokens.OPERATOR; }
+
+"!="						 { yylval.name = "!="; return (int)Tokens.OPERATOR; }
+
+"++"						{ yylval.name = "++"; return (int)Tokens.OPERATOR; }
+
+"--"						{ yylval.name = "--"; return (int)Tokens.OPERATOR; }
+
+"+"							{ yylval.name = "+"; return (int)Tokens.OPERATOR; }
+
+"-"						    { yylval.name = "-"; return (int)Tokens.OPERATOR; }
+
+"/"						    { yylval.name = "/"; return (int)Tokens.OPERATOR; }
+
+"&"							{ yylval.name = "&"; return (int)Tokens.OPERATOR; }
+
+"|"						    { yylval.name = "|"; return (int)Tokens.OPERATOR; }
+
+"^"						    { yylval.name = "^"; return (int)Tokens.OPERATOR; }
+
+"%"							{ yylval.name = "%"; return (int)Tokens.OPERATOR; }
+
+"<<"						{ yylval.name = "<<"; return (int)Tokens.OPERATOR; }
+
+">>"						{ yylval.name = ">>"; return (int)Tokens.OPERATOR; }
+
+">>>"						{ yylval.name = ">>>"; return (int)Tokens.OPERATOR; }
+
+"+="						{ yylval.name = "+="; return (int)Tokens.OPERATOR; }
+
+"-="						{ yylval.name = "-="; return (int)Tokens.OPERATOR; }
+
+"*="					    { yylval.name = "*="; return (int)Tokens.OPERATOR; }
+
+"/="						{ yylval.name = "/="; return (int)Tokens.OPERATOR; }
+
+"&="						{ yylval.name = "&="; return (int)Tokens.OPERATOR; }
+
+"|="						{ yylval.name = "|="; return (int)Tokens.OPERATOR; }
+
+"^="						{ yylval.name = "^="; return (int)Tokens.OPERATOR; }
+
+"%="						{ yylval.name = "%="; return (int)Tokens.OPERATOR; }
+
+"<<="						{ yylval.name = "<<="; return (int)Tokens.OPERATOR; }
+
+">>="						{ yylval.name = ">>="; return (int)Tokens.OPERATOR; }
+
+">>>="						{ yylval.name = ">>>="; return (int)Tokens.OPERATOR; }
+
+
 "("                          { return '('; }
 ")"                          { return ')'; }
 "{"                          { return '{'; }
@@ -123,6 +188,8 @@ false						 { yylval.boolValue = false; return (int)Tokens.FALSE; }
 "*"							 { return '*'; }
 ","							 { return ','; }
 "@"							 { return '@'; }
+"["							 { return '['; }
+"]"							 { return ']'; }
 
 [\n]		{ lines++;    }
 [ \t\r]      /* ignore other whitespace */

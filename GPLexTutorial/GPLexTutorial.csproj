@@ -32,8 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="QUT.ShiftReduceParser">
-      <HintPath>..\..\..\gppg-distro-1_5_2\gppg-distro-1_5_2\binaries\QUT.ShiftReduceParser.dll</HintPath>
+      <HintPath>..\gppg-distro-1_5_2\binaries\QUT.ShiftReduceParser.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -44,6 +48,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AST\Assignment.cs" />
+    <Compile Include="AST\AssignmentExpression.cs" />
+    <Compile Include="AST\BlockStatement.cs" />
+    <Compile Include="AST\ClassMemberDeclaration.cs" />
+    <Compile Include="AST\ClassModifier.cs" />
+    <Compile Include="AST\CompilationUnit.cs" />
+    <Compile Include="AST\Dims.cs" />
+    <Compile Include="AST\FormalParameter.cs" />
+    <Compile Include="AST\Identifier.cs" />
+    <Compile Include="AST\IntegerLiteral.cs" />
+    <Compile Include="AST\LeftHandSide.cs" />
+    <Compile Include="AST\MethodDeclaration.cs" />
+    <Compile Include="AST\MethodDeclarator.cs" />
+    <Compile Include="AST\MethodModifier.cs" />
+    <Compile Include="AST\NormalClassDeclaration.cs" />
+    <Compile Include="AST\Result.cs" />
+    <Compile Include="AST\TypeDeclaration.cs" />
+    <Compile Include="AST\UnannArrayType.cs" />
+    <Compile Include="AST\UnannClassOrInterfaceType.cs" />
+    <Compile Include="AST\UnannType.cs" />
+    <Compile Include="AST\VariableDeclaratorId.cs" />
+    <Compile Include="AST\VariableModifier.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="parser.cs" />
     <Compile Include="Program.cs" />
@@ -53,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
     <None Include="parser.y" />
     <None Include="scanner.lex" />
     <None Include="Tests\BadTests\test2.j" />
