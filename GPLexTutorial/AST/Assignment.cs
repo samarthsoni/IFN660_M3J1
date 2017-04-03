@@ -5,6 +5,11 @@ namespace GPLexTutorial.AST
         public LeftHandSide LeftHandSide { get; set; }
 
         public char AssignmentOperator { get; set; }
-        public AssignmentExpression AssignmentExpression { get; set; }
+        public Expression Expression { get; set; }
+
+        public Assignment()
+        {
+            
+        }
     }
 }

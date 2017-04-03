@@ -55,6 +55,7 @@
     <Compile Include="AST\ClassModifier.cs" />
     <Compile Include="AST\CompilationUnit.cs" />
     <Compile Include="AST\Dims.cs" />
+    <Compile Include="AST\Expression.cs" />
     <Compile Include="AST\FormalParameter.cs" />
     <Compile Include="AST\Identifier.cs" />
     <Compile Include="AST\IntegerLiteral.cs" />

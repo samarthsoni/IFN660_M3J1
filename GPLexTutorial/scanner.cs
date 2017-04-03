@@ -5,17 +5,10 @@
 //  See accompanying file GPLEXcopyright.rtf.
 //
 //  GPLEX Version:  1.2.2
-<<<<<<< HEAD
 //  Machine:  DESKTOP-IRIVFD3
-//  DateTime: 28/03/2017 12:38:40 PM
+//  DateTime: 3/04/2017 10:50:39 AM
 //  UserName: Samarth
-//  GPLEX input file <scanner.lex - 25/03/2017 3:43:00 PM>
-=======
-//  Machine:  DESKTOP-VKITI27
-//  DateTime: 4/1/2017 1:29:20 PM
-//  UserName: Juan Camilo
-//  GPLEX input file <scanner.lex - 3/28/2017 5:45:22 PM>
->>>>>>> bf88ef8e203123ffd389df28091e1e6a5654b9d6
+//  GPLEX input file <scanner.lex - 3/04/2017 9:41:11 AM>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: parser, minimize
@@ -2251,7 +2244,7 @@ yylval.name = "/"; return (int)Tokens.OPERATOR;
         case 280:
         case 281:
         case 282:
-yylval.name = yytext; return (int)Tokens.IntegerLiteral;
+yylval.num = int.Parse(yytext); return (int)Tokens.IntegerLiteral;
             break;
         case 19:
 yylval.name = ":"; return (int)Tokens.OPERATOR;

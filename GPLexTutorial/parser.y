@@ -1,4 +1,5 @@
 ﻿%namespace GPLexTutorial
+%using GPLexTutorial.AST
 
 %union
 {
@@ -7,15 +8,18 @@
     public float floatValue;
     public string stringValue;
     public bool boolValue;
+	public Expression e;
 }
 
 %token <num> NUMBER
 %token <name> IDENT
+%token <num> IntegerLiteral
 %token <floatValue> FLOATLITERAL
 %token <stringValue> STRINGLITERAL
 %token <boolValue> BOOL
-%token EOF ABSTRACT ASSERT BOOLEAN BREAK BYTE CASE CATCH CHAR CLASS CONST CONTINUE DEFAULT DO DOUBLE ELSE ENUM EXTENDS FINAL FINALLY FLOAT FOR IF GOTO IMPLEMENTS IMPORT INSTANCEOF INT INTERFACE LONG NATIVE NEW PACKAGE PRIVATE PROTECTED PUBLIC RETURN SHORT STATIC STRICTFP SUPER SWITCH SYNCHRONIZED THIS THROW THROWS TRANSIENT TRY VOID VOLATILE WHILE IntegerLiteral CharacterLiteral NULL OPERATOR TRUE FALSE EndOfLineComment TraditionalComment
+%token EOF ABSTRACT ASSERT BOOLEAN BREAK BYTE CASE CATCH CHAR CLASS CONST CONTINUE DEFAULT DO DOUBLE ELSE ENUM EXTENDS FINAL FINALLY FLOAT FOR IF GOTO IMPLEMENTS IMPORT INSTANCEOF INT INTERFACE LONG NATIVE NEW PACKAGE PRIVATE PROTECTED PUBLIC RETURN SHORT STATIC STRICTFP SUPER SWITCH SYNCHRONIZED THIS THROW THROWS TRANSIENT TRY VOID VOLATILE WHILE CharacterLiteral NULL OPERATOR TRUE FALSE EndOfLineComment TraditionalComment
 
+%type <e> Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RalationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression
 
 %left '='
 %nonassoc '<'
@@ -163,7 +167,7 @@ MethodDeclaration :
 	MethodModifiers MethodHeader MethodBody;
 
 MethodHeader 
-	:	Result MethodDeclarator Throws ;
+	:	Result MethodDeclarator Throws;
 
 MethodDeclarator
        :Identifier '(' FormalParameterList ')'  Dims;
@@ -248,7 +252,7 @@ ShiftExpression:
 AddictiveExpression:
     MultiplicativeExpression;
 
-MultiplicativeExpression:
+MultiplicativeExpression:					
     UnaryExpression;
 
 UnaryExpression:
@@ -267,7 +271,8 @@ PrimaryNoNewArray:
     Literal;
 
 Literal:
-    IntegerLiteral;
+    IntegerLiteral							{ $$=new IntegerLiteral($1) ;}
+	;
 
 LocalVariableDeclarationStatement:
 	LocalVariableDeclaration ';' ;

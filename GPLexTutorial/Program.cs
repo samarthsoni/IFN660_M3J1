@@ -93,16 +93,17 @@ namespace GPLexTutorial
                                                           }
                                                       },
                                                       AssignmentOperator = '=',
-                                                      AssignmentExpression = new AssignmentExpression()
+                                                      /*AssignmentExpression = new AssignmentExpression()
                                                       {
                                                           IntegerLiteral = new IntegerLiteral()
                                                           {
                                                               Value = 42
                                                           }
-                                                      }
+                                                      }*/
                                                   }
                                                 }
                                             }
+                                            
                                             
                                         }
 
