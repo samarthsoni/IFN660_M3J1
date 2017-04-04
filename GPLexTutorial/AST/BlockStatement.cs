@@ -2,12 +2,12 @@ using System.Security.AccessControl;
 
 namespace GPLexTutorial.AST
 {
-    public class BlockStatement
+    public abstract class Statement
     {
 
     }
 
-    public class LocalVariableDeclarationStatement : BlockStatement
+    public class LocalVariableDeclarationStatement : Statement
     {
         public UnannType UnannType { get; set; }
         public VariableDeclaratorId VariableDeclaratorId { get; set; }
@@ -18,7 +18,7 @@ namespace GPLexTutorial.AST
         }
     }
 
-    public class ExpressionStatement : BlockStatement
+    public class ExpressionStatement : Statement
     {
         public Assignment Assignment { get; set; }
         public ExpressionStatement(Assignment assignment)

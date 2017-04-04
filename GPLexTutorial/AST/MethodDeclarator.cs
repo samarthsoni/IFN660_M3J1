@@ -7,21 +7,12 @@ namespace GPLexTutorial.AST
     {
         public Identifier Identifier { get; set; }
         public List<FormalParameter> FormalParameterList { get; set; }
-        public MethodBody MethodBody { get; set; }
-        public MethodDeclarator(Identifier identifier, List<FormalParameter> formalParameterList, MethodBody methodBody)
+        public List<Statement> BodyStatements { get; set; }
+        public MethodDeclarator(Identifier identifier, List<FormalParameter> formalParameterList, List<Statement> bodyStatements)
         {
             Identifier = identifier;
             FormalParameterList = formalParameterList;
-            MethodBody = methodBody;
-        }
-    }
-
-    public class MethodBody
-    {
-        public List<BlockStatement> BlockStatements { get; set; }
-        public MethodBody(List<BlockStatement> blockStatements)
-        {
-            BlockStatements = blockStatements;
+            BodyStatements = bodyStatements;
         }
     }
 }

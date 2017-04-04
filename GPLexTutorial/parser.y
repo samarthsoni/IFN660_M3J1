@@ -9,6 +9,11 @@
     public string stringValue;
     public bool boolValue;
 	public Expression e;
+	public UnannType u;
+	public LeftHandSide lhs;
+	public Identifier i;
+	public Assignment assgn;
+	public Statement stmt;
 }
 
 %token <num> NUMBER
@@ -19,7 +24,12 @@
 %token <boolValue> BOOL
 %token EOF ABSTRACT ASSERT BOOLEAN BREAK BYTE CASE CATCH CHAR CLASS CONST CONTINUE DEFAULT DO DOUBLE ELSE ENUM EXTENDS FINAL FINALLY FLOAT FOR IF GOTO IMPLEMENTS IMPORT INSTANCEOF INT INTERFACE LONG NATIVE NEW PACKAGE PRIVATE PROTECTED PUBLIC RETURN SHORT STATIC STRICTFP SUPER SWITCH SYNCHRONIZED THIS THROW THROWS TRANSIENT TRY VOID VOLATILE WHILE CharacterLiteral NULL OPERATOR TRUE FALSE EndOfLineComment TraditionalComment
 
-%type <e> Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RalationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression
+%type <e> Expression Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RalationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression Expression
+%type <u> IntegralType NumericType UnannPrimitiveType
+%type <lhs> LeftHandSide
+%type <i>  ExpressionName
+%type <assgn> Assignment
+
 
 %left '='
 %nonassoc '<'
@@ -193,7 +203,8 @@ BlockStatement:
     | Statement ;
 
 Statement:
-    StatementWithoutTrailingSubstatement ;
+    StatementWithoutTrailingSubstatement			
+	;
 
 StatementWithoutTrailingSubstatement:
     ExpressionStatement;
@@ -205,16 +216,20 @@ StatementExpression:
 	Assignment;
 
 Assignment:
-	LeftHandSide AssignmentOperator Expression;
+	LeftHandSide AssignmentOperator Expression		{$$ = new Assignment($1, ($2).name, $3);}
+	;
 
 LeftHandSide:
-	ExpressionName;
+	ExpressionName									{$$=new LeftHandSide($1);}
+	;
 
 ExpressionName:
-	Identifier;
+	Identifier										{$$ = new Identifier($1.name);}
+	;
 
 AssignmentOperator:
-	OPERATOR ;
+	OPERATOR				{$$ = $1;}
+	;
 
 Expression:
 	AssignmentExpression;
@@ -284,19 +299,21 @@ VariableModifiers:
 	/* empty */ ;
 
 UnannType:
-	UnannPrimitiveType ; 
+	UnannPrimitiveType		
+	; 
 
 UnannPrimitiveType:
-	NumericType ;
+	NumericType					
+	;
 
 NumericType:
-	IntegralType				{$$ = $1;}
+	IntegralType				
 	;
 
 IntegralType:
 	BYTE
 	|	SHORT
-	|	INT						{$$ = $1;}
+	|	INT						{$$ = new UnnanPrimitiveType( IntegralType.INT );}
 	|	LONG
 	|	CHAR ;
 

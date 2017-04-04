@@ -4,10 +4,10 @@ namespace GPLexTutorial.AST
     {
         public LeftHandSide LeftHandSide { get; set; }
 
-        public char AssignmentOperator { get; set; }
+        public string AssignmentOperator { get; set; }
         public Expression Expression { get; set; }
 
-        public Assignment(LeftHandSide leftHandSide, char assignmentOperator, Expression expression)
+        public Assignment(LeftHandSide leftHandSide, string assignmentOperator, Expression expression)
         {
             LeftHandSide = leftHandSide;
             AssignmentOperator = assignmentOperator;
