@@ -290,12 +290,13 @@ UnannPrimitiveType:
 	NumericType ;
 
 NumericType:
-	IntegralType ;
+	IntegralType				{$$ = $1;}
+	;
 
 IntegralType:
 	BYTE
 	|	SHORT
-	|	INT
+	|	INT						{$$ = $1;}
 	|	LONG
 	|	CHAR ;
 

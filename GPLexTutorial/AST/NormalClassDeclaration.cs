@@ -9,5 +9,11 @@ namespace GPLexTutorial.AST
         public List<ClassModifier> ClassModifiers { get; set; }
         public Identifier Identifier { get; set; }
         public List<ClassMemberDeclaration> ClassMemberDeclarations { get; set; }
+        public NormalClassDeclaration(List<ClassModifier> classModifiers, Identifier identifier, List<ClassMemberDeclaration> classMemberDeclarations)
+        {
+            ClassModifiers = classModifiers;
+            Identifier = identifier;
+            ClassMemberDeclarations = classMemberDeclarations;
+        }
     }
 }

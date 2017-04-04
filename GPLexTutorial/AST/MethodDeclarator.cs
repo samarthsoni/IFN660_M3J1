@@ -8,6 +8,11 @@ namespace GPLexTutorial.AST
         public Identifier Identifier { get; set; }
         public List<FormalParameter> FormalParameterList { get; set; }
         public MethodBody MethodBody { get; set; }
+        public MethodDeclarator(Identifier identifier, List<FormalParameter> formalParameterList)
+        {
+            Identifier = identifier;
+            FormalParameterList = formalParameterList;
+        }
     }
 
     public class MethodBody

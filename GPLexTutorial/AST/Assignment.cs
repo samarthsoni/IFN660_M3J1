@@ -7,9 +7,11 @@ namespace GPLexTutorial.AST
         public char AssignmentOperator { get; set; }
         public Expression Expression { get; set; }
 
-        public Assignment()
+        public Assignment(LeftHandSide leftHandSide, char assignmentOperator, Expression expression)
         {
-            
+            LeftHandSide = leftHandSide;
+            AssignmentOperator = assignmentOperator;
+            Expression = expression;
         }
     }
 }

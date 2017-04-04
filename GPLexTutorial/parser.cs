@@ -3,10 +3,10 @@
 // (see accompanying GPPGcopyright.rtf)
 
 // GPPG version 1.5.2
-// Machine:  DESKTOP-IRIVFD3
-// DateTime: 3/04/2017 10:50:39 AM
-// UserName: Samarth
-// Input file <parser.y - 3/04/2017 10:42:42 AM>
+// Machine:  LIN-PC
+// DateTime: 4/04/2017 10:17:12 AM
+// UserName: linto
+// Input file <parser.y - 4/04/2017 9:40:13 AM>
 
 // options: lines gplex
 
@@ -550,6 +550,16 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                          { CurrentSemanticValue.e=new IntegerLiteral(ValueStack[ValueStack.Depth-1].num) ;}
 #line default
         break;
+      case 115: // NumericType -> IntegralType
+#line 293 "parser.y"
+                 {CurrentSemanticValue = ValueStack[ValueStack.Depth-1];}
+#line default
+        break;
+      case 118: // IntegralType -> INT
+#line 299 "parser.y"
+            {CurrentSemanticValue = ValueStack[ValueStack.Depth-1];}
+#line default
+        break;
     }
 #pragma warning restore 162, 1522
   }
@@ -564,7 +574,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
         return CharToString((char)terminal);
   }
 
-#line 449 "parser.y"
+#line 450 "parser.y"
 
 public Parser(Scanner scanner) : base(scanner)
 {

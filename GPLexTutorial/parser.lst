@@ -1,15 +1,16 @@
 
 // ==========================================================================
-//  GPPG error listing for yacc source file <parser.y - 3/04/2017 9:43:44 AM>
+//  GPPG error listing for yacc source file <parser.y - 4/04/2017 9:09:49 AM>
 // ==========================================================================
 //  Version:  1.5.2
-//  Machine:  DESKTOP-IRIVFD3
-//  DateTime: 3/04/2017 9:43:49 AM
-//  UserName: Samarth
+//  Machine:  LIN-PC
+//  DateTime: 4/04/2017 9:09:53 AM
+//  UserName: linto
 // ==========================================================================
 
 
 %namespace GPLexTutorial
+%using GPLexTutorial.AST
 
 %union
 {
@@ -18,21 +19,30 @@
     public float floatValue;
     public string stringValue;
     public bool boolValue;
+	public Expression e;
 }
 
 %token <num> NUMBER
 %token <name> IDENT
+%token <num> IntegerLiteral
 %token <floatValue> FLOATLITERAL
 %token <stringValue> STRINGLITERAL
 %token <boolValue> BOOL
-%token EOF ABSTRACT ASSERT BOOLEAN BREAK BYTE CASE CATCH CHAR CLASS CONST CONTINUE DEFAULT DO DOUBLE ELSE ENUM EXTENDS FINAL FINALLY FLOAT FOR IF GOTO IMPLEMENTS IMPORT INSTANCEOF INT INTERFACE LONG NATIVE NEW PACKAGE PRIVATE PROTECTED PUBLIC RETURN SHORT STATIC STRICTFP SUPER SWITCH SYNCHRONIZED THIS THROW THROWS TRANSIENT TRY VOID VOLATILE WHILE IntegerLiteral CharacterLiteral NULL OPERATOR TRUE FALSE EndOfLineComment TraditionalComment
+%token EOF ABSTRACT ASSERT BOOLEAN BREAK BYTE CASE CATCH CHAR CLASS CONST CONTINUE DEFAULT DO DOUBLE ELSE ENUM EXTENDS FINAL FINALLY FLOAT FOR IF GOTO IMPLEMENTS IMPORT INSTANCEOF INTERFACE LONG NATIVE NEW PACKAGE PRIVATE PROTECTED PUBLIC RETURN SHORT STATIC STRICTFP SUPER SWITCH SYNCHRONIZED THIS THROW THROWS TRANSIENT TRY VOID VOLATILE WHILE CharacterLiteral NULL OPERATOR TRUE FALSE EndOfLineComment TraditionalComment
 
+%type <e> Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RalationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression
 
 %left '='
 %nonassoc '<'
 %left '+'
 
 %%
+// Error: NonTerminal symbol "INT" has no productions
+// Warning: Terminating INT fixes the following size-1 NonTerminal set
+   // {INT}
+// Error: There are 1 non-terminating NonTerminal Symbols
+   //  {INT}
+// -------------------------------------------------------------------
 
 
 
@@ -174,7 +184,7 @@ MethodDeclaration :
 	MethodModifiers MethodHeader MethodBody;
 
 MethodHeader 
-	:	Result MethodDeclarator Throws ;
+	:	Result MethodDeclarator Throws;
 
 MethodDeclarator
        :Identifier '(' FormalParameterList ')'  Dims;
@@ -259,7 +269,7 @@ ShiftExpression:
 AddictiveExpression:
     MultiplicativeExpression;
 
-MultiplicativeExpression:
+MultiplicativeExpression:					
     UnaryExpression;
 
 UnaryExpression:
@@ -278,10 +288,8 @@ PrimaryNoNewArray:
     Literal;
 
 Literal:
-    IntegerLiteral;							{ $$=new IntegerLiteral() ;}
-//-----------------------^^
-// Error: Syntax error, unexpected '{', expecting %%, or anchoredSymbol, or EOF
-// ----------------------------------------------------------------------------
+    IntegerLiteral							{ $$=new IntegerLiteral($1) ;}
+	;
 
 LocalVariableDeclarationStatement:
 	LocalVariableDeclaration ';' ;
@@ -304,7 +312,7 @@ NumericType:
 IntegralType:
 	BYTE
 	|	SHORT
-	|	INT
+	|	INT						{$$ = new INT($1);}
 	|	LONG
 	|	CHAR ;
 
