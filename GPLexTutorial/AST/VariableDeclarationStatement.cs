@@ -1,11 +1,13 @@
 namespace GPLexTutorial.AST
 {
-    public class VariableDeclaratorId
+    public class VariableDeclarationStatement : Statement
     {
+        public Type Type { get; set; }
         public Identifier Identifier { get; set; }
         public Dims Dims { get; set; }
-        public VariableDeclaratorId(Identifier identifier, Dims dims)
+        public VariableDeclarationStatement(Type type, Identifier identifier, Dims dims)
         {
+            Type = type;
             Identifier = identifier;
             Dims = dims;
         }

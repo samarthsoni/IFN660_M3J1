@@ -1,11 +1,14 @@
 ﻿namespace GPLexTutorial.AST
 {
-    public class AssignmentExpression
+    public class AssignmentExpression : Expression
     {
-        public IntegerLiteral IntegerLiteral { get; set; }
-        public AssignmentExpression(IntegerLiteral integerLiteral)
+        public Expression LeftExpression;
+        public Expression RightExpression;
+
+        public AssignmentExpression(Expression leftExpression, Expression rightExpression)
         {
-            IntegerLiteral = integerLiteral;
+            RightExpression = rightExpression;
+            LeftExpression = leftExpression;
         }
     }
 }

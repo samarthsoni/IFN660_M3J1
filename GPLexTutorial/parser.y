@@ -9,11 +9,9 @@
     public string stringValue;
     public bool boolValue;
 	public Expression e;
-	public UnannType u;
-	public LeftHandSide lhs;
 	public Identifier i;
-	public Assignment assgn;
 	public Statement stmt;
+	public AST.Type t;
 }
 
 %token <num> NUMBER
@@ -24,11 +22,8 @@
 %token <boolValue> BOOL
 %token EOF ABSTRACT ASSERT BOOLEAN BREAK BYTE CASE CATCH CHAR CLASS CONST CONTINUE DEFAULT DO DOUBLE ELSE ENUM EXTENDS FINAL FINALLY FLOAT FOR IF GOTO IMPLEMENTS IMPORT INSTANCEOF INT INTERFACE LONG NATIVE NEW PACKAGE PRIVATE PROTECTED PUBLIC RETURN SHORT STATIC STRICTFP SUPER SWITCH SYNCHRONIZED THIS THROW THROWS TRANSIENT TRY VOID VOLATILE WHILE CharacterLiteral NULL OPERATOR TRUE FALSE EndOfLineComment TraditionalComment
 
-%type <e> Expression Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RalationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression Expression
-%type <u> IntegralType NumericType UnannPrimitiveType
-%type <lhs> LeftHandSide
-%type <i>  ExpressionName
-%type <assgn> Assignment
+%type <e> Expression Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RalationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression Expression ExpressionName LeftHandSide Assignment
+%type <t> IntegralType NumericType UnannPrimitiveType
 
 
 %left '='
@@ -216,15 +211,15 @@ StatementExpression:
 	Assignment;
 
 Assignment:
-	LeftHandSide AssignmentOperator Expression		{$$ = new Assignment($1, ($2).name, $3);}
+	LeftHandSide AssignmentOperator Expression		{$$ = new AssignmentExpression($1, $3);}
 	;
 
 LeftHandSide:
-	ExpressionName									{$$=new LeftHandSide($1);}
+	ExpressionName									{$$ = $1;}
 	;
 
 ExpressionName:
-	Identifier										{$$ = new Identifier($1.name);}
+	Identifier										{$$ = new IdentifierExpression( new Identifier($1.name));}
 	;
 
 AssignmentOperator:
@@ -286,7 +281,7 @@ PrimaryNoNewArray:
     Literal;
 
 Literal:
-    IntegerLiteral							{ $$=new IntegerLiteral($1) ;}
+    IntegerLiteral							{ $$=new IntegerLiteralExpression($1) ;}
 	;
 
 LocalVariableDeclarationStatement:
@@ -313,7 +308,7 @@ NumericType:
 IntegralType:
 	BYTE
 	|	SHORT
-	|	INT						{$$ = new UnnanPrimitiveType( IntegralType.INT );}
+	|	INT						{$$ = new NamedType( $1.name );}
 	|	LONG
 	|	CHAR ;
 

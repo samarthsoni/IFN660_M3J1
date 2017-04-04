@@ -1,10 +1,10 @@
 ﻿namespace GPLexTutorial.AST
 {
-    public class IntegerLiteral:Expression
+    public class IntegerLiteralExpression:Expression
     {
         public int Value { get; set; }
 
-        public IntegerLiteral(int val)
+        public IntegerLiteralExpression(int val)
         {
             Value = val;
         }
