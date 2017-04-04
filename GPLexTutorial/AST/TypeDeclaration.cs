@@ -1,6 +1,6 @@
 ﻿namespace GPLexTutorial.AST
 {
-    public class TypeDeclaration
+    public abstract class TypeDeclaration : Node
     {
     }
 }

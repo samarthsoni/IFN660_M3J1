@@ -4,16 +4,19 @@ using Newtonsoft.Json.Converters;
 
 namespace GPLexTutorial.AST
 {
-    public class MethodDeclaration
+    public class MethodDeclaration : MemberDeclaration
     {
-        public List<MethodModifier> MethodModifier { get; set; }
-        public Result Result { get; set; }
-        public MethodDeclarator MethodDeclarator { get; set; }
-        public MethodDeclaration(List<MethodModifier> methodModifier, Result result, MethodDeclarator methodDeclarator)
+        public List<MethodModifier> MethodModifiers { get; set; }
+        public Type Result { get; set; }
+        public Identifier Identifier { get; set; }
+        public List<FormalParameter> FormalParameterList { get; set; }
+        public List<Statement> BodyStatements { get; set; }
+        public MethodDeclaration(List<MethodModifier> methodModifier, Type result, List<FormalParameter> formalParameterList, List<Statement> bodyStatements)
         {
-            MethodModifier = methodModifier;
+            MethodModifiers = methodModifier;
             Result = result;
-            MethodDeclarator = methodDeclarator;
+            FormalParameterList = formalParameterList;
+            BodyStatements = bodyStatements;
         }
     }
 }

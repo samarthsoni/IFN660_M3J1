@@ -1,6 +1,6 @@
 ﻿namespace GPLexTutorial.AST
 {
-    public class Expression
+    public abstract class Expression : Node
     {
         
     }
