@@ -4,7 +4,7 @@
 // ==========================================================================
 //  Version:  1.2.2
 //  Machine:  DESKTOP-VKITI27
-//  DateTime: 4/4/2017 10:50:51 PM
+//  DateTime: 4/5/2017 10:00:42 PM
 //  UserName: Juan Camilo
 // ==========================================================================
 
@@ -214,6 +214,7 @@ false						 { yylval.boolValue = false; return (int)Tokens.FALSE; }
 "@"							 { return '@'; }
 "["							 { return '['; }
 "]"							 { return ']'; }
+"..."						 { yylval.name = "..."; return (int)Tokens.ELIPSIS;}
 
 [\n]		{ lines++;    }
 [ \t\r]      /* ignore other whitespace */

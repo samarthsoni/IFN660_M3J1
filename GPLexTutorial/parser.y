@@ -9,9 +9,15 @@
     public string stringValue;
     public bool boolValue;
 	public Expression e;
-	public Identifier i;
+	public Identifier id;
 	public Statement stmt;
 	public AST.Type t;
+	public List<Statement> stmts;
+	public List<Identifier> ids;
+	public List<Expression> es;
+	public MemberDeclaration memberDeclaration;
+	public MethodModifier methodModifier;
+	public List<MethodModifier> methodModifiers;
 }
 
 %token <num> NUMBER
@@ -20,10 +26,16 @@
 %token <floatValue> FLOATLITERAL
 %token <stringValue> STRINGLITERAL
 %token <boolValue> BOOL
-%token EOF ABSTRACT ASSERT BOOLEAN BREAK BYTE CASE CATCH CHAR CLASS CONST CONTINUE DEFAULT DO DOUBLE ELSE ENUM EXTENDS FINAL FINALLY FLOAT FOR IF GOTO IMPLEMENTS IMPORT INSTANCEOF INT INTERFACE LONG NATIVE NEW PACKAGE PRIVATE PROTECTED PUBLIC RETURN SHORT STATIC STRICTFP SUPER SWITCH SYNCHRONIZED THIS THROW THROWS TRANSIENT TRY VOID VOLATILE WHILE CharacterLiteral NULL OPERATOR TRUE FALSE EndOfLineComment TraditionalComment
+%token EOF ABSTRACT ASSERT BOOLEAN BREAK BYTE CASE CATCH CHAR CLASS CONST CONTINUE DEFAULT DO DOUBLE ELSE ENUM EXTENDS FINAL FINALLY FLOAT FOR IF GOTO IMPLEMENTS IMPORT INSTANCEOF INT INTERFACE LONG NATIVE NEW PACKAGE PRIVATE PROTECTED PUBLIC RETURN SHORT STATIC STRICTFP SUPER SWITCH SYNCHRONIZED THIS THROW THROWS TRANSIENT TRY VOID VOLATILE WHILE CharacterLiteral NULL OPERATOR TRUE FALSE EndOfLineComment TraditionalComment ELIPSIS
 
-%type <e> Expression Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RalationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression Expression ExpressionName LeftHandSide Assignment
-%type <t> IntegralType NumericType UnannPrimitiveType
+%type <e> Expression Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RalationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression Expression ExpressionName LeftHandSide Assignment VariableDeclaratorList FormalParameter LastFormalParameter  VariableDeclaratorId VariableDeclarator
+%type <es> FormalParameterList VariableDeclaratorList VariableDeclarators
+%type <t> IntegralType NumericType UnannPrimitiveType UnannType
+%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement 
+%type <stmts> BlockStatements Block MethodBody 
+%type <memberDeclaration> MethodDeclaration
+%type <methodModifier> MethodModifier
+%type <methodModifiers> MethodModifiers
 
 
 %left '='
@@ -169,7 +181,7 @@ ClassMemberDeclaration:
 	|	';';
 
 MethodDeclaration :
-	MethodModifiers MethodHeader MethodBody;
+	MethodModifiers MethodHeader MethodBody								{ $$ = new MethodDeclaration($1,null,null,$3); };
 
 MethodHeader 
 	:	Result MethodDeclarator Throws;
@@ -183,19 +195,20 @@ Result
 	: VOID;
 
 MethodBody :
-	Block
+	Block  											{$$ = $1;}
 	|	';' ;
 
 Block:
-	'{' BlockStatements '}';
+	'{' BlockStatements '}'  											{$$ = $2;};
 
 BlockStatements:
-	BlockStatement BlockStatements
-	|BlockStatement ;
+	BlockStatement BlockStatements										{$$ = $2; $2.Add($1); }
+	|	/* empty */														{$$ = new List<Statement>();}
+	;
 
 BlockStatement:
-	LocalVariableDeclarationStatement
-    | Statement ;
+	LocalVariableDeclarationStatement 									{$$ = $1;}
+    | Statement 														{$$ = $1;};
 
 Statement:
     StatementWithoutTrailingSubstatement			
@@ -281,50 +294,53 @@ PrimaryNoNewArray:
     Literal;
 
 Literal:
-    IntegerLiteral							{ $$=new IntegerLiteralExpression($1) ;}
+    IntegerLiteral										{ $$=new IntegerLiteralExpression($1) ;}
 	;
 
 LocalVariableDeclarationStatement:
-	LocalVariableDeclaration ';' ;
+	LocalVariableDeclaration ';' 						{$$ = $1; };
 
 LocalVariableDeclaration:
-	VariableModifiers UnannType VariableDeclaratorList ;
+	VariableModifiers UnannType VariableDeclaratorList	{ $$ = new VariableDeclarationStatement($2,$3,null);};
 
 VariableModifiers:
 	/* empty */ ;
 
 UnannType:
-	UnannPrimitiveType		
+	UnannPrimitiveType									{$$ = $1; }
 	; 
 
 UnannPrimitiveType:
-	NumericType					
+	NumericType											{$$ = $1; }		
 	;
 
 NumericType:
-	IntegralType				
+	IntegralType										{$$ = $1; }
 	;
 
 IntegralType:
 	BYTE
 	|	SHORT
-	|	INT						{$$ = new NamedType( $1.name );}
+	|	INT												{$$ = new NamedType( $1.name );}
 	|	LONG
 	|	CHAR ;
 
 VariableDeclaratorList:
-	VariableDeclarator
-	| VariableDeclarator VariableDeclarators;
+	VariableDeclarator									{$$ = new List<Expression>();$$.Add($1);}					
+	| VariableDeclarator VariableDeclarators
+	;
 
 VariableDeclarators:
-	/* empty */ ;
+		VariableDeclarator VariableDeclarators			{$$ = $2; $$.Add($1);}
+	|	/* empty */										{$$ = new List<Expression>();}
+	;
 
 VariableDeclarator:
-	VariableDeclaratorId
+	VariableDeclaratorId								{$$ = $1; }
 	|VariableDeclaratorId '=' VariableInitializer;
 
 VariableDeclaratorId:
-	Identifier
+	Identifier											{$$ = new IdentifierExpression( new Identifier($1.name));}
 	|Identifier Dims;
 
 Identifier:
@@ -377,16 +393,16 @@ InterfaceModifier:
 	|	STATIC;
 
 MethodModifiers
-	:	MethodModifier
-	|	MethodModifier MethodModifiers
-	|	/* empty */;
+	:	MethodModifier MethodModifiers		{$$ = $2;$2.Add($1);}
+	|	/* empty */							{$$ = new List<MethodModifier>();};
 
 MethodModifier:		
-		PUBLIC 
-	|	PROTECTED 
-	|	PRIVATE
-	|	ABSTRACT
-	|	STATIC;
+		PUBLIC								{$$= MethodModifier.Public;}
+	|	PROTECTED							{$$= MethodModifier.Protected;}
+	|	PRIVATE								{$$= MethodModifier.Private;}
+	|	ABSTRACT							{$$= MethodModifier.Abstract;}
+	|	STATIC								{$$= MethodModifier.Static;}
+	;
 
 SingleTypeImportDeclaration : 
 	IMPORT TypeName ';' ;
@@ -410,17 +426,22 @@ PackageOrTypeName:
 
 FormalParameterList:
 		FormalParameters ',' LastFormalParameter
-	|	LastFormalParameter;
+	|	LastFormalParameter
+	|	/* empty */												{ $$ = new List<Expression>(); }
+	;
 
 LastFormalParameter:
-	VariableModifiers UnannType VariableDeclaratorId;
+		VariableModifiers UnannType  ELIPSIS VariableDeclaratorId
+	|	FormalParameter											{$$ = $1;}
+	;
 
 FormalParameters:
 	FormalParameter
 	| FormalParameter FormalParameters;
 
 FormalParameter:
-	VariableModifiers UnannType VariableDeclaratorId;
+	VariableModifiers UnannType VariableDeclaratorId			{$$ = new ParameterDeclarationExpression($2,$3);}
+	;
 
 VariableModifiers:
 	/* empty */;	 
@@ -445,9 +466,6 @@ Identifier:
 
 TypeArguments:
 	/* empty */;
-
-VariableDeclaratorId:
-	Identifier Dims;
 
 Dims:
 	Annotations '[' ']' DimsPost;
