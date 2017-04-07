@@ -1,10 +1,10 @@
 
 // ==========================================================================
-//  GPPG error listing for yacc source file <parser.y - 4/5/2017 8:59:54 PM>
+//  GPPG error listing for yacc source file <parser.y - 4/7/2017 6:02:53 PM>
 // ==========================================================================
 //  Version:  1.5.2
 //  Machine:  DESKTOP-VKITI27
-//  DateTime: 4/5/2017 8:59:55 PM
+//  DateTime: 4/7/2017 6:02:56 PM
 //  UserName: Juan Camilo
 // ==========================================================================
 
@@ -26,6 +26,15 @@
 	public List<Statement> stmts;
 	public List<Identifier> ids;
 	public List<Expression> es;
+	public MemberDeclaration memberDeclaration;
+	public List<MemberDeclaration> memberDeclarations;
+	public MethodModifier methodModifier;
+	public List<MethodModifier> methodModifiers;
+	public ClassModifier classModifier;
+	public List<ClassModifier> classModifiers;
+	public TypeDeclaration typeDeclaration;
+	public List<TypeDeclaration> typeDeclarations;
+	public Node node;
 }
 
 %token <num> NUMBER
@@ -36,12 +45,23 @@
 %token <boolValue> BOOL
 %token EOF ABSTRACT ASSERT BOOLEAN BREAK BYTE CASE CATCH CHAR CLASS CONST CONTINUE DEFAULT DO DOUBLE ELSE ENUM EXTENDS FINAL FINALLY FLOAT FOR IF GOTO IMPLEMENTS IMPORT INSTANCEOF INT INTERFACE LONG NATIVE NEW PACKAGE PRIVATE PROTECTED PUBLIC RETURN SHORT STATIC STRICTFP SUPER SWITCH SYNCHRONIZED THIS THROW THROWS TRANSIENT TRY VOID VOLATILE WHILE CharacterLiteral NULL OPERATOR TRUE FALSE EndOfLineComment TraditionalComment ELIPSIS
 
-%type <e> Expression Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RalationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression Expression ExpressionName LeftHandSide Assignment VariableDeclaratorList
-%type <t> IntegralType NumericType UnannPrimitiveType UnannType
-%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement
-%type <stmts> BlockStatements Block MethodBody
-
-
+%type <e> Expression Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RalationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression Expression ExpressionName LeftHandSide Assignment VariableDeclaratorList FormalParameter LastFormalParameter  VariableDeclaratorId VariableDeclarator MethodDeclarator MethodHeader
+%type <es> FormalParameterList VariableDeclaratorList VariableDeclarators FormalParameters
+%type <t> IntegralType NumericType UnannPrimitiveType UnannType Result
+%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement 
+%type <stmts> BlockStatements Block MethodBody 
+%type <memberDeclaration> MethodDeclaration ClassMemberDeclaration ClassBodyDeclaration
+%type <methodModifier> MethodModifier
+%type <methodModifiers> MethodModifiers
+%type <memberDeclarations> ClassBodyDeclarations ClassBody
+%type <classModifier> ClassModifier
+%type <classModifiers> ClassModifiers
+%type <typeDeclaration> NormalClassDeclaration ClassDeclaration TypeDeclaration
+%type <typeDeclarations> TypeDeclarations
+%type <node> CompilationUnit;
+//-------------------------^^
+// Error: Bad separator character in list
+// --------------------------------------
 
 %left '='
 %nonassoc '<'
@@ -50,9 +70,9 @@
 %%
 
 
-
 CompilationUnit : 
-	PackageDeclarations ImportDeclarations TypeDeclarations;
+	PackageDeclarations ImportDeclarations TypeDeclarations				{ $$= new CompilationUnit($3); }
+	;
 
 PackageDeclarations:
 	PackageDeclaration
@@ -107,20 +127,22 @@ ImportDeclaration:
 
 
 TypeDeclarations:		
-		TypeDeclaration
-	|	TypeDeclaration TypeDeclarations
-	|	/* empty */;
+		TypeDeclarations TypeDeclaration									{ $$ = $1; $1.Add($2); }
+	|	/* empty */															{ $$ = new List<TypeDeclaration>(); }
+	;
 
 TypeDeclaration:		
-		ClassDeclaration 
-	|	InterfaceDeclaration;
+		ClassDeclaration													{ $$ = $1; }
+	|	InterfaceDeclaration
+	;
 
 ClassDeclaration:		
 		NormalClassDeclaration 
 	|	EnumDeclaration;
 
 NormalClassDeclaration: 
-	ClassModifiers CLASS IDENT TypeParameters Superclasses Superinterfaces ClassBody;
+	ClassModifiers CLASS Identifier TypeParameters Superclasses Superinterfaces ClassBody			{$$ = new NormalClassDeclaration($1,new Identifier($3.name),$7);}
+	;
 
 Superclasses:
 	Superclass
@@ -162,42 +184,47 @@ ClassModifiers:
 	|	/* empty */;
 
 ClassModifier:		
-		PUBLIC 
-	|	PROTECTED 
-	|	PRIVATE
-	|	ABSTRACT
-	|	STATIC
-	|	FINAL;
+		PUBLIC															{$$ = ClassModifier.Public		;}
+	|	PROTECTED 														{$$ = ClassModifier.Protected 	;}
+	|	PRIVATE															{$$ = ClassModifier.Private		;}
+	|	ABSTRACT														{$$ = ClassModifier.Abstract	;}
+	|	STATIC															{$$ = ClassModifier.Static		;}
+	|	FINAL															{$$ = ClassModifier.Final		;}
+	;
 
 ClassBody:
-	'{' ClassBodyDeclarations '}'
-	|	/* empty */;
+	'{' ClassBodyDeclarations '}'										{ $$ = $2; }
+	|	/* empty */														{ $$ = null; };
 
 ClassBodyDeclarations:	
-		ClassBodyDeclaration
-	|	ClassBodyDeclaration ClassBodyDeclarations	
-	|	/* empty */;
+		ClassBodyDeclarations ClassBodyDeclaration 						{ $$ = $1; $1.Add($2); }
+	|	/* empty */														{ $$ = new List<MemberDeclaration>(); }
+	;
 
 ClassBodyDeclaration:
-		 ClassMemberDeclaration;
+		 ClassMemberDeclaration											{ $$ = $1; }
+		 ;
 
 ClassMemberDeclaration:
-	MethodDeclaration  
+	MethodDeclaration													{ $$ = $1; }
 	|	';';
 
 MethodDeclaration :
-	MethodModifiers MethodHeader MethodBody;
+	MethodModifiers MethodHeader MethodBody								{ $$ = new MethodDeclaration($1,$2,$3); };
 
 MethodHeader 
-	:	Result MethodDeclarator Throws;
+	:	Result MethodDeclarator Throws									{ $$ = new MethodHeaderExpression($1,$2); }
+	;
 
 MethodDeclarator
-       :Identifier '(' FormalParameterList ')'  Dims;
+       :Identifier '(' FormalParameterList ')'  Dims					{ $$ = new MethodDeclaratorExpression(new Identifier($1.name),$3 ); }
+	   ;
 Throws
     :	/* empty */;
 
 Result
-	: VOID;
+	: VOID																{$$ = null;}
+	;
 
 MethodBody :
 	Block  											{$$ = $1;}
@@ -331,18 +358,21 @@ IntegralType:
 	|	CHAR ;
 
 VariableDeclaratorList:
-	VariableDeclarator									{$$ = new IdentifierExpression( new Identifier($1.name));}	
-	| VariableDeclarator VariableDeclarators;
+	VariableDeclarator									{$$ = new List<Expression>();$$.Add($1);}					
+	| VariableDeclarator VariableDeclarators
+	;
 
 VariableDeclarators:
-	/* empty */ ;
+		VariableDeclarator VariableDeclarators			{$$ = $2; $$.Add($1);}
+	|	/* empty */										{$$ = new List<Expression>();}
+	;
 
 VariableDeclarator:
-	VariableDeclaratorId
+	VariableDeclaratorId								{$$ = $1; }
 	|VariableDeclaratorId '=' VariableInitializer;
 
 VariableDeclaratorId:
-	Identifier
+	Identifier											{$$ = new IdentifierExpression( new Identifier($1.name));}
 	|Identifier Dims;
 
 Identifier:
@@ -395,16 +425,16 @@ InterfaceModifier:
 	|	STATIC;
 
 MethodModifiers
-	:	MethodModifier
-	|	MethodModifier MethodModifiers
-	|	/* empty */;
+	:	MethodModifier MethodModifiers		{$$ = $2;$2.Add($1);}
+	|	/* empty */							{$$ = new List<MethodModifier>();};
 
 MethodModifier:		
-		PUBLIC 
-	|	PROTECTED 
-	|	PRIVATE
-	|	ABSTRACT
-	|	STATIC;
+		PUBLIC								{$$= MethodModifier.Public;}
+	|	PROTECTED							{$$= MethodModifier.Protected;}
+	|	PRIVATE								{$$= MethodModifier.Private;}
+	|	ABSTRACT							{$$= MethodModifier.Abstract;}
+	|	STATIC								{$$= MethodModifier.Static;}
+	;
 
 SingleTypeImportDeclaration : 
 	IMPORT TypeName ';' ;
@@ -427,23 +457,23 @@ PackageOrTypeName:
 	|	PackageOrTypeName '.' IDENT ;
 
 FormalParameterList:
-		FormalParameters ',' LastFormalParameter
+		FormalParameters ',' LastFormalParameter				{ $$ = $1; }
 	|	LastFormalParameter
-	|	/* empty */												{ $$ = new List<Statement>(); }
+	|	/* empty */												{ $$ = new List<Expression>(); }
 	;
 
 LastFormalParameter:
-	VariableModifiers UnannType  "..." VariableDeclaratorId;
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-// Error: Key "..." was not found in token alias list
-// --------------------------------------------------
+		VariableModifiers UnannType  ELIPSIS VariableDeclaratorId
+	|	FormalParameter											{$$ = $1;}
+	;
 
 FormalParameters:
-	FormalParameter
-	| FormalParameter FormalParameters;
+	FormalParameters FormalParameter							{$$ = $1;$1.Add($2);}
+	| /* empty */												{$$ = new List<Expression>();};
 
 FormalParameter:
-	VariableModifiers UnannType VariableDeclaratorId;
+	VariableModifiers UnannType VariableDeclaratorId			{$$ = new ParameterDeclarationExpression($2,$3);}
+	;
 
 VariableModifiers:
 	/* empty */;	 
@@ -468,9 +498,6 @@ Identifier:
 
 TypeArguments:
 	/* empty */;
-
-VariableDeclaratorId:
-	Identifier Dims;
 
 Dims:
 	Annotations '[' ']' DimsPost;

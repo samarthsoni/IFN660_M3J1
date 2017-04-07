@@ -120,7 +120,7 @@ namespace GPLexTutorial
                 TypeNameHandling = TypeNameHandling.All
             };
             jsonSerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
-            //Console.Write(JsonConvert.SerializeObject(complationunit, Formatting.Indented, jsonSerializerSettings));
+            Console.Write(JsonConvert.SerializeObject(parser, Formatting.Indented, jsonSerializerSettings));
             Console.ReadLine();
         }
     }

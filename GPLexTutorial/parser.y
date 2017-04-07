@@ -16,8 +16,14 @@
 	public List<Identifier> ids;
 	public List<Expression> es;
 	public MemberDeclaration memberDeclaration;
+	public List<MemberDeclaration> memberDeclarations;
 	public MethodModifier methodModifier;
 	public List<MethodModifier> methodModifiers;
+	public ClassModifier classModifier;
+	public List<ClassModifier> classModifiers;
+	public TypeDeclaration typeDeclaration;
+	public List<TypeDeclaration> typeDeclarations;
+	public Node node;
 }
 
 %token <num> NUMBER
@@ -28,15 +34,20 @@
 %token <boolValue> BOOL
 %token EOF ABSTRACT ASSERT BOOLEAN BREAK BYTE CASE CATCH CHAR CLASS CONST CONTINUE DEFAULT DO DOUBLE ELSE ENUM EXTENDS FINAL FINALLY FLOAT FOR IF GOTO IMPLEMENTS IMPORT INSTANCEOF INT INTERFACE LONG NATIVE NEW PACKAGE PRIVATE PROTECTED PUBLIC RETURN SHORT STATIC STRICTFP SUPER SWITCH SYNCHRONIZED THIS THROW THROWS TRANSIENT TRY VOID VOLATILE WHILE CharacterLiteral NULL OPERATOR TRUE FALSE EndOfLineComment TraditionalComment ELIPSIS
 
-%type <e> Expression Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RalationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression Expression ExpressionName LeftHandSide Assignment VariableDeclaratorList FormalParameter LastFormalParameter  VariableDeclaratorId VariableDeclarator
-%type <es> FormalParameterList VariableDeclaratorList VariableDeclarators
-%type <t> IntegralType NumericType UnannPrimitiveType UnannType
+%type <e> Expression Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RalationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression Expression ExpressionName LeftHandSide Assignment VariableDeclaratorList FormalParameter LastFormalParameter  VariableDeclaratorId VariableDeclarator MethodDeclarator MethodHeader
+%type <es> FormalParameterList VariableDeclaratorList VariableDeclarators FormalParameters
+%type <t> IntegralType NumericType UnannPrimitiveType UnannType Result
 %type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement 
 %type <stmts> BlockStatements Block MethodBody 
-%type <memberDeclaration> MethodDeclaration
+%type <memberDeclaration> MethodDeclaration ClassMemberDeclaration ClassBodyDeclaration
 %type <methodModifier> MethodModifier
 %type <methodModifiers> MethodModifiers
-
+%type <memberDeclarations> ClassBodyDeclarations ClassBody
+%type <classModifier> ClassModifier
+%type <classModifiers> ClassModifiers
+%type <typeDeclaration> NormalClassDeclaration ClassDeclaration TypeDeclaration
+%type <typeDeclarations> TypeDeclarations
+%type <node> CompilationUnit
 
 %left '='
 %nonassoc '<'
@@ -45,9 +56,9 @@
 %%
 
 
-
 CompilationUnit : 
-	PackageDeclarations ImportDeclarations TypeDeclarations;
+	PackageDeclarations ImportDeclarations TypeDeclarations				{ $$= new CompilationUnit($3); }
+	;
 
 PackageDeclarations:
 	PackageDeclaration
@@ -102,20 +113,22 @@ ImportDeclaration:
 
 
 TypeDeclarations:		
-		TypeDeclaration
-	|	TypeDeclaration TypeDeclarations
-	|	/* empty */;
+		TypeDeclarations TypeDeclaration									{ $$ = $1; $1.Add($2); }
+	|	/* empty */															{ $$ = new List<TypeDeclaration>(); }
+	;
 
 TypeDeclaration:		
-		ClassDeclaration 
-	|	InterfaceDeclaration;
+		ClassDeclaration													{ $$ = $1; }
+	|	InterfaceDeclaration
+	;
 
 ClassDeclaration:		
 		NormalClassDeclaration 
 	|	EnumDeclaration;
 
 NormalClassDeclaration: 
-	ClassModifiers CLASS IDENT TypeParameters Superclasses Superinterfaces ClassBody;
+	ClassModifiers CLASS Identifier TypeParameters Superclasses Superinterfaces ClassBody			{$$ = new NormalClassDeclaration($1,new Identifier($3.name),$7);}
+	;
 
 Superclasses:
 	Superclass
@@ -157,42 +170,47 @@ ClassModifiers:
 	|	/* empty */;
 
 ClassModifier:		
-		PUBLIC 
-	|	PROTECTED 
-	|	PRIVATE
-	|	ABSTRACT
-	|	STATIC
-	|	FINAL;
+		PUBLIC															{$$ = ClassModifier.Public		;}
+	|	PROTECTED 														{$$ = ClassModifier.Protected 	;}
+	|	PRIVATE															{$$ = ClassModifier.Private		;}
+	|	ABSTRACT														{$$ = ClassModifier.Abstract	;}
+	|	STATIC															{$$ = ClassModifier.Static		;}
+	|	FINAL															{$$ = ClassModifier.Final		;}
+	;
 
 ClassBody:
-	'{' ClassBodyDeclarations '}'
-	|	/* empty */;
+	'{' ClassBodyDeclarations '}'										{ $$ = $2; }
+	|	/* empty */														{ $$ = null; };
 
 ClassBodyDeclarations:	
-		ClassBodyDeclaration
-	|	ClassBodyDeclaration ClassBodyDeclarations	
-	|	/* empty */;
+		ClassBodyDeclarations ClassBodyDeclaration 						{ $$ = $1; $1.Add($2); }
+	|	/* empty */														{ $$ = new List<MemberDeclaration>(); }
+	;
 
 ClassBodyDeclaration:
-		 ClassMemberDeclaration;
+		 ClassMemberDeclaration											{ $$ = $1; }
+		 ;
 
 ClassMemberDeclaration:
-	MethodDeclaration  
+	MethodDeclaration													{ $$ = $1; }
 	|	';';
 
 MethodDeclaration :
-	MethodModifiers MethodHeader MethodBody								{ $$ = new MethodDeclaration($1,null,null,$3); };
+	MethodModifiers MethodHeader MethodBody								{ $$ = new MethodDeclaration($1,$2,$3); };
 
 MethodHeader 
-	:	Result MethodDeclarator Throws;
+	:	Result MethodDeclarator Throws									{ $$ = new MethodHeaderExpression($1,$2); }
+	;
 
 MethodDeclarator
-       :Identifier '(' FormalParameterList ')'  Dims;
+       :Identifier '(' FormalParameterList ')'  Dims					{ $$ = new MethodDeclaratorExpression(new Identifier($1.name),$3 ); }
+	   ;
 Throws
     :	/* empty */;
 
 Result
-	: VOID;
+	: VOID																{$$ = null;}
+	;
 
 MethodBody :
 	Block  											{$$ = $1;}
@@ -425,7 +443,7 @@ PackageOrTypeName:
 	|	PackageOrTypeName '.' IDENT ;
 
 FormalParameterList:
-		FormalParameters ',' LastFormalParameter
+		FormalParameters ',' LastFormalParameter				{ $$ = $1; }
 	|	LastFormalParameter
 	|	/* empty */												{ $$ = new List<Expression>(); }
 	;
@@ -436,8 +454,8 @@ LastFormalParameter:
 	;
 
 FormalParameters:
-	FormalParameter
-	| FormalParameter FormalParameters;
+	FormalParameters FormalParameter							{$$ = $1;$1.Add($2);}
+	| /* empty */												{$$ = new List<Expression>();};
 
 FormalParameter:
 	VariableModifiers UnannType VariableDeclaratorId			{$$ = new ParameterDeclarationExpression($2,$3);}

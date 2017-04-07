@@ -6,16 +6,13 @@ namespace GPLexTutorial.AST
 {
     public class MethodDeclaration : MemberDeclaration
     {
+        public Expression MethodHeader;
         public List<MethodModifier> MethodModifiers { get; set; }
-        public Type Result { get; set; }
-        public Identifier Identifier { get; set; }
-        public List<FormalParameter> FormalParameterList { get; set; }
         public List<Statement> BodyStatements { get; set; }
-        public MethodDeclaration(List<MethodModifier> methodModifier, Type result, List<FormalParameter> formalParameterList, List<Statement> bodyStatements)
+        public MethodDeclaration(List<MethodModifier> methodModifier, Expression methodHeader , List<Statement> bodyStatements)
         {
+            MethodHeader = methodHeader;
             MethodModifiers = methodModifier;
-            Result = result;
-            FormalParameterList = formalParameterList;
             BodyStatements = bodyStatements;
         }
     }
