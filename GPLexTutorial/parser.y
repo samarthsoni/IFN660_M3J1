@@ -37,7 +37,7 @@
 %type <e> Expression Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RalationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression Expression ExpressionName LeftHandSide Assignment VariableDeclaratorList FormalParameter LastFormalParameter  VariableDeclaratorId VariableDeclarator MethodDeclarator MethodHeader
 %type <es> FormalParameterList VariableDeclaratorList VariableDeclarators FormalParameters
 %type <t> IntegralType NumericType UnannPrimitiveType UnannType Result
-%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement 
+%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement StatementNoShortIf StatementWithoutTrailingSubstatement ExpressionStatement
 %type <stmts> BlockStatements Block MethodBody 
 %type <memberDeclaration> MethodDeclaration ClassMemberDeclaration ClassBodyDeclaration
 %type <methodModifier> MethodModifier
@@ -229,12 +229,68 @@ BlockStatement:
     | Statement 														{$$ = $1;};
 
 Statement:
-    StatementWithoutTrailingSubstatement			
+    StatementWithoutTrailingSubstatement
+	| LabeledStatement	
+	| IfThenStatement	
+	| IfThenElseStatement
+	| WhileStatement
+	| ForStatement	
+	;
+
+LabeledStatement:
+	Identifier ':' Statement
+	;
+
+WhileStatement:
+	WHILE '(' Expression ')' Statement
+	;
+
+ForStatement:
+	BasicForStatement
+	;
+
+BasicForStatement:
+	FOR '(' ForInit ';' Expression ';' ForUpdate ')' Statement
+	;
+
+ForInit:
+	LocalVariableDeclaration
+	;
+
+ForUpdate:
+	StatementExpressionList
+	;
+
+StatementExpressionList:
+	StatementExpression ',' StatementExpressionList
+	| StatmentExpression
+	;
+
+StatmentExpression:
+	Assignment
+	;
+
+IfThenStatement:
+	IF '(' Expression ')' Statement
+	;
+
+IfThenElseStatement:
+	IF '(' Expression ')' StatementNoShortIf ELSE Statement
+	;
+
+StatementNoShortIf:
+	StatementWithoutTrailingSubstatement
 	;
 
 StatementWithoutTrailingSubstatement:
-    ExpressionStatement;
-	
+	Block
+    | ExpressionStatement
+	;
+
+EmptyStatement:
+	';'
+	;
+		
 ExpressionStatement:
 	StatementExpression ';' ;
 
