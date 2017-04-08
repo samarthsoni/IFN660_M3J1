@@ -61,8 +61,8 @@
     <Compile Include="AST\IdentifierExpression.cs" />
     <Compile Include="AST\IntegerLiteralExpression.cs" />
     <Compile Include="AST\LeftHandSide.cs" />
-    <Compile Include="AST\MethodDeclaratorExpression.cs" />
-    <Compile Include="AST\MethodHeaderExpression.cs" />
+    <Compile Include="AST\MethodDeclarator.cs" />
+    <Compile Include="AST\MethodHeader.cs" />
     <Compile Include="AST\NamedType.cs" />
     <Compile Include="AST\ParameterDeclarationExpression.cs" />
     <Compile Include="AST\VariableDeclarationStatement.cs" />

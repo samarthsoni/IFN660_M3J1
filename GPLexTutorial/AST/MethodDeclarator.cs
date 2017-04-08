@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace GPLexTutorial.AST
 {
-    public class MethodDeclaratorExpression : Expression
+    public class MethodDeclarator : Node
     {
         public Identifier Identifier;
-        public List<Expression> FormalParameterList;
+        public List<Statement> FormalParameterList;
 
-        public MethodDeclaratorExpression(Identifier identifier, List<Expression> formalParameterList)
+        public MethodDeclarator(Identifier identifier, List<Statement> formalParameterList)
         {
             FormalParameterList = formalParameterList;
             Identifier = identifier;

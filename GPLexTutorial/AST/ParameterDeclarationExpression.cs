@@ -1,10 +1,10 @@
 namespace GPLexTutorial.AST
 {
-    public class ParameterDeclarationExpression : Expression
+    public class ParameterDeclarationStatement : Statement
     {
         public Type Type { get; set; }
         public Expression IdentifierExpression { get; set; }
-        public ParameterDeclarationExpression(Type type, Expression identifierExpression)
+        public ParameterDeclarationStatement(Type type, Expression identifierExpression)
         {
             Type = type;
             IdentifierExpression = identifierExpression;

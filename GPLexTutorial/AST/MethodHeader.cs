@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace GPLexTutorial.AST
 {
-    public class MethodHeaderExpression : Expression
+    public class MethodHeader : Node
     {
         public Type Result;
-        public Expression MethodDeclarator;
+        public Node MethodDeclarator;
 
-        public MethodHeaderExpression(Type result,Expression methodDeclarator)
+        public MethodHeader(Type result,Node methodDeclarator)
         {
             MethodDeclarator = methodDeclarator;
             Result = result;

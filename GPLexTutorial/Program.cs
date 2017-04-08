@@ -14,113 +14,36 @@ namespace GPLexTutorial
                 new FileStream(args[0], FileMode.Open));
             Parser parser = new Parser(scanner);
             parser.Parse();
-            //CompilationUnit complationunit = new CompilationUnit()
-            //{
-            //    TypeDeclarations = new List<TypeDeclaration>()
-            //    {
-            //        new NormalClassDeclaration()
-            //        {
-            //            //Identifier = new Identifier()
-            //            //{
-            //            //    Name = "HelloWorld"
-            //            //},
-            //            ClassModifiers = new List<ClassModifier>() {ClassModifier.Public},
-            //            ClassMemberDeclarations = new List<ClassMemberDeclaration>()
-            //            {
-            //                new ClassMemberDeclaration()
-            //                {
-            //                    MethodDeclaration = new MethodDeclaration()
-            //                    {
-            //                        MethodModifier = new List<MethodModifier>() { MethodModifier.Public, MethodModifier.Static},
-            //                        Result = new VoidResult(),
-            //                        MethodDeclarator = new MethodDeclarator()
-            //                        {
-            //                            //Identifier = new Identifier()
-            //                            //{
-            //                            //    Name = "main"
-            //                            //},
-            //                            FormalParameterList = new List<FormalParameter>() {new FormalParameter()
-            //                            {
-            //                                VariableModifier = null,
-            //                                //VariableDeclaratorId = new Identifier()
-            //                                //{
-            //                                //    Name = "args"
-            //                                //},
-            //                                //UnannType = new UnannReferenceType()
-            //                                //{
-            //                                //    Dims = null,
-            //                                //    UnannClassOrInterfaceType = new UnannClassType()
-            //                                //    {
-            //                                //        Identifier = new Identifier()
-            //                                //        {
-            //                                //            Name = "String"
-            //                                //        }
-            //                                //    }
-            //                                //}
 
-            //                            }
+            IntegerLiteralExpression intLiteral = new IntegerLiteralExpression(42);
+            IdentifierExpression identExp = new IdentifierExpression(new Identifier("x"));
+            AssignmentExpression assgnExp = new AssignmentExpression(identExp, intLiteral);
+            ExpressionStatement expStmt = new ExpressionStatement(assgnExp);
+            List<Statement> blockStmt = new List<Statement>();
+            blockStmt.Add(expStmt);
 
+            List<Expression> variableList = new List<Expression>();
+            variableList.Add(identExp);
+            NamedType integralType = new NamedType("INT");
+            VariableDeclarationStatement dec = new VariableDeclarationStatement(integralType, variableList,null);
+            blockStmt.Add(dec);
+            
+            NamedType strName = new NamedType("String");
+            UnannArrayType strArray = new UnannArrayType(strName, null);
+            ParameterDeclarationStatement pds = new ParameterDeclarationStatement(strArray, new IdentifierExpression(new Identifier("args")));
+            List<Statement> parameterList = new List<Statement>() { pds };
+            MethodDeclarator methodDeclarator = new MethodDeclarator(new Identifier("main"), parameterList);
+            MethodHeader methodHeader = new MethodHeader(null, methodDeclarator);
+            MethodDeclaration methodDeclaration = new MethodDeclaration(new List<MethodModifier>() { MethodModifier.Public }, methodDeclarator, blockStmt);
+            NormalClassDeclaration classDeclaration = new NormalClassDeclaration(new List<ClassModifier>() { ClassModifier.Public },new Identifier("classname"),new List<MemberDeclaration>() { methodDeclaration });
+            CompilationUnit cu = new CompilationUnit(new List<TypeDeclaration>() { classDeclaration });
 
-            //                            },
-            //                            MethodBody = new MethodBody()
-            //                            {
-            //                                BlockStatements = new List<BlockStatement>()
-            //                                {
-            //                                    //new LocalVariableDeclarationStatement()
-            //                                    //{
-            //                                    //    UnannType = new UnnanPrimitiveType()
-            //                                    //    {
-            //                                    //        IntegralType = IntegralType.INT
-            //                                    //    },
-            //                                    //    VariableDeclaratorId = new VariableDeclaratorId()
-            //                                    //    {
-            //                                    //        Identifier = new Identifier()
-            //                                    //        {
-            //                                    //            Name = "x"
-            //                                    //        },
-            //                                    //        Dims = null
-            //                                    //    }
-            //                                    //},
-            //                                    //new ExpressionStatement()
-            //                                    //{
-            //                                    //  Assignment  = new Assignment()
-            //                                    //  {
-            //                                    //      LeftHandSide = new LeftHandSide()
-            //                                    //      {
-            //                                    //          Identifier = new Identifier()
-            //                                    //          {
-            //                                    //              Name = "x"
-            //                                    //          }
-            //                                    //      },
-            //                                    //      AssignmentOperator = '=',
-            //                                    //      AssignmentExpression = new AssignmentExpression()
-            //                                    //      {
-            //                                    //          IntegerLiteral = new IntegerLiteral()
-            //                                    //          {
-            //                                    //              Value = 42
-            //                                    //          }
-            //                                    //      }
-            //                                    //  }
-            //                                    //}
-            //                                }
-
-
-            //                            }
-
-            //                        },
-            //                    }
-            //                }
-            //            }
-            //        }
-
-            //    }
-            //};
             JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.All
             };
             jsonSerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
-            Console.Write(JsonConvert.SerializeObject(parser, Formatting.Indented, jsonSerializerSettings));
+            Console.Write(JsonConvert.SerializeObject(cu, Formatting.Indented, jsonSerializerSettings));
             Console.ReadLine();
         }
     }

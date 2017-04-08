@@ -34,11 +34,12 @@
 %token <boolValue> BOOL
 %token EOF ABSTRACT ASSERT BOOLEAN BREAK BYTE CASE CATCH CHAR CLASS CONST CONTINUE DEFAULT DO DOUBLE ELSE ENUM EXTENDS FINAL FINALLY FLOAT FOR IF GOTO IMPLEMENTS IMPORT INSTANCEOF INT INTERFACE LONG NATIVE NEW PACKAGE PRIVATE PROTECTED PUBLIC RETURN SHORT STATIC STRICTFP SUPER SWITCH SYNCHRONIZED THIS THROW THROWS TRANSIENT TRY VOID VOLATILE WHILE CharacterLiteral NULL OPERATOR TRUE FALSE EndOfLineComment TraditionalComment ELIPSIS
 
-%type <e> Expression Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RalationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression Expression ExpressionName LeftHandSide Assignment VariableDeclaratorList FormalParameter LastFormalParameter  VariableDeclaratorId VariableDeclarator MethodDeclarator MethodHeader
-%type <es> FormalParameterList VariableDeclaratorList VariableDeclarators FormalParameters
-%type <t> IntegralType NumericType UnannPrimitiveType UnannType Result
-%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement 
-%type <stmts> BlockStatements Block MethodBody 
+%type <e> Expression Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RalationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression Expression ExpressionName LeftHandSide Assignment VariableDeclaratorList  VariableDeclaratorId VariableDeclarator
+%type <e> StatementExpression
+%type <es> VariableDeclaratorList VariableDeclarators 
+%type <t> IntegralType NumericType UnannPrimitiveType UnannType Result UnannClassType UnannClassOrInterfaceType UnannArrayType
+%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter
+%type <stmts> BlockStatements Block MethodBody FormalParameterList FormalParameters
 %type <memberDeclaration> MethodDeclaration ClassMemberDeclaration ClassBodyDeclaration
 %type <methodModifier> MethodModifier
 %type <methodModifiers> MethodModifiers
@@ -47,7 +48,7 @@
 %type <classModifiers> ClassModifiers
 %type <typeDeclaration> NormalClassDeclaration ClassDeclaration TypeDeclaration
 %type <typeDeclarations> TypeDeclarations
-%type <node> CompilationUnit
+%type <node> CompilationUnit MethodHeader MethodDeclarator
 
 %left '='
 %nonassoc '<'
@@ -199,11 +200,11 @@ MethodDeclaration :
 	MethodModifiers MethodHeader MethodBody								{ $$ = new MethodDeclaration($1,$2,$3); };
 
 MethodHeader 
-	:	Result MethodDeclarator Throws									{ $$ = new MethodHeaderExpression($1,$2); }
+	:	Result MethodDeclarator Throws									{ $$ = new MethodHeader($1,$2); }
 	;
 
 MethodDeclarator
-       :Identifier '(' FormalParameterList ')'  Dims					{ $$ = new MethodDeclaratorExpression(new Identifier($1.name),$3 ); }
+       :Identifier '(' FormalParameterList ')'  Dims					{ $$ = new MethodDeclarator(new Identifier($1.name),$3 ); }
 	   ;
 Throws
     :	/* empty */;
@@ -213,14 +214,14 @@ Result
 	;
 
 MethodBody :
-	Block  											{$$ = $1;}
+	Block  																{$$ = $1;}
 	|	';' ;
 
 Block:
 	'{' BlockStatements '}'  											{$$ = $2;};
 
 BlockStatements:
-	BlockStatement BlockStatements										{$$ = $2; $2.Add($1); }
+	BlockStatements BlockStatement 										{$$ = $1; $1.Add($2); }
 	|	/* empty */														{$$ = new List<Statement>();}
 	;
 
@@ -229,32 +230,35 @@ BlockStatement:
     | Statement 														{$$ = $1;};
 
 Statement:
-    StatementWithoutTrailingSubstatement			
+    StatementWithoutTrailingSubstatement								{$$ = $1;}
 	;
 
 StatementWithoutTrailingSubstatement:
-    ExpressionStatement;
+    ExpressionStatement													{$$ = $1;}
+	;
 	
-ExpressionStatement:
-	StatementExpression ';' ;
+ExpressionStatement:				
+	StatementExpression ';'												{$$ = new ExpressionStatement($1);}
+	;
 
 StatementExpression:
-	Assignment;
+	Assignment															{$$ = $1;}	
+	;
 
 Assignment:
-	LeftHandSide AssignmentOperator Expression		{$$ = new AssignmentExpression($1, $3);}
+	LeftHandSide AssignmentOperator Expression							{$$ = new AssignmentExpression($1, $3);}
 	;
 
 LeftHandSide:
-	ExpressionName									{$$ = $1;}
+	ExpressionName														{$$ = $1;}
 	;
 
 ExpressionName:
-	Identifier										{$$ = new IdentifierExpression( new Identifier($1.name));}
+	Identifier															{$$ = new IdentifierExpression( new Identifier($1.name));}
 	;
 
 AssignmentOperator:
-	OPERATOR				{$$ = $1;}
+	OPERATOR															{$$ = $1;}
 	;
 
 Expression:
@@ -349,7 +353,7 @@ VariableDeclaratorList:
 	;
 
 VariableDeclarators:
-		VariableDeclarator VariableDeclarators			{$$ = $2; $$.Add($1);}
+	VariableDeclarators	VariableDeclarator				{$$ = $1; $1.Add($2);}
 	|	/* empty */										{$$ = new List<Expression>();}
 	;
 
@@ -362,7 +366,8 @@ VariableDeclaratorId:
 	|Identifier Dims;
 
 Identifier:
-	IDENT;
+	IDENT												
+	;
 
 Dims:
 	/* empty */ ;
@@ -444,8 +449,8 @@ PackageOrTypeName:
 
 FormalParameterList:
 		FormalParameters ',' LastFormalParameter				{ $$ = $1; }
-	|	LastFormalParameter
-	|	/* empty */												{ $$ = new List<Expression>(); }
+	|	LastFormalParameter										
+	|	/* empty */												{ $$ = new List<Statement>(); }
 	;
 
 LastFormalParameter:
@@ -455,10 +460,10 @@ LastFormalParameter:
 
 FormalParameters:
 	FormalParameters FormalParameter							{$$ = $1;$1.Add($2);}
-	| /* empty */												{$$ = new List<Expression>();};
+	| /* empty */												{$$ = new List<Statement>();};
 
 FormalParameter:
-	VariableModifiers UnannType VariableDeclaratorId			{$$ = new ParameterDeclarationExpression($2,$3);}
+	VariableModifiers UnannType VariableDeclaratorId			{$$ = new ParameterDeclarationStatement($2,$3);}
 	;
 
 VariableModifiers:
@@ -471,16 +476,16 @@ UnannReferenceType:
 	UnannArrayType;
 
 UnannArrayType:
-	UnannClassOrInterfaceType Dims;
+	UnannClassOrInterfaceType Dims								{$$ = new UnannArrayType($1, null);}
+	;
 
 UnannClassOrInterfaceType:
-	UnannClassType;
+	UnannClassType												{$$ = $1;}	
+	;
 
 UnannClassType:
-	Identifier TypeArguments;
-
-Identifier:
-	STRINGLITERAL;
+	Identifier TypeArguments									{$$ = new NamedType($1.name);}
+	;
 
 TypeArguments:
 	/* empty */;
