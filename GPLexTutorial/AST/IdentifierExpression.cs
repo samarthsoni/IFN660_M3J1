@@ -6,13 +6,18 @@ using System.Threading.Tasks;
 
 namespace GPLexTutorial.AST
 {
-    public class IdentifierExpression : Expression
+    public class IdentifierExpression : Expression, IDeclaration
     {
         public Identifier Identifier;
 
         public IdentifierExpression(Identifier identifier)
         {
             Identifier = identifier;
+        }
+
+        public string GetName()
+        {
+            return Identifier.Name;
         }
     }
 }
