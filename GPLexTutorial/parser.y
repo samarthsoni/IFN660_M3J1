@@ -58,7 +58,7 @@
 
 
 CompilationUnit : 
-	PackageDeclarations ImportDeclarations TypeDeclarations				{ $$= new CompilationUnit($3); }
+	PackageDeclarations ImportDeclarations TypeDeclarations				{ RootNode = new CompilationUnit($3); }
 	;
 
 PackageDeclarations:
@@ -449,7 +449,7 @@ PackageOrTypeName:
 
 FormalParameterList:
 		FormalParameters ',' LastFormalParameter				{ $$ = $1; }
-	|	LastFormalParameter										
+	|	LastFormalParameter										{ $$ = new List<Statement>(); $$.Add($1); }
 	|	/* empty */												{ $$ = new List<Statement>(); }
 	;
 
@@ -500,6 +500,8 @@ DimsPost
 
 
 %%
+
+public Node RootNode { get; set; }
 
 public Parser(Scanner scanner) : base(scanner)
 {

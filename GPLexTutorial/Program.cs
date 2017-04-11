@@ -43,7 +43,7 @@ namespace GPLexTutorial
                 TypeNameHandling = TypeNameHandling.All
             };
             jsonSerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
-            Console.Write(JsonConvert.SerializeObject(cu, Formatting.Indented, jsonSerializerSettings));
+            Console.Write(JsonConvert.SerializeObject(parser.RootNode, Formatting.Indented, jsonSerializerSettings));
             Console.ReadLine();
         }
     }

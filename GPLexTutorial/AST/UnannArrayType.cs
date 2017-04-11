@@ -2,8 +2,8 @@
 {
     public class UnannArrayType : Type
     {
-        Type NameType;
-        Dims Dims;
+        public Type NameType { get; set; }
+        public Dims Dims { get; set; }
         public UnannArrayType(Type nameType, Dims dimension)
         {
             NameType = nameType;

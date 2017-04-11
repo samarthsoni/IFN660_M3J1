@@ -3,10 +3,10 @@
 // (see accompanying GPPGcopyright.rtf)
 
 // GPPG version 1.5.2
-// Machine:  VDI-VL17-158
-// DateTime: 8/04/2017 1:52:14 PM
-// UserName: n9837876
-// Input file <parser.y - 8/04/2017 1:35:31 PM>
+// Machine:  DESKTOP-VKITI27
+// DateTime: 4/11/2017 1:14:54 PM
+// UserName: Juan Camilo
+// Input file <parser.y - 4/11/2017 1:09:05 PM>
 
 // options: lines gplex
 
@@ -554,7 +554,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
     {
       case 2: // CompilationUnit -> PackageDeclarations, ImportDeclarations, TypeDeclarations
 #line 61 "parser.y"
-                                                            { CurrentSemanticValue.node= new CompilationUnit(ValueStack[ValueStack.Depth-1].typeDeclarations); }
+                                                            { RootNode = new CompilationUnit(ValueStack[ValueStack.Depth-1].typeDeclarations); }
 #line default
         break;
       case 30: // TypeDeclarations -> TypeDeclarations, TypeDeclaration
@@ -829,6 +829,11 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
                                               { CurrentSemanticValue.stmts = ValueStack[ValueStack.Depth-3].stmts; }
 #line default
         break;
+      case 164: // FormalParameterList -> LastFormalParameter
+#line 452 "parser.y"
+                                { CurrentSemanticValue.stmts = new List<Statement>(); CurrentSemanticValue.stmts.Add(ValueStack[ValueStack.Depth-1].stmt); }
+#line default
+        break;
       case 165: // FormalParameterList -> /* empty */
 #line 453 "parser.y"
                           { CurrentSemanticValue.stmts = new List<Statement>(); }
@@ -884,6 +889,8 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
   }
 
 #line 503 "parser.y"
+
+public Node RootNode { get; set; }
 
 public Parser(Scanner scanner) : base(scanner)
 {
