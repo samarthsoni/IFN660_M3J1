@@ -38,8 +38,8 @@
 %type <e> StatementExpression
 %type <es> VariableDeclaratorList VariableDeclarators 
 %type <t> IntegralType NumericType UnannPrimitiveType UnannType Result UnannClassType UnannClassOrInterfaceType UnannArrayType
-%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter
-%type <stmts> BlockStatements Block MethodBody FormalParameterList FormalParameters
+%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter MethodBody
+%type <stmts> BlockStatements Block FormalParameterList FormalParameters
 %type <memberDeclaration> MethodDeclaration ClassMemberDeclaration ClassBodyDeclaration
 %type <methodModifier> MethodModifier
 %type <methodModifiers> MethodModifiers
@@ -214,7 +214,7 @@ Result
 	;
 
 MethodBody :
-	Block  																{$$ = $1;}
+	Block  																{$$ = new MethodBody($1);}
 	|	';' ;
 
 Block:
