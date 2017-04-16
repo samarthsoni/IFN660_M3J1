@@ -3,10 +3,10 @@
 // (see accompanying GPPGcopyright.rtf)
 
 // GPPG version 1.5.2
-// Machine:  DESKTOP-VKITI27
-// DateTime: 4/11/2017 3:53:16 PM
-// UserName: Juan Camilo
-// Input file <parser.y - 4/11/2017 1:09:05 PM>
+// Machine:  DESKTOP-IRIVFD3
+// DateTime: 16/04/2017 11:37:51 PM
+// UserName: Samarth
+// Input file <parser.y - 16/04/2017 8:18:05 PM>
 
 // options: lines gplex
 
@@ -98,7 +98,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
       "UnannClassType", "UnannClassOrInterfaceType", "UnannArrayType", "LocalVariableDeclaration", 
       "LocalVariableDeclarationStatement", "BlockStatement", "Statement", "ExpressionStatement", 
       "StatementWithoutTrailingSubstatement", "FormalParameter", "LastFormalParameter", 
-      "BlockStatements", "Block", "MethodBody", "FormalParameterList", "FormalParameters", 
+      "MethodBody", "BlockStatements", "Block", "FormalParameterList", "FormalParameters", 
       "MethodDeclaration", "ClassMemberDeclaration", "ClassBodyDeclaration", 
       "MethodModifier", "MethodModifiers", "ClassBodyDeclarations", "ClassBody", 
       "ClassModifier", "ClassModifiers", "NormalClassDeclaration", "ClassDeclaration", 
@@ -140,10 +140,10 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
     states[20] = new State(-66);
     states[21] = new State(-67);
     states[22] = new State(new int[]{182,126},new int[]{-63,23,-32,105});
-    states[23] = new State(new int[]{123,26,59,104},new int[]{-46,24,-45,25});
+    states[23] = new State(new int[]{123,26,59,104},new int[]{-44,24,-46,25});
     states[24] = new State(-69);
     states[25] = new State(-74);
-    states[26] = new State(-78,new int[]{-44,27});
+    states[26] = new State(-78,new int[]{-45,27});
     states[27] = new State(new int[]{125,28,130,57,139,-110,171,-110,161,-110,163,-110,142,-110},new int[]{-38,29,-37,30,-36,31,-98,33,-39,73,-41,74,-40,75,-26,76,-22,78,-21,79,-20,102,-84,103});
     states[28] = new State(-76);
     states[29] = new State(-77);
@@ -425,16 +425,16 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
     rules[66] = new Rule(-51, new int[]{-50});
     rules[67] = new Rule(-50, new int[]{-49});
     rules[68] = new Rule(-50, new int[]{59});
-    rules[69] = new Rule(-49, new int[]{-53,-63,-46});
+    rules[69] = new Rule(-49, new int[]{-53,-63,-44});
     rules[70] = new Rule(-63, new int[]{-32,-64,-95});
     rules[71] = new Rule(-64, new int[]{-84,40,-47,41,-96});
     rules[72] = new Rule(-95, new int[]{});
     rules[73] = new Rule(-32, new int[]{182});
-    rules[74] = new Rule(-46, new int[]{-45});
-    rules[75] = new Rule(-46, new int[]{59});
-    rules[76] = new Rule(-45, new int[]{123,-44,125});
-    rules[77] = new Rule(-44, new int[]{-44,-38});
-    rules[78] = new Rule(-44, new int[]{});
+    rules[74] = new Rule(-44, new int[]{-46});
+    rules[75] = new Rule(-44, new int[]{59});
+    rules[76] = new Rule(-46, new int[]{123,-45,125});
+    rules[77] = new Rule(-45, new int[]{-45,-38});
+    rules[78] = new Rule(-45, new int[]{});
     rules[79] = new Rule(-38, new int[]{-37});
     rules[80] = new Rule(-38, new int[]{-39});
     rules[81] = new Rule(-39, new int[]{-41});
@@ -640,7 +640,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
         break;
       case 69: // MethodDeclaration -> MethodModifiers, MethodHeader, MethodBody
 #line 200 "parser.y"
-                                                { CurrentSemanticValue.memberDeclaration = new MethodDeclaration(ValueStack[ValueStack.Depth-3].methodModifiers,ValueStack[ValueStack.Depth-2].node,ValueStack[ValueStack.Depth-1].stmts); }
+                                                { CurrentSemanticValue.memberDeclaration = new MethodDeclaration(ValueStack[ValueStack.Depth-3].methodModifiers,ValueStack[ValueStack.Depth-2].node,ValueStack[ValueStack.Depth-1].stmt); }
 #line default
         break;
       case 70: // MethodHeader -> Result, MethodDeclarator, Throws
@@ -660,7 +660,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
         break;
       case 74: // MethodBody -> Block
 #line 217 "parser.y"
-                        {CurrentSemanticValue.stmts = ValueStack[ValueStack.Depth-1].stmts;}
+                        {CurrentSemanticValue.stmt = new MethodBody(ValueStack[ValueStack.Depth-1].stmts);}
 #line default
         break;
       case 76: // Block -> '{', BlockStatements, '}'

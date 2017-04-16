@@ -63,6 +63,7 @@
     <Compile Include="AST\ILexicalScope.cs" />
     <Compile Include="AST\IntegerLiteralExpression.cs" />
     <Compile Include="AST\LeftHandSide.cs" />
+    <Compile Include="AST\LexicalScope.cs" />
     <Compile Include="AST\MethodDeclarator.cs" />
     <Compile Include="AST\MethodHeader.cs" />
     <Compile Include="AST\NamedType.cs" />
