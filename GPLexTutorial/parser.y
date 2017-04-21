@@ -38,8 +38,8 @@
 %type <e> StatementExpression
 %type <es> VariableDeclaratorList VariableDeclarators 
 %type <t> IntegralType NumericType UnannPrimitiveType UnannType Result UnannClassType UnannClassOrInterfaceType UnannArrayType
-%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter
-%type <stmts> BlockStatements Block MethodBody FormalParameterList FormalParameters
+%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter MethodBody
+%type <stmts> BlockStatements Block FormalParameterList FormalParameters
 %type <memberDeclaration> MethodDeclaration ClassMemberDeclaration ClassBodyDeclaration
 %type <methodModifier> MethodModifier
 %type <methodModifiers> MethodModifiers
@@ -58,7 +58,7 @@
 
 
 CompilationUnit : 
-	PackageDeclarations ImportDeclarations TypeDeclarations				{ $$= new CompilationUnit($3); }
+	PackageDeclarations ImportDeclarations TypeDeclarations				{ RootNode = new CompilationUnit($3); }
 	;
 
 PackageDeclarations:
@@ -214,7 +214,7 @@ Result
 	;
 
 MethodBody :
-	Block  																{$$ = $1;}
+	Block  																{$$ = new MethodBody($1);}
 	|	';' ;
 
 Block:
@@ -449,7 +449,7 @@ PackageOrTypeName:
 
 FormalParameterList:
 		FormalParameters ',' LastFormalParameter				{ $$ = $1; }
-	|	LastFormalParameter										
+	|	LastFormalParameter										{ $$ = new List<Statement>(); $$.Add($1); }
 	|	/* empty */												{ $$ = new List<Statement>(); }
 	;
 
@@ -500,6 +500,8 @@ DimsPost
 
 
 %%
+
+public Node RootNode { get; set; }
 
 public Parser(Scanner scanner) : base(scanner)
 {

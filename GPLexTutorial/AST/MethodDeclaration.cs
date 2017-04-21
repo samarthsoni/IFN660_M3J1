@@ -8,12 +8,12 @@ namespace GPLexTutorial.AST
     {
         public Node MethodHeader;
         public List<MethodModifier> MethodModifiers { get; set; }
-        public List<Statement> BodyStatements { get; set; }
-        public MethodDeclaration(List<MethodModifier> methodModifier, Node methodHeader , List<Statement> bodyStatements)
+        public Statement MethodBody;
+        public MethodDeclaration(List<MethodModifier> methodModifier, Node methodHeader , Statement methodBody)
         {
             MethodHeader = methodHeader;
             MethodModifiers = methodModifier;
-            BodyStatements = bodyStatements;
+            MethodBody = methodBody;
         }
     }
 }

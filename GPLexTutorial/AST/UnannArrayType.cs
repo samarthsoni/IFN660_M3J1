@@ -1,13 +1,21 @@
 ﻿namespace GPLexTutorial.AST
 {
-    public class UnannArrayType : Type
+    public class UnannArrayType : Type, IDeclaration
     {
-        Type NameType;
-        Dims Dims;
+        public Type NameType { get; set; }
+        public Dims Dims { get; set; }
         public UnannArrayType(Type nameType, Dims dimension)
         {
             NameType = nameType;
             Dims = dimension;
+        }
+
+        public string GetName()
+        {
+            if (Dims is IDeclaration)
+                return ((IDeclaration) Dims).GetName();
+            else
+                return null;
         }
     }
 }
