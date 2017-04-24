@@ -6,22 +6,22 @@ using System.Threading.Tasks;
 
 namespace GPLexTutorial.AST
 {
-    class LexicalScope
+    public class LexicalScope
     {
         LexicalScope parentScope;
-        Dictionary<string, IDeclaration> symbolTable;
+        Dictionary<string, IDeclaration> SymbolTable;
 
-        public LexicalScope()
+        public LexicalScope(Dictionary<string, IDeclaration> symbolTable, LexicalScope parentLexicalScope)
         {
-            parentScope = null;
-            symbolTable.Clear();
+            parentScope = parentLexicalScope;
+            SymbolTable = symbolTable;
         }
 
         public IDeclaration ResolveHere(string symbol)
         {
-            if(symbolTable.ContainsKey(symbol))
+            if(SymbolTable.ContainsKey(symbol))
             {
-                return symbolTable[symbol];
+                return SymbolTable[symbol];
             }
 
             return null;

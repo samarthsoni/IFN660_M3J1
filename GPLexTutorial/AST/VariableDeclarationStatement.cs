@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace GPLexTutorial.AST
@@ -7,34 +8,38 @@ namespace GPLexTutorial.AST
         public Type Type { get; set; }
         public List<Expression> IdentifierExpressions { get; set; }
         public Dims Dims { get; set; }
-        public Dictionary<string,IDeclaration> Declarations { get; set; }
-        public ILexicalScope ParentLexicalScope { get; set; }
+
+        public LexicalScope LexicalScope { get; set; }
+
         public VariableDeclarationStatement(Type type, List<Expression> identifierExpressions, Dims dims)
         {
             Type = type;
             IdentifierExpressions = identifierExpressions;
             Dims = dims;
-            Declarations = new Dictionary<string, IDeclaration>();
         }
 
         public IDeclaration Resolve(string name)
         {
-            if (Declarations.ContainsKey(name))
-                return Declarations[name];
-            else if (this.ParentLexicalScope != null)
-                return ParentLexicalScope.Resolve(name);
-            else
-                return null;
+            return LexicalScope.Resolve(name);
         }
 
-        public void SetParentScope(ILexicalScope parentLexicalScope)
+        public void InitializeLexicalScope(LexicalScope parentLexicalScope)
         {
-            this.ParentLexicalScope = parentLexicalScope;
+            var declarations = new Dictionary<string, IDeclaration>();
+            foreach (Expression identifierExpression in IdentifierExpressions)
+            {
+                if (identifierExpression is IdentifierExpression)
+                {
+                    var declaration = (IdentifierExpression)identifierExpression;
+                    declarations.Add(declaration.GetName(), declaration);
+                }
+            }
+            LexicalScope = new LexicalScope(declarations, parentLexicalScope);
         }
 
-        public ILexicalScope GetLexicalScope()
+        public LexicalScope GetLexicalScope()
         {
-            return ParentLexicalScope;
+            return LexicalScope;
         }
     }
 }

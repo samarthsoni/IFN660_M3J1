@@ -9,8 +9,8 @@ namespace GPLexTutorial.AST
     public interface ILexicalScope
     {
         IDeclaration Resolve(string name);
-        void SetParentScope(ILexicalScope parentLexicalScope);
-        ILexicalScope GetLexicalScope();
+        void InitializeLexicalScope(LexicalScope parentLexicalScope);
+        LexicalScope GetLexicalScope();
 
     }
 }

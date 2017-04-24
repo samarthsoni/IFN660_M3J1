@@ -7,46 +7,40 @@ using System.Threading.Tasks;
 
 namespace GPLexTutorial.AST
 {
-    public class MethodDeclarator : Node, ILexicalScope
+    public class MethodDeclarator : Node,ILexicalScope
     {
         public Identifier Identifier;
         public List<Statement> FormalParameterList;
-        public Dictionary<string, IDeclaration> Declarations { get; set; }
-        public ILexicalScope ParentLexicalScope { get; set; }
+        public LexicalScope LexicalScope { get; set; }
 
         public MethodDeclarator(Identifier identifier, List<Statement> formalParameterList)
         {
             FormalParameterList = formalParameterList;
             Identifier = identifier;
-            Declarations = new Dictionary<string, IDeclaration>();
-            foreach (Statement formalParameterStatement in formalParameterList)
+        }
+
+        public IDeclaration Resolve(string name)
+        {
+            return LexicalScope.Resolve(name);
+        }
+
+        public void InitializeLexicalScope(LexicalScope parentLexicalScope)
+        {
+            var declarations = new Dictionary<string, IDeclaration>();
+            foreach (Statement formalParameterStatement in FormalParameterList)
             {
                 if (formalParameterStatement is ParameterDeclarationStatement)
                 {
-                    var declaration = (IDeclaration) formalParameterStatement;
-                    Declarations.Add(declaration.GetName(),declaration);
+                    var declaration = (IDeclaration)formalParameterStatement;
+                    declarations.Add(declaration.GetName(), declaration);
                 }
-                    
             }
-        }
-        public IDeclaration Resolve(string name)
-        {
-            if (Declarations.ContainsKey(name))
-                return Declarations[name];
-            else if (this.ParentLexicalScope!= null)
-                return ParentLexicalScope.Resolve(name);
-            else
-                return null;
+            LexicalScope = new LexicalScope(declarations,parentLexicalScope);
         }
 
-        public void SetParentScope(ILexicalScope parentLexicalScope)
+        public LexicalScope GetLexicalScope()
         {
-            this.ParentLexicalScope = parentLexicalScope;
-        }
-        
-        public ILexicalScope GetLexicalScope()
-        {
-            return ParentLexicalScope;
+            return LexicalScope;
         }
     }
 }
