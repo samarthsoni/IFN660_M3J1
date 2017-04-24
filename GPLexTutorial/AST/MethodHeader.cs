@@ -16,5 +16,10 @@ namespace GPLexTutorial.AST
             MethodDeclarator = methodDeclarator;
             Result = result;
         }
+
+        public override void ResolveNames(LexicalScope ls)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

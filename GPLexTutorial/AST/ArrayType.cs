@@ -8,5 +8,9 @@ namespace GPLexTutorial.AST
 {
     public class ArrayType : Type
     {
+        public override void ResolveNames(LexicalScope ls)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

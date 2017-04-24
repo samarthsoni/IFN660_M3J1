@@ -1,4 +1,6 @@
-﻿namespace GPLexTutorial.AST
+﻿using System;
+
+namespace GPLexTutorial.AST
 {
     public class AssignmentExpression : Expression
     {
@@ -9,6 +11,11 @@
         {
             RightExpression = rightExpression;
             LeftExpression = leftExpression;
+        }
+
+        public override void ResolveNames(LexicalScope ls)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace GPLexTutorial.AST
+﻿using System;
+
+namespace GPLexTutorial.AST
 {
     public class UnannArrayType : Type, IDeclaration
     {
@@ -16,6 +18,11 @@
                 return ((IDeclaration) Dims).GetName();
             else
                 return null;
+        }
+
+        public override void ResolveNames(LexicalScope ls)
+        {
+            throw new NotImplementedException();
         }
     }
 }

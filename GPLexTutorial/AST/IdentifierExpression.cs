@@ -19,5 +19,10 @@ namespace GPLexTutorial.AST
         {
             return Identifier.Name;
         }
+
+        public override void ResolveNames(LexicalScope ls)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace GPLexTutorial.AST
 {
@@ -8,6 +9,11 @@ namespace GPLexTutorial.AST
         public CompilationUnit(List<TypeDeclaration> typeDeclarations)
         {
             TypeDeclarations = typeDeclarations;
+        }
+
+        public override void ResolveNames(LexicalScope ls)
+        {
+            throw new NotImplementedException();
         }
     }
 }

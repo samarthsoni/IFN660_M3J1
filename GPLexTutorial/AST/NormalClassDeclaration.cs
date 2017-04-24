@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -14,6 +15,11 @@ namespace GPLexTutorial.AST
             ClassModifiers = classModifiers;
             Identifier = identifier;
             ClassMemberDeclarations = classMemberDeclarations;
+        }
+
+        public override void ResolveNames(LexicalScope ls)
+        {
+            throw new NotImplementedException();
         }
     }
 }

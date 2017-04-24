@@ -14,5 +14,10 @@ namespace GPLexTutorial.AST
         {
             BodyStatements = bodyStatements;
         }
+
+        public override void ResolveNames(LexicalScope ls)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

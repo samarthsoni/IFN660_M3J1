@@ -1,3 +1,5 @@
+using System;
+
 namespace GPLexTutorial.AST
 {
     public class ParameterDeclarationStatement : Statement, IDeclaration
@@ -16,6 +18,11 @@ namespace GPLexTutorial.AST
                 return ((IDeclaration) IdentifierExpression).GetName();
             else
                 return null;
+        }
+
+        public override void ResolveNames(LexicalScope ls)
+        {
+            throw new NotImplementedException();
         }
     }
 }

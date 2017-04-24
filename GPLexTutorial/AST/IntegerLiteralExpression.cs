@@ -1,4 +1,6 @@
-﻿namespace GPLexTutorial.AST
+﻿using System;
+
+namespace GPLexTutorial.AST
 {
     public class IntegerLiteralExpression:Expression
     {
@@ -7,6 +9,11 @@
         public IntegerLiteralExpression(int val)
         {
             Value = val;
+        }
+
+        public override void ResolveNames(LexicalScope ls)
+        {
+            throw new NotImplementedException();
         }
     }
 }

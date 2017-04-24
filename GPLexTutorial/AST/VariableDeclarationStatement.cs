@@ -41,5 +41,10 @@ namespace GPLexTutorial.AST
         {
             return LexicalScope;
         }
+
+        public override void ResolveNames(LexicalScope ls)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
