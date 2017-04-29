@@ -22,7 +22,16 @@ namespace GPLexTutorial.AST
 
         public override void ResolveNames(LexicalScope ls)
         {
-            throw new NotImplementedException();
+            if (ls != null)
+            {
+                var result =ls.Resolve(Identifier.Name);
+                if(result==null)
+                {
+                    throw new ApplicationException($"Error: Undeclared identifier {Identifier.Name}");
+                }
+            }
+                
+            //ls.SymbolTable.Add(GetName(), this);
         }
     }
 }

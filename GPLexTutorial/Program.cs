@@ -27,7 +27,7 @@ namespace GPLexTutorial
             //NamedType integralType = new NamedType("INT");
             //VariableDeclarationStatement dec = new VariableDeclarationStatement(integralType, variableList,null);
             //blockStmt.Add(dec);
-            
+
             //NamedType strName = new NamedType("String");
             //UnannArrayType strArray = new UnannArrayType(strName, null);
             //ParameterDeclarationStatement pds = new ParameterDeclarationStatement(strArray, new IdentifierExpression(new Identifier("args")));
@@ -37,6 +37,8 @@ namespace GPLexTutorial
             //MethodDeclaration methodDeclaration = new MethodDeclaration(new List<MethodModifier>() { MethodModifier.Public }, methodDeclarator, blockStmt);
             //NormalClassDeclaration classDeclaration = new NormalClassDeclaration(new List<ClassModifier>() { ClassModifier.Public },new Identifier("classname"),new List<MemberDeclaration>() { methodDeclaration });
             //CompilationUnit cu = new CompilationUnit(new List<TypeDeclaration>() { classDeclaration });
+
+            parser.RootNode.ResolveNames(null);
 
             JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings()
             {

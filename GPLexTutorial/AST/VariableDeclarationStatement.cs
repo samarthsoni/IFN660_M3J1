@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GPLexTutorial.AST
 {
-    public class VariableDeclarationStatement : Statement
+    public class VariableDeclarationStatement : Statement, IDeclaration
     {
         public Type Type { get; set; }
         public List<Expression> IdentifierExpressions { get; set; }
@@ -20,7 +20,15 @@ namespace GPLexTutorial.AST
 
         public override void ResolveNames(LexicalScope ls)
         {
-            throw new NotImplementedException();
+            foreach (IdentifierExpression identifierExpression in IdentifierExpressions)
+            {
+                ls.SymbolTable.Add(identifierExpression.Identifier.Name, this);
+            }
+        }
+
+        public string GetName()
+        {
+            return "VariableDeclarationStatement";
         }
     }
 }
