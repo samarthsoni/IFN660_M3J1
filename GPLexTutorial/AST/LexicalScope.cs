@@ -9,12 +9,12 @@ namespace GPLexTutorial.AST
     public class LexicalScope
     {
         LexicalScope parentScope;
-        Dictionary<string, IDeclaration> SymbolTable;
+        public Dictionary<string, IDeclaration> SymbolTable;
 
-        public LexicalScope(Dictionary<string, IDeclaration> symbolTable, LexicalScope parentLexicalScope)
+        public LexicalScope(LexicalScope parentLexicalScope)
         {
             parentScope = parentLexicalScope;
-            SymbolTable = symbolTable;
+            SymbolTable = new Dictionary<string, IDeclaration>();
         }
 
         public IDeclaration ResolveHere(string symbol)

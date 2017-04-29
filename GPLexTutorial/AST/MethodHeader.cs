@@ -19,7 +19,7 @@ namespace GPLexTutorial.AST
 
         public override void ResolveNames(LexicalScope ls)
         {
-            throw new NotImplementedException();
+            MethodDeclarator.ResolveNames(ls);
         }
     }
 }

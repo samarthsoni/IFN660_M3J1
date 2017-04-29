@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 
 namespace GPLexTutorial.AST
 {
-    public class MethodDeclarator : Node,ILexicalScope
+    public class MethodDeclarator : Node,IDeclaration
     {
         public Identifier Identifier;
         public List<Statement> FormalParameterList;
-        public LexicalScope LexicalScope { get; set; }
 
         public MethodDeclarator(Identifier identifier, List<Statement> formalParameterList)
         {
@@ -19,33 +18,16 @@ namespace GPLexTutorial.AST
             Identifier = identifier;
         }
 
-        public IDeclaration Resolve(string name)
-        {
-            return LexicalScope.Resolve(name);
-        }
-
-        public void InitializeLexicalScope(LexicalScope parentLexicalScope)
-        {
-            var declarations = new Dictionary<string, IDeclaration>();
-            foreach (Statement formalParameterStatement in FormalParameterList)
-            {
-                if (formalParameterStatement is ParameterDeclarationStatement)
-                {
-                    var declaration = (IDeclaration)formalParameterStatement;
-                    declarations.Add(declaration.GetName(), declaration);
-                }
-            }
-            LexicalScope = new LexicalScope(declarations,parentLexicalScope);
-        }
-
-        public LexicalScope GetLexicalScope()
-        {
-            return LexicalScope;
-        }
-
         public override void ResolveNames(LexicalScope ls)
         {
-            throw new NotImplementedException();
+            ls.SymbolTable.Add(GetName(), this);
+            foreach (var FormalParameter in FormalParameterList)
+                FormalParameter.ResolveNames(ls);
+        }
+
+        public string GetName()
+        {
+            return Identifier.Name;
         }
     }
 }

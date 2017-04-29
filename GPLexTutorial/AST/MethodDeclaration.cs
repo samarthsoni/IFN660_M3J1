@@ -5,12 +5,13 @@ using Newtonsoft.Json.Converters;
 
 namespace GPLexTutorial.AST
 {
-    public class MethodDeclaration : MemberDeclaration
+    public class MethodDeclaration : MemberDeclaration,IDeclaration
     {
-        public Node MethodHeader;
+        public MethodHeader MethodHeader;
         public List<MethodModifier> MethodModifiers { get; set; }
         public Statement MethodBody;
-        public MethodDeclaration(List<MethodModifier> methodModifier, Node methodHeader , Statement methodBody)
+        public LexicalScope LexicalScope { get; set; }
+        public MethodDeclaration(List<MethodModifier> methodModifier, MethodHeader methodHeader , Statement methodBody)
         {
             MethodHeader = methodHeader;
             MethodModifiers = methodModifier;
@@ -18,6 +19,13 @@ namespace GPLexTutorial.AST
         }
 
         public override void ResolveNames(LexicalScope ls)
+        {
+            LexicalScope = new LexicalScope(ls);
+            MethodHeader.ResolveNames(ls);
+            MethodBody.ResolveNames(LexicalScope);
+        }
+
+        public string GetName()
         {
             throw new NotImplementedException();
         }

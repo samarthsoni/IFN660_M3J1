@@ -24,6 +24,7 @@
 	public TypeDeclaration typeDeclaration;
 	public List<TypeDeclaration> typeDeclarations;
 	public Node node;
+	public MethodHeader methodHeader;
 }
 
 %token <num> NUMBER
@@ -48,7 +49,8 @@
 %type <classModifiers> ClassModifiers
 %type <typeDeclaration> NormalClassDeclaration ClassDeclaration TypeDeclaration
 %type <typeDeclarations> TypeDeclarations
-%type <node> CompilationUnit MethodHeader MethodDeclarator
+%type <node> CompilationUnit  MethodDeclarator
+%type <methodHeader> MethodHeader
 
 %left '='
 %nonassoc '<'
@@ -463,7 +465,7 @@ FormalParameters:
 	| /* empty */												{$$ = new List<Statement>();};
 
 FormalParameter:
-	VariableModifiers UnannType VariableDeclaratorId			{$$ = new ParameterDeclarationStatement($2,$3);}
+	VariableModifiers UnannType VariableDeclaratorId			{$$ = new FormalParameterDeclarationStatement($2,$3);}
 	;
 
 VariableModifiers:

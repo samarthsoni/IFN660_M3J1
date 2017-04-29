@@ -2,11 +2,11 @@ using System;
 
 namespace GPLexTutorial.AST
 {
-    public class ParameterDeclarationStatement : Statement, IDeclaration
+    public class FormalParameterDeclarationStatement : Statement, IDeclaration
     {
         public Type Type { get; set; }
         public Expression IdentifierExpression { get; set; }
-        public ParameterDeclarationStatement(Type type, Expression identifierExpression)
+        public FormalParameterDeclarationStatement(Type type, Expression identifierExpression)
         {
             Type = type;
             IdentifierExpression = identifierExpression;
@@ -22,7 +22,8 @@ namespace GPLexTutorial.AST
 
         public override void ResolveNames(LexicalScope ls)
         {
-            throw new NotImplementedException();
+            ls.SymbolTable.Add(GetName(), this);
         }
     }
+
 }

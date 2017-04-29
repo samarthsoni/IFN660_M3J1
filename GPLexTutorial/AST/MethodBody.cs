@@ -9,6 +9,7 @@ namespace GPLexTutorial.AST
     class MethodBody : Statement
     {
         public List<Statement> BodyStatements { get; set; }
+        public LexicalScope LexicalScope { get; set; }
 
         public MethodBody(List<Statement> bodyStatements)
         {
@@ -17,7 +18,9 @@ namespace GPLexTutorial.AST
 
         public override void ResolveNames(LexicalScope ls)
         {
-            throw new NotImplementedException();
+            LexicalScope = new LexicalScope(ls);
+            foreach (var statement in BodyStatements)
+                statement.ResolveNames(LexicalScope);
         }
     }
 }
