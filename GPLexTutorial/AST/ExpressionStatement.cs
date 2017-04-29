@@ -13,7 +13,7 @@ namespace GPLexTutorial.AST
 
         public override void ResolveNames(LexicalScope ls)
         {
-            
+            Expression.ResolveNames(ls);
         }
     }
 }
