@@ -31,9 +31,9 @@ namespace GPLexTutorial.AST
             return "VariableDeclarationStatement";
         }
 
-        Type IDeclaration.GetType()
+        public Type GetDeclarationType()
         {
-            throw new NotImplementedException();
+            return Type;
         }
     }
 }

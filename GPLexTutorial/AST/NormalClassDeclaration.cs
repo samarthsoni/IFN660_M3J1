@@ -5,7 +5,7 @@ using Newtonsoft.Json.Converters;
 
 namespace GPLexTutorial.AST
 {
-    public class NormalClassDeclaration : TypeDeclaration,IDeclaration
+    public class NormalClassDeclaration : Type,IDeclaration
     {
         public List<ClassModifier> ClassModifiers { get; set; }
         public Identifier Identifier { get; set; }
@@ -31,9 +31,9 @@ namespace GPLexTutorial.AST
             return Identifier.Name;
         }
 
-        Type IDeclaration.GetType()
+        public Type GetDeclarationType()
         {
-            throw new NotImplementedException();
+            return this;
         }
     }
 }

@@ -12,6 +12,7 @@
 	public Identifier id;
 	public Statement stmt;
 	public AST.Type t;
+	public List<AST.Type> ts;
 	public List<Statement> stmts;
 	public List<Identifier> ids;
 	public List<Expression> es;
@@ -38,7 +39,7 @@
 %type <e> Expression Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RalationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression Expression ExpressionName LeftHandSide Assignment VariableDeclaratorList  VariableDeclaratorId VariableDeclarator
 %type <e> StatementExpression
 %type <es> VariableDeclaratorList VariableDeclarators 
-%type <t> IntegralType NumericType UnannPrimitiveType UnannType Result UnannClassType UnannClassOrInterfaceType UnannArrayType
+%type <t> IntegralType NumericType UnannPrimitiveType UnannType Result UnannClassType UnannClassOrInterfaceType UnannArrayType NormalClassDeclaration ClassDeclaration TypeDeclaration
 %type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter MethodBody
 %type <stmts> BlockStatements Block FormalParameterList FormalParameters
 %type <memberDeclaration> MethodDeclaration ClassMemberDeclaration ClassBodyDeclaration
@@ -47,8 +48,7 @@
 %type <memberDeclarations> ClassBodyDeclarations ClassBody
 %type <classModifier> ClassModifier
 %type <classModifiers> ClassModifiers
-%type <typeDeclaration> NormalClassDeclaration ClassDeclaration TypeDeclaration
-%type <typeDeclarations> TypeDeclarations
+%type <ts> TypeDeclarations
 %type <node> CompilationUnit  MethodDeclarator
 %type <methodHeader> MethodHeader
 
@@ -117,7 +117,7 @@ ImportDeclaration:
 
 TypeDeclarations:		
 		TypeDeclarations TypeDeclaration									{ $$ = $1; $1.Add($2); }
-	|	/* empty */															{ $$ = new List<TypeDeclaration>(); }
+	|	/* empty */															{ $$ = new List<AST.Type>(); }
 	;
 
 TypeDeclaration:		
@@ -126,7 +126,7 @@ TypeDeclaration:
 	;
 
 ClassDeclaration:		
-		NormalClassDeclaration 
+		NormalClassDeclaration												{$$ = $1;}
 	|	EnumDeclaration;
 
 NormalClassDeclaration: 

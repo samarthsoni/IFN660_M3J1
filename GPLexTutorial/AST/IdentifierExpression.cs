@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GPLexTutorial.AST
 {
-    public class IdentifierExpression : Expression, IDeclaration
+    public class IdentifierExpression : Expression
     {
         public Identifier Identifier;
 
@@ -15,10 +15,7 @@ namespace GPLexTutorial.AST
             Identifier = identifier;
         }
 
-        public string GetName()
-        {
-            return Identifier.Name;
-        }
+      
 
         public override void ResolveNames(LexicalScope ls)
         {
@@ -34,9 +31,6 @@ namespace GPLexTutorial.AST
             //ls.SymbolTable.Add(GetName(), this);
         }
 
-        public Type GetDeclarationType()
-        {
-
-        }
+       
     }
 }
