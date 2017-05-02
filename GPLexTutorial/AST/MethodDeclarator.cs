@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GPLexTutorial.AST
 {
-    public class MethodDeclarator : Node,IDeclaration
+    public class MethodDeclarator : Node
     {
         public Identifier Identifier;
         public List<Statement> FormalParameterList;
@@ -20,14 +20,9 @@ namespace GPLexTutorial.AST
 
         public override void ResolveNames(LexicalScope ls)
         {
-            ls.SymbolTable.Add(GetName(), this);
             foreach (var FormalParameter in FormalParameterList)
                 FormalParameter.ResolveNames(ls);
         }
 
-        public string GetName()
-        {
-            return Identifier.Name;
-        }
     }
 }

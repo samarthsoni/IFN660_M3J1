@@ -24,6 +24,11 @@ namespace GPLexTutorial.AST
         {
             ls.SymbolTable.Add(GetName(), this);
         }
+
+        public Type GetDeclarationType()
+        {
+            return Type;
+        }
     }
 
 }

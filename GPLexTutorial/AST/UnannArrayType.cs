@@ -24,5 +24,10 @@ namespace GPLexTutorial.AST
         {
             throw new NotImplementedException();
         }
+
+        Type IDeclaration.GetType()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

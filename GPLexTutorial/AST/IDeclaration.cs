@@ -9,5 +9,6 @@ namespace GPLexTutorial.AST
     public interface IDeclaration
     {
         string GetName();
+        Type GetDeclarationType();
     }
 }

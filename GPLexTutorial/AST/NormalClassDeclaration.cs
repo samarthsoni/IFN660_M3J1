@@ -30,5 +30,10 @@ namespace GPLexTutorial.AST
         {
             return Identifier.Name;
         }
+
+        Type IDeclaration.GetType()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

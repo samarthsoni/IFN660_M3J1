@@ -30,5 +30,10 @@ namespace GPLexTutorial.AST
         {
             return "VariableDeclarationStatement";
         }
+
+        Type IDeclaration.GetType()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

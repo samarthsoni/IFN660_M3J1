@@ -27,7 +27,12 @@ namespace GPLexTutorial.AST
 
         public string GetName()
         {
-            throw new NotImplementedException();
+            return ((MethodDeclarator)MethodHeader.MethodDeclarator).Identifier.Name;  
+        }
+
+        public Type GetDeclarationType()
+        {
+            return MethodHeader.Result;
         }
     }
 }
