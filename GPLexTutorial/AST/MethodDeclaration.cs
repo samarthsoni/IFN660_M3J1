@@ -34,5 +34,10 @@ namespace GPLexTutorial.AST
         {
             return MethodHeader.Result;
         }
+
+        public override void TypeCheck()
+        {
+           
+        }
     }
 }

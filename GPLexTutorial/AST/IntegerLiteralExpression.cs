@@ -15,5 +15,10 @@ namespace GPLexTutorial.AST
         {
             
         }
+
+        public override void TypeCheck()
+        {
+            type = new IntType();
+        }
     }
 }

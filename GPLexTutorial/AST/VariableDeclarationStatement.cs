@@ -35,5 +35,10 @@ namespace GPLexTutorial.AST
         {
             return Type;
         }
+
+        public override void TypeCheck()
+        {
+             Type.TypeCheck();
+        }
     }
 }

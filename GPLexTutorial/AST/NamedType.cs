@@ -15,7 +15,17 @@ namespace GPLexTutorial.AST
             Name = name;
         }
 
+        public override bool Equal(Type other)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void ResolveNames(LexicalScope ls)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void TypeCheck()
         {
             throw new NotImplementedException();
         }

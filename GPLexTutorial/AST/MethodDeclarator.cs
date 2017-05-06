@@ -24,5 +24,10 @@ namespace GPLexTutorial.AST
                 FormalParameter.ResolveNames(ls);
         }
 
+        public override void TypeCheck()
+        {
+            foreach (var FormalParameter in FormalParameterList)
+                FormalParameter.TypeCheck();
+        }
     }
 }

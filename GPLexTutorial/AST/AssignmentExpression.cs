@@ -4,8 +4,8 @@ namespace GPLexTutorial.AST
 {
     public class AssignmentExpression : Expression
     {
-        public Expression LeftExpression;
-        public Expression RightExpression;
+        private Expression LeftExpression;
+        private Expression RightExpression;
 
         public AssignmentExpression(Expression leftExpression, Expression rightExpression)
         {
@@ -17,6 +17,17 @@ namespace GPLexTutorial.AST
         {
             LeftExpression.ResolveNames(ls);
             RightExpression.ResolveNames(ls);
+        }
+
+        public override void TypeCheck()
+        {
+            LeftExpression.TypeCheck();
+            RightExpression.TypeCheck();
+            if (RightExpression.type.Compatible(LeftExpression.type))
+            {
+                throw new ApplicationException($"Error: TypeCheck error");
+            }
+            type = RightExpression.type;
         }
     }
 }

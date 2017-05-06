@@ -15,5 +15,10 @@ namespace GPLexTutorial.AST
         {
             Expression.ResolveNames(ls);
         }
+
+        public override void TypeCheck()
+        {
+            Expression.TypeCheck();
+        }
     }
 }

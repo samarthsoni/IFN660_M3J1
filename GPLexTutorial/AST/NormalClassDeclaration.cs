@@ -35,5 +35,16 @@ namespace GPLexTutorial.AST
         {
             return this;
         }
+
+        public override bool Equal(Type other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void TypeCheck()
+        {
+            foreach (var ClassMemberDeclaration in ClassMemberDeclarations)
+                ClassMemberDeclaration.TypeCheck();
+        }
     }
 }

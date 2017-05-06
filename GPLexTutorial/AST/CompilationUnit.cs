@@ -18,5 +18,11 @@ namespace GPLexTutorial.AST
             foreach (var declaration in TypeDeclarations)
                 declaration.ResolveNames(LexicalScope);
         }
+
+        public override void TypeCheck()
+        {
+            foreach (var declaration in TypeDeclarations)
+                declaration.TypeCheck();
+        }
     }
 }

@@ -21,5 +21,10 @@ namespace GPLexTutorial.AST
         {
             MethodDeclarator.ResolveNames(ls);
         }
+
+        public override void TypeCheck()
+        {
+            Result.TypeCheck();
+        }
     }
 }

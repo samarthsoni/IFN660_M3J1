@@ -22,5 +22,11 @@ namespace GPLexTutorial.AST
             foreach (var statement in BodyStatements)
                 statement.ResolveNames(LexicalScope);
         }
+
+        public override void TypeCheck()
+        {
+            foreach (var statement in BodyStatements)
+                statement.TypeCheck();
+        }
     }
 }

@@ -30,5 +30,15 @@ namespace GPLexTutorial.AST
             return NameType;
 
         }
+
+        public override bool Equal(Type other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void TypeCheck()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
