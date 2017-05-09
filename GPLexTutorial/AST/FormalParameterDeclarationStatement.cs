@@ -14,10 +14,11 @@ namespace GPLexTutorial.AST
 
         public string GetName()
         {
-            if (IdentifierExpression is IDeclaration)
-                return ((IDeclaration) IdentifierExpression).GetName();
-            else
-                return null;
+            return ((IdentifierExpression) IdentifierExpression).Identifier.Name;
+            //if (IdentifierExpression is IDeclaration)
+            //    return ((IDeclaration) IdentifierExpression).GetName();
+            //else
+            //    return null;
         }
 
         public override void ResolveNames(LexicalScope ls)

@@ -9,7 +9,8 @@ namespace GPLexTutorial.AST
     public class IdentifierExpression : Expression
     {
         public Identifier Identifier;
-        private IDeclaration Declaration;
+
+        public IDeclaration Declaration { get; set; }
 
         public IdentifierExpression(Identifier identifier)
         {
@@ -27,6 +28,12 @@ namespace GPLexTutorial.AST
                 {
                     throw new ApplicationException($"Error: Undeclared identifier {Identifier.Name}");
                 }
+                else
+                {
+                    Declaration = result;
+                    type = Declaration.GetDeclarationType();
+                }
+                    
             }
 
             //ls.SymbolTable.Add(GetName(), this);
@@ -34,7 +41,6 @@ namespace GPLexTutorial.AST
 
         public override void TypeCheck()
         {
-            type = Declaration.GetDeclarationType();
         }
     }
 }

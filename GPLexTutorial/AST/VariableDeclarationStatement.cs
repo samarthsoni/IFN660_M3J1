@@ -16,6 +16,9 @@ namespace GPLexTutorial.AST
             Type = type;
             IdentifierExpressions = identifierExpressions;
             Dims = dims;
+            foreach (Expression identifierExpression in identifierExpressions)
+                identifierExpression.type = type;
+
         }
 
         public override void ResolveNames(LexicalScope ls)

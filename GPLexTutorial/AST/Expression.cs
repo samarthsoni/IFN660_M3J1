@@ -4,6 +4,4 @@
     {
         public Type type;
     }
-
-    
 }

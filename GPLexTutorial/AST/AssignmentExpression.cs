@@ -23,7 +23,7 @@ namespace GPLexTutorial.AST
         {
             LeftExpression.TypeCheck();
             RightExpression.TypeCheck();
-            if (RightExpression.type.Compatible(LeftExpression.type))
+            if (!RightExpression.type.Compatible(LeftExpression.type))
             {
                 throw new ApplicationException($"Error: TypeCheck error");
             }
