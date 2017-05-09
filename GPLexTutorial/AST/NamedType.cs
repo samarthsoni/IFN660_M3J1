@@ -17,17 +17,24 @@ namespace GPLexTutorial.AST
 
         public override bool Equal(Type other)
         {
-            throw new NotImplementedException();
+            if (other is NamedType)
+            {
+                return (other as NamedType).Name.Equals(Name);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public override void ResolveNames(LexicalScope ls)
         {
-            throw new NotImplementedException();
+            
         }
 
         public override void TypeCheck()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

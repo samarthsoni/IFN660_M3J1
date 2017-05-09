@@ -2,11 +2,11 @@
 
 namespace GPLexTutorial.AST
 {
-    public class IntegerLiteralExpression:Expression
+    public class StringLiteralExpression:Expression
     {
-        public int Value { get; set; }
+        public string Value { get; set; }
 
-        public IntegerLiteralExpression(int val)
+        public StringLiteralExpression(string val)
         {
             Value = val;
         }
@@ -18,7 +18,7 @@ namespace GPLexTutorial.AST
 
         public override void TypeCheck()
         {
-            type = new NamedType(typeof(int).Name);
+            type = new NamedType(typeof(string).Name);
         }
     }
 }

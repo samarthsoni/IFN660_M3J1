@@ -2,11 +2,11 @@
 
 namespace GPLexTutorial.AST
 {
-    public class IntegerLiteralExpression:Expression
+    public class BooleanLiteralExpression:Expression
     {
-        public int Value { get; set; }
+        public bool Value { get; set; }
 
-        public IntegerLiteralExpression(int val)
+        public BooleanLiteralExpression(bool val)
         {
             Value = val;
         }
@@ -18,7 +18,7 @@ namespace GPLexTutorial.AST
 
         public override void TypeCheck()
         {
-            type = new NamedType(typeof(int).Name);
+            type = new NamedType(typeof(bool).Name);
         }
     }
 }

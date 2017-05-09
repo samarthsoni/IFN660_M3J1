@@ -25,7 +25,7 @@ namespace GPLexTutorial.AST
             RightExpression.TypeCheck();
             if (!RightExpression.type.Compatible(LeftExpression.type))
             {
-                throw new ApplicationException($"Error: TypeCheck error");
+                throw new ApplicationException($"Error: TypeCheck error from {(LeftExpression.type as NamedType).Name} to {(RightExpression.type as NamedType).Name} ");
             }
             type = RightExpression.type;
         }

@@ -37,7 +37,7 @@ namespace GPLexTutorial.AST
 
         public override void TypeCheck()
         {
-           
+           MethodBody.TypeCheck();
         }
     }
 }

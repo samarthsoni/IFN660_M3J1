@@ -33,13 +33,13 @@
 %token <num> IntegerLiteral
 %token <floatValue> FLOATLITERAL
 %token <stringValue> STRINGLITERAL
-%token <boolValue> BOOL
+%token <boolValue> BOOLEANLITERAL
 %token EOF ABSTRACT ASSERT BOOLEAN BREAK BYTE CASE CATCH CHAR CLASS CONST CONTINUE DEFAULT DO DOUBLE ELSE ENUM EXTENDS FINAL FINALLY FLOAT FOR IF GOTO IMPLEMENTS IMPORT INSTANCEOF INT INTERFACE LONG NATIVE NEW PACKAGE PRIVATE PROTECTED PUBLIC RETURN SHORT STATIC STRICTFP SUPER SWITCH SYNCHRONIZED THIS THROW THROWS TRANSIENT TRY VOID VOLATILE WHILE CharacterLiteral NULL OPERATOR TRUE FALSE EndOfLineComment TraditionalComment ELIPSIS
 
 %type <e> Expression Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RalationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression Expression ExpressionName LeftHandSide Assignment VariableDeclaratorList  VariableDeclaratorId VariableDeclarator
 %type <e> StatementExpression
 %type <es> VariableDeclaratorList VariableDeclarators 
-%type <t> IntegralType NumericType UnannPrimitiveType UnannType Result UnannClassType UnannClassOrInterfaceType UnannArrayType NormalClassDeclaration ClassDeclaration TypeDeclaration
+%type <t> IntegralType NumericType UnannPrimitiveType UnannType Result UnannClassType UnannClassOrInterfaceType UnannArrayType NormalClassDeclaration ClassDeclaration TypeDeclaration FloatingPointType
 %type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter MethodBody
 %type <stmts> BlockStatements Block FormalParameterList FormalParameters
 %type <memberDeclaration> MethodDeclaration ClassMemberDeclaration ClassBodyDeclaration
@@ -318,7 +318,10 @@ PrimaryNoNewArray:
     Literal;
 
 Literal:
-    IntegerLiteral										{ $$=new IntegerLiteralExpression($1) ;}
+    IntegerLiteral											{ $$=new IntegerLiteralExpression($1) ;}
+	|	STRINGLITERAL										{ $$=new StringLiteralExpression($1) ;}
+	|	BOOLEANLITERAL										{ $$=new BooleanLiteralExpression($1) ;}
+	|	FLOATLITERAL										{ $$=new FloatingPointLiteralExpression($1) ;}
 	;
 
 LocalVariableDeclarationStatement:
@@ -336,18 +339,26 @@ UnannType:
 
 UnannPrimitiveType:
 	NumericType											{$$ = $1; }		
+	|	BOOLEAN											{$$ = new NamedType( typeof(bool).Name );}
 	;
 
 NumericType:
 	IntegralType										{$$ = $1; }
+	|	FloatingPointType								{$$ = $1; }
+	;
+
+FloatingPointType:
+	FLOAT												{$$ = new NamedType( typeof(float).Name );}
+	|	DOUBLE											{$$ = new NamedType( typeof(float).Name );}
 	;
 
 IntegralType:
-	BYTE
-	|	SHORT
-	|	INT												{$$ = new NamedType( $1.name );}
-	|	LONG
-	|	CHAR ;
+	BYTE												{$$ = new NamedType( typeof(int).Name );}
+	|	SHORT											{$$ = new NamedType( typeof(int).Name );}
+	|	INT												{$$ = new NamedType( typeof(int).Name );}
+	|	LONG											{$$ = new NamedType( typeof(int).Name );}
+	|	CHAR											{$$ = new NamedType( typeof(int).Name );}
+	;
 
 VariableDeclaratorList:
 	VariableDeclarator									{$$ = new List<Expression>();$$.Add($1);}					
