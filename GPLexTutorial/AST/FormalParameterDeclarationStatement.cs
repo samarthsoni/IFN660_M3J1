@@ -6,10 +6,12 @@ namespace GPLexTutorial.AST
     {
         public Type Type { get; set; }
         public Expression IdentifierExpression { get; set; }
+        public int AttributeNumber { get; set; }
         public FormalParameterDeclarationStatement(Type type, Expression identifierExpression)
         {
             Type = type;
             IdentifierExpression = identifierExpression;
+            AttributeNumber = AttributeNumbering.Instance.NextCurrentAttributeNumber();
         }
 
         public string GetName()

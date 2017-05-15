@@ -11,4 +11,33 @@ namespace GPLexTutorial.AST
         public abstract void ResolveNames(LexicalScope ls);
         public abstract void TypeCheck();
     }
+
+    public class AttributeNumbering{
+        public int CurrentAttributeNumber { get; set; }
+        
+
+        private static AttributeNumbering instrance;
+        private AttributeNumbering()
+        {
+
+        }
+
+        public int GetCurrentAttributeNumber()
+        {
+            return CurrentAttributeNumber;
+        }
+
+        public int NextCurrentAttributeNumber()
+        {
+            return CurrentAttributeNumber++;
+        }
+
+        public static AttributeNumbering Instance {
+            get {
+                if (instrance == null)
+                    instrance = new AttributeNumbering();
+                return instrance;
+            }
+        }
+    }
 }
