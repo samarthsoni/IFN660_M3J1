@@ -29,7 +29,7 @@ namespace GPLexTutorial.AST
 
         public override void GenCode(string output)
         {
-            throw new NotImplementedException();
+            MethodDeclarator.GenCode(output);
         }
 
         public override void GenStoreCode(string output)
