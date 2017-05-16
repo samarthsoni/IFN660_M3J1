@@ -26,5 +26,15 @@ namespace GPLexTutorial.AST
         {
             Result.TypeCheck();
         }
+
+        public override void GenCode(string output)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void GenStoreCode(string output)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

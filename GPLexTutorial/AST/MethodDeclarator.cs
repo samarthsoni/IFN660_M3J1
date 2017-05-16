@@ -29,5 +29,15 @@ namespace GPLexTutorial.AST
             foreach (var FormalParameter in FormalParameterList)
                 FormalParameter.TypeCheck();
         }
+
+        public override void GenCode(string output)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void GenStoreCode(string output)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

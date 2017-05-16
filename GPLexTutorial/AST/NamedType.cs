@@ -27,6 +27,16 @@ namespace GPLexTutorial.AST
             }
         }
 
+        public override void GenCode(string output)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void GenStoreCode(string output)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void ResolveNames(LexicalScope ls)
         {
             

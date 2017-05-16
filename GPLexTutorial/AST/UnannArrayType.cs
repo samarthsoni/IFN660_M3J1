@@ -45,5 +45,15 @@ namespace GPLexTutorial.AST
         {
             return 0;
         }
+
+        public override void GenCode(string output)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void GenStoreCode(string output)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

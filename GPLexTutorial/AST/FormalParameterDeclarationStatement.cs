@@ -42,6 +42,16 @@ namespace GPLexTutorial.AST
         {
             return AttributeNumber;
         }
+
+        public override void GenCode(string output)
+        {
+            IdentifierExpression.GenCode(output);
+        }
+
+        public override void GenStoreCode(string output)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

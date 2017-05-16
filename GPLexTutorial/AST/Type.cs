@@ -37,5 +37,15 @@ namespace GPLexTutorial.AST
         {
             return ((IntType)type) != null;
         }
+
+        public override void GenCode(string output)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void GenStoreCode(string output)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

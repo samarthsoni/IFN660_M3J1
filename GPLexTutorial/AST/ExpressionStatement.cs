@@ -11,6 +11,16 @@ namespace GPLexTutorial.AST
             Expression = expression;
         }
 
+        public override void GenCode(string output)
+        {
+            Expression.GenCode(output);
+        }
+
+        public override void GenStoreCode(string output)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void ResolveNames(LexicalScope ls)
         {
             Expression.ResolveNames(ls);
