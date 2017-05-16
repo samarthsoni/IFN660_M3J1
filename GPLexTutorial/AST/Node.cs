@@ -10,6 +10,8 @@ namespace GPLexTutorial.AST
     {
         public abstract void ResolveNames(LexicalScope ls);
         public abstract void TypeCheck();
+        public abstract void GenCode(string output);
+        public abstract void GenStoreCode(string output);
     }
 
     public class AttributeNumbering{

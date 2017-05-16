@@ -18,6 +18,7 @@ namespace GPLexTutorial
                 parser.Parse();
                 parser.RootNode.ResolveNames(null);
                 parser.RootNode.TypeCheck();
+                parser.RootNode.
                 JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings()
                 {
                     TypeNameHandling = TypeNameHandling.All

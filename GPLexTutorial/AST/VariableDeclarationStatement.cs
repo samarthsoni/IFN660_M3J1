@@ -14,7 +14,7 @@ namespace GPLexTutorial.AST
             VariableDeclarations = new List<VariableDeclaration>();
             Dims = dims;
             foreach (Expression identifierExpression in identifierExpressions)
-                VariableDeclarations.Add(new VariableDeclaration(type, ((IdentifierExpression)identifierExpression).Identifier));
+                VariableDeclarations.Add(new VariableDeclaration(type, (IdentifierExpression)identifierExpression));
 
         }
 
@@ -32,6 +32,19 @@ namespace GPLexTutorial.AST
             {
                 variableDeclaration.TypeCheck();
             }
+        }
+
+        public override void GenCode(string output)
+        {
+            foreach (var variableDeclaration in VariableDeclarations)
+            {
+                variableDeclaration.GenCode(output);
+            }
+        }
+
+        public override void GenStoreCode(string output)
+        {
+            throw new NotImplementedException();
         }
     }
 }

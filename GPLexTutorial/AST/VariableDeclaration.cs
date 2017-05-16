@@ -8,16 +8,16 @@ namespace GPLexTutorial.AST
 {
     public class VariableDeclaration : Node, IDeclaration
     {
-        public Identifier Identifier;
+        public IdentifierExpression IdentifierExpression;
 
         public Type Type;
 
         public int AttributeNumber;
 
-        public VariableDeclaration(Type type, Identifier identifier)
+        public VariableDeclaration(Type type, IdentifierExpression identifierExpression)
         {
             Type = type;
-            Identifier = identifier;
+            IdentifierExpression = identifierExpression;
             AttributeNumber = AttributeNumbering.Instance.NextCurrentAttributeNumber();
         }
 
@@ -28,7 +28,7 @@ namespace GPLexTutorial.AST
 
         public string GetName()
         {
-            return Identifier.Name; 
+            return IdentifierExpression.Identifier.Name; 
         }
 
         public int GetNumber()
@@ -38,12 +38,22 @@ namespace GPLexTutorial.AST
 
         public override void ResolveNames(LexicalScope ls)
         {
-            ls.SymbolTable.Add(Identifier.Name, this);
+            ls.SymbolTable.Add(IdentifierExpression.Identifier.Name, this);
         }
 
         public override void TypeCheck()
         {
             Type.TypeCheck();
+        }
+
+        public override void GenCode(string output)
+        {
+            IdentifierExpression.GenCode(output);
+        }
+
+        public override void GenStoreCode(string output)
+        {
+            throw new NotImplementedException();
         }
     }
 }
