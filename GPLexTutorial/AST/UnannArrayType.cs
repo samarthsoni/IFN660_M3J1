@@ -40,5 +40,10 @@ namespace GPLexTutorial.AST
         {
             throw new NotImplementedException();
         }
+
+        public int GetNumber()
+        {
+            return 0;
+        }
     }
 }

@@ -37,6 +37,11 @@ namespace GPLexTutorial.AST
         {
             Type.TypeCheck();
         }
+
+        public int GetNumber()
+        {
+            return AttributeNumber;
+        }
     }
 
 }

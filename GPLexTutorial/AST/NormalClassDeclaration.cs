@@ -46,5 +46,10 @@ namespace GPLexTutorial.AST
             foreach (var ClassMemberDeclaration in ClassMemberDeclarations)
                 ClassMemberDeclaration.TypeCheck();
         }
+
+        public int GetNumber()
+        {
+            return 0;
+        }
     }
 }

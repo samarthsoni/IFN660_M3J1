@@ -3,45 +3,35 @@ using System.Collections.Generic;
 
 namespace GPLexTutorial.AST
 {
-    public class VariableDeclarationStatement : Statement, IDeclaration
+    public class VariableDeclarationStatement : Statement
     {
-        public Type Type { get; set; }
-        public List<Expression> IdentifierExpressions { get; set; }
+        public List<VariableDeclaration> VariableDeclarations { get; set; }
         public Dims Dims { get; set; }
-
         public LexicalScope LexicalScope { get; set; }
 
         public VariableDeclarationStatement(Type type, List<Expression> identifierExpressions, Dims dims)
         {
-            Type = type;
-            IdentifierExpressions = identifierExpressions;
+            VariableDeclarations = new List<VariableDeclaration>();
             Dims = dims;
             foreach (Expression identifierExpression in identifierExpressions)
-                identifierExpression.type = type;
+                VariableDeclarations.Add(new VariableDeclaration(type, ((IdentifierExpression)identifierExpression).Identifier));
 
         }
 
         public override void ResolveNames(LexicalScope ls)
         {
-            foreach (IdentifierExpression identifierExpression in IdentifierExpressions)
+            foreach (var variableDeclaration in VariableDeclarations)
             {
-                ls.SymbolTable.Add(identifierExpression.Identifier.Name, this);
-            }
-        }
-
-        public string GetName()
-        {
-            return "VariableDeclarationStatement";
-        }
-
-        public Type GetDeclarationType()
-        {
-            return Type;
+                variableDeclaration.ResolveNames(ls);
+             }
         }
 
         public override void TypeCheck()
         {
-             Type.TypeCheck();
+            foreach (var variableDeclaration in VariableDeclarations)
+            {
+                variableDeclaration.TypeCheck();
+            }
         }
     }
 }

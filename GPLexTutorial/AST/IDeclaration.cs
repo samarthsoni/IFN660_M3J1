@@ -10,5 +10,6 @@ namespace GPLexTutorial.AST
     {
         string GetName();
         Type GetDeclarationType();
+        int GetNumber();
     }
 }

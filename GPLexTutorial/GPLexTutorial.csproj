@@ -68,6 +68,7 @@
     <Compile Include="AST\MethodHeader.cs" />
     <Compile Include="AST\NamedType.cs" />
     <Compile Include="AST\FormalParameterDeclarationStatement.cs" />
+    <Compile Include="AST\VariableDeclaration.cs" />
     <Compile Include="AST\VariableDeclarationStatement.cs" />
     <Compile Include="AST\MemberDeclaration.cs" />
     <Compile Include="AST\MethodDeclaration.cs" />

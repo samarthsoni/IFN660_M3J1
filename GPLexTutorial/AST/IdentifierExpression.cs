@@ -42,5 +42,15 @@ namespace GPLexTutorial.AST
         public override void TypeCheck()
         {
         }
+
+        public override void GenCode(string output)
+        {
+            output += $"ldloc {Declaration.GetNumber()}";
+        }
+
+        public override void GenStoreCode(string output)
+        {
+            output += $"stloc {Declaration.GetNumber()}";
+        }
     }
 }

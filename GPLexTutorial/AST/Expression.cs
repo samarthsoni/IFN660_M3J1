@@ -4,6 +4,6 @@
     {
         public Type type;
         public abstract void GenCode(string output);
-        public abstract void GenSoreCode(string output);
+        public abstract void GenStoreCode(string output);
     }
 }

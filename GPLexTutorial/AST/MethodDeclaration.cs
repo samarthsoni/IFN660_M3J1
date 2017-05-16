@@ -39,5 +39,10 @@ namespace GPLexTutorial.AST
         {
            MethodBody.TypeCheck();
         }
+
+        public int GetNumber()
+        {
+            return 0;
+        }
     }
 }

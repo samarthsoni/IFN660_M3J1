@@ -20,5 +20,15 @@ namespace GPLexTutorial.AST
         {
             type = new NamedType(typeof(float).Name);
         }
+
+        public override void GenCode(string output)
+        {
+            output += Value;
+        }
+
+        public override void GenStoreCode(string output)
+        {
+            output += Value;
+        }
     }
 }
