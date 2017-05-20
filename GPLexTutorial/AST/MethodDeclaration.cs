@@ -45,14 +45,30 @@ namespace GPLexTutorial.AST
             return 0;
         }
 
-        public override void GenCode(string output)
+        public override void GenCode(ref string output)
         {
-            throw new NotImplementedException();
+            output += Environment.NewLine + ".method";
+
+            foreach (var modifier in MethodModifiers)
+            {
+                output += $" {modifier.ToString().ToLower()}";
+            }
+
+            MethodHeader.GenCode(ref output);
+            
+            if (((MethodDeclarator)(MethodHeader.MethodDeclarator)).Identifier.Name.ToLower() == "main")
+            {
+                output += Environment.NewLine + ".entrypoint";
+            }
+            MethodBody.GenCode(ref output);
+            output += Environment.NewLine +"ret"+Environment.NewLine+ "}";
+
+
         }
 
-        public override void GenStoreCode(string output)
+        public override void GenStoreCode(ref string output)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

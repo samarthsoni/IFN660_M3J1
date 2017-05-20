@@ -34,17 +34,17 @@ namespace GPLexTutorial.AST
             }
         }
 
-        public override void GenCode(string output)
+        public override void GenCode(ref string output)
         {
             foreach (var variableDeclaration in VariableDeclarations)
             {
-                variableDeclaration.GenCode(output);
+                variableDeclaration.GenCode(ref output);
             }
         }
 
-        public override void GenStoreCode(string output)
+        public override void GenStoreCode(ref string output)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

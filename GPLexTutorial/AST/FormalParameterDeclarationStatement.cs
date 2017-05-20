@@ -26,6 +26,7 @@ namespace GPLexTutorial.AST
         public override void ResolveNames(LexicalScope ls)
         {
             ls.SymbolTable.Add(GetName(), this);
+            this.IdentifierExpression.ResolveNames(ls);
         }
 
         public Type GetDeclarationType()
@@ -43,14 +44,16 @@ namespace GPLexTutorial.AST
             return AttributeNumber;
         }
 
-        public override void GenCode(string output)
+        public override void GenCode(ref string output)
         {
-            IdentifierExpression.GenCode(output);
+            Type.GenCode(ref output);
+            output += $" {((IdentifierExpression)IdentifierExpression).Identifier.Name}";
+            //IdentifierExpression.GenCode(ref output);
         }
 
-        public override void GenStoreCode(string output)
+        public override void GenStoreCode(ref string output)
         {
-            throw new NotImplementedException();
+            
         }
     }
 

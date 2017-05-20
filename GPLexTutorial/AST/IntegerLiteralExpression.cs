@@ -21,14 +21,14 @@ namespace GPLexTutorial.AST
             type = new NamedType(typeof(int).Name);
         }
 
-        public override void GenCode(string output)
+        public override void GenCode(ref string output)
         {
-            output += Value;
+            output += Environment.NewLine + $"ldc.i4.s {Value}" ;
         }
 
-        public override void GenStoreCode(string output)
+        public override void GenStoreCode(ref string output)
         {
-            output += Value;
+            
         }
     }
 }

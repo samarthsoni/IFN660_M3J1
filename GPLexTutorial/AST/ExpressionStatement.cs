@@ -11,12 +11,12 @@ namespace GPLexTutorial.AST
             Expression = expression;
         }
 
-        public override void GenCode(string output)
+        public override void GenCode(ref string output)
         {
-            Expression.GenCode(output);
+            Expression.GenCode(ref output);
         }
 
-        public override void GenStoreCode(string output)
+        public override void GenStoreCode(ref string output)
         {
 
         }

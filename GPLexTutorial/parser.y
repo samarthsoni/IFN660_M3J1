@@ -168,9 +168,9 @@ InterfaceType:
 	ClassType;
 
 ClassModifiers:			
-		ClassModifier
-	|	ClassModifier ClassModifiers
-	|	/* empty */;
+	ClassModifier ClassModifiers									{$$ = $2; $2.Add($1);}
+	|	/* empty */														{$$ = new List<ClassModifier>();}
+	;
 
 ClassModifier:		
 		PUBLIC															{$$ = ClassModifier.Public		;}
@@ -429,7 +429,7 @@ InterfaceModifier:
 	|	STATIC;
 
 MethodModifiers
-	:	MethodModifier MethodModifiers		{$$ = $2;$2.Add($1);}
+	:	MethodModifiers MethodModifier 		{$$ = $1;$1.Add($2);}
 	|	/* empty */							{$$ = new List<MethodModifier>();};
 
 MethodModifier:		

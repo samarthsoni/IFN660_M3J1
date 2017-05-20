@@ -10,8 +10,8 @@ namespace GPLexTutorial.AST
     {
         public abstract void ResolveNames(LexicalScope ls);
         public abstract void TypeCheck();
-        public abstract void GenCode(string output);
-        public abstract void GenStoreCode(string output);
+        public abstract void GenCode(ref string output);
+        public abstract void GenStoreCode( ref string output);
     }
 
     public class AttributeNumbering{
@@ -21,7 +21,7 @@ namespace GPLexTutorial.AST
         private static AttributeNumbering instrance;
         private AttributeNumbering()
         {
-
+            CurrentAttributeNumber = -1;
         }
 
         public int GetCurrentAttributeNumber()

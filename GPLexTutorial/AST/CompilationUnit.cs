@@ -25,14 +25,16 @@ namespace GPLexTutorial.AST
                 declaration.TypeCheck();
         }
 
-        public override void GenCode(string output)
+        public override void GenCode(ref string output)
         {
-            throw new NotImplementedException();
+            output += $".assembly ConsoleApplication1"+Environment.NewLine+"{"+Environment.NewLine+"}";
+            foreach (var declaration in TypeDeclarations)
+                declaration.GenCode(ref output);
         }
 
-        public override void GenStoreCode(string output)
+        public override void GenStoreCode(ref string output)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

@@ -27,14 +27,15 @@ namespace GPLexTutorial.AST
             Result.TypeCheck();
         }
 
-        public override void GenCode(string output)
+        public override void GenCode(ref string output)
         {
-            MethodDeclarator.GenCode(output);
+            output += $" void";
+            MethodDeclarator.GenCode(ref output);
         }
 
-        public override void GenStoreCode(string output)
+        public override void GenStoreCode(ref string output)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

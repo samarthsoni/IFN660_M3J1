@@ -29,13 +29,14 @@ namespace GPLexTutorial.AST
                 statement.TypeCheck();
         }
 
-        public override void GenCode(string output)
+        public override void GenCode(ref string output)
         {
             foreach (var statement in BodyStatements)
-                statement.GenCode(output);
+                statement.GenCode(ref output);
+
         }
 
-        public override void GenStoreCode(string output)
+        public override void GenStoreCode(ref string output)
         {
             throw new NotImplementedException();
         }

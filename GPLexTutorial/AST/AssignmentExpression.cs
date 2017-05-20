@@ -13,16 +13,16 @@ namespace GPLexTutorial.AST
             LeftExpression = leftExpression;
         }
 
-        public override void GenCode(string output)
+        public override void GenCode(ref string output)
         {
-            RightExpression.GenCode(output);
-            LeftExpression.GenStoreCode(output);
-            LeftExpression.GenCode(output);
+            RightExpression.GenCode(ref output);
+            LeftExpression.GenStoreCode(ref output);
+            //LeftExpression.GenCode(ref output);
         }
 
-        public override void GenStoreCode(string output)
+        public override void GenStoreCode(ref string output)
         {
-            throw new NotImplementedException();
+            
         }
 
         public override void ResolveNames(LexicalScope ls)

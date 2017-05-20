@@ -39,6 +39,7 @@ namespace GPLexTutorial.AST
         public override void ResolveNames(LexicalScope ls)
         {
             ls.SymbolTable.Add(IdentifierExpression.Identifier.Name, this);
+            IdentifierExpression.ResolveNames(ls);
         }
 
         public override void TypeCheck()
@@ -46,14 +47,17 @@ namespace GPLexTutorial.AST
             Type.TypeCheck();
         }
 
-        public override void GenCode(string output)
+        public override void GenCode(ref string output)
         {
-            IdentifierExpression.GenCode(output);
+            output += Environment.NewLine + $".locals init ([{AttributeNumber}] ";
+            Type.GenCode(ref output);
+            output += $" {IdentifierExpression.Identifier.Name}";
+            output += ")";
         }
 
-        public override void GenStoreCode(string output)
+        public override void GenStoreCode(ref string output)
         {
-            throw new NotImplementedException();
+
         }
     }
 }

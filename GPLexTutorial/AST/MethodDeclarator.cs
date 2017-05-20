@@ -9,8 +9,8 @@ namespace GPLexTutorial.AST
 {
     public class MethodDeclarator : Node
     {
-        public Identifier Identifier;
-        public List<Statement> FormalParameterList;
+        public Identifier Identifier { get; set; }
+        public List<Statement> FormalParameterList { get; set; }
 
         public MethodDeclarator(Identifier identifier, List<Statement> formalParameterList)
         {
@@ -30,14 +30,20 @@ namespace GPLexTutorial.AST
                 FormalParameter.TypeCheck();
         }
 
-        public override void GenCode(string output)
+        public override void GenCode(ref string output)
         {
-            throw new NotImplementedException();
+            output+=$" {this.Identifier.Name}";
+            output += "(";
+            foreach(var param in FormalParameterList)
+            {
+                param.GenCode(ref output);
+            }
+            output += ")"+Environment.NewLine+"{";
         }
 
-        public override void GenStoreCode(string output)
+        public override void GenStoreCode(ref string output)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

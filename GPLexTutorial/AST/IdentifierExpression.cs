@@ -8,7 +8,7 @@ namespace GPLexTutorial.AST
 {
     public class IdentifierExpression : Expression
     {
-        public Identifier Identifier;
+        public Identifier Identifier { get; set; }
 
         public IDeclaration Declaration { get; set; }
 
@@ -43,14 +43,14 @@ namespace GPLexTutorial.AST
         {
         }
 
-        public override void GenCode(string output)
+        public override void GenCode(ref string output)
         {
-            output += $"ldloc {Declaration.GetNumber()}";
+            output += Environment.NewLine +$"ldloc.{Declaration.GetNumber()}";
         }
 
-        public override void GenStoreCode(string output)
+        public override void GenStoreCode(ref string output)
         {
-            output += $"stloc {Declaration.GetNumber()}";
+            output += Environment.NewLine + $"stloc.{Declaration.GetNumber()}";
         }
     }
 }
