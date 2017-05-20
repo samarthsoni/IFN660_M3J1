@@ -7,46 +7,43 @@ using System.Threading.Tasks;
 
 namespace GPLexTutorial.AST
 {
-    public class MethodDeclarator : Node, ILexicalScope
+    public class MethodDeclarator : Node
     {
-        public Identifier Identifier;
-        public List<Statement> FormalParameterList;
-        public Dictionary<string, IDeclaration> Declarations { get; set; }
-        public ILexicalScope ParentLexicalScope { get; set; }
+        public Identifier Identifier { get; set; }
+        public List<Statement> FormalParameterList { get; set; }
 
         public MethodDeclarator(Identifier identifier, List<Statement> formalParameterList)
         {
             FormalParameterList = formalParameterList;
             Identifier = identifier;
-            Declarations = new Dictionary<string, IDeclaration>();
-            foreach (Statement formalParameterStatement in formalParameterList)
-            {
-                if (formalParameterStatement is ParameterDeclarationStatement)
-                {
-                    var declaration = (IDeclaration) formalParameterStatement;
-                    Declarations.Add(declaration.GetName(),declaration);
-                }
-                    
-            }
-        }
-        public IDeclaration Resolve(string name)
-        {
-            if (Declarations.ContainsKey(name))
-                return Declarations[name];
-            else if (this.ParentLexicalScope!= null)
-                return ParentLexicalScope.Resolve(name);
-            else
-                return null;
         }
 
-        public void SetParentScope(ILexicalScope parentLexicalScope)
+        public override void ResolveNames(LexicalScope ls)
         {
-            this.ParentLexicalScope = parentLexicalScope;
+            foreach (var FormalParameter in FormalParameterList)
+                FormalParameter.ResolveNames(ls);
         }
-        
-        public ILexicalScope GetLexicalScope()
+
+        public override void TypeCheck()
         {
-            return ParentLexicalScope;
+            foreach (var FormalParameter in FormalParameterList)
+                FormalParameter.TypeCheck();
+        }
+
+        public override void GenCode(ref string output)
+        {
+            output+=$" {this.Identifier.Name}";
+            output += "(";
+            foreach(var param in FormalParameterList)
+            {
+                param.GenCode(ref output);
+            }
+            output += ")"+Environment.NewLine+"{";
+        }
+
+        public override void GenStoreCode(ref string output)
+        {
+            
         }
     }
 }

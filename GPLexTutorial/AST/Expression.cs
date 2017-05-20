@@ -2,8 +2,7 @@
 {
     public abstract class Expression : Node
     {
+        public Type type;
         
     }
-
-    
 }

@@ -2,11 +2,11 @@
 
 namespace GPLexTutorial.AST
 {
-    public class IntegerLiteralExpression:Expression
+    public class FloatingPointLiteralExpression : Expression
     {
-        public int Value { get; set; }
+        public float Value { get; set; }
 
-        public IntegerLiteralExpression(int val)
+        public FloatingPointLiteralExpression(float val)
         {
             Value = val;
         }
@@ -18,17 +18,17 @@ namespace GPLexTutorial.AST
 
         public override void TypeCheck()
         {
-            type = new NamedType(typeof(int).Name);
+            type = new NamedType(typeof(float).Name);
         }
 
         public override void GenCode(ref string output)
         {
-            output += Environment.NewLine + $"ldc.i4.s {Value}" ;
+            output += Value;
         }
 
         public override void GenStoreCode(ref string output)
         {
-            
+            output += Value;
         }
     }
 }

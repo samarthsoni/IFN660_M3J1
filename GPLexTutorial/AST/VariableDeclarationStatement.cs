@@ -1,40 +1,50 @@
+using System;
 using System.Collections.Generic;
 
 namespace GPLexTutorial.AST
 {
-    public class VariableDeclarationStatement : Statement, ILexicalScope
+    public class VariableDeclarationStatement : Statement
     {
-        public Type Type { get; set; }
-        public List<Expression> IdentifierExpressions { get; set; }
+        public List<VariableDeclaration> VariableDeclarations { get; set; }
         public Dims Dims { get; set; }
-        public Dictionary<string,IDeclaration> Declarations { get; set; }
-        public ILexicalScope ParentLexicalScope { get; set; }
+        public LexicalScope LexicalScope { get; set; }
+
         public VariableDeclarationStatement(Type type, List<Expression> identifierExpressions, Dims dims)
         {
-            Type = type;
-            IdentifierExpressions = identifierExpressions;
+            VariableDeclarations = new List<VariableDeclaration>();
             Dims = dims;
-            Declarations = new Dictionary<string, IDeclaration>();
+            foreach (Expression identifierExpression in identifierExpressions)
+                VariableDeclarations.Add(new VariableDeclaration(type, (IdentifierExpression)identifierExpression));
+
         }
 
-        public IDeclaration Resolve(string name)
+        public override void ResolveNames(LexicalScope ls)
         {
-            if (Declarations.ContainsKey(name))
-                return Declarations[name];
-            else if (this.ParentLexicalScope != null)
-                return ParentLexicalScope.Resolve(name);
-            else
-                return null;
+            foreach (var variableDeclaration in VariableDeclarations)
+            {
+                variableDeclaration.ResolveNames(ls);
+             }
         }
 
-        public void SetParentScope(ILexicalScope parentLexicalScope)
+        public override void TypeCheck()
         {
-            this.ParentLexicalScope = parentLexicalScope;
+            foreach (var variableDeclaration in VariableDeclarations)
+            {
+                variableDeclaration.TypeCheck();
+            }
         }
 
-        public ILexicalScope GetLexicalScope()
+        public override void GenCode(ref string output)
         {
-            return ParentLexicalScope;
+            foreach (var variableDeclaration in VariableDeclarations)
+            {
+                variableDeclaration.GenCode(ref output);
+            }
+        }
+
+        public override void GenStoreCode(ref string output)
+        {
+            
         }
     }
 }

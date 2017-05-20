@@ -12,6 +12,7 @@
 	public Identifier id;
 	public Statement stmt;
 	public AST.Type t;
+	public List<AST.Type> ts;
 	public List<Statement> stmts;
 	public List<Identifier> ids;
 	public List<Expression> es;
@@ -24,6 +25,7 @@
 	public TypeDeclaration typeDeclaration;
 	public List<TypeDeclaration> typeDeclarations;
 	public Node node;
+	public MethodHeader methodHeader;
 }
 
 %token <num> NUMBER
@@ -31,24 +33,24 @@
 %token <num> IntegerLiteral
 %token <floatValue> FLOATLITERAL
 %token <stringValue> STRINGLITERAL
-%token <boolValue> BOOL
+%token <boolValue> BOOLEANLITERAL
 %token EOF ABSTRACT ASSERT BOOLEAN BREAK BYTE CASE CATCH CHAR CLASS CONST CONTINUE DEFAULT DO DOUBLE ELSE ENUM EXTENDS FINAL FINALLY FLOAT FOR IF GOTO IMPLEMENTS IMPORT INSTANCEOF INT INTERFACE LONG NATIVE NEW PACKAGE PRIVATE PROTECTED PUBLIC RETURN SHORT STATIC STRICTFP SUPER SWITCH SYNCHRONIZED THIS THROW THROWS TRANSIENT TRY VOID VOLATILE WHILE CharacterLiteral NULL OPERATOR TRUE FALSE EndOfLineComment TraditionalComment ELIPSIS
 
 %type <e> Expression Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RalationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression Expression ExpressionName LeftHandSide Assignment VariableDeclaratorList  VariableDeclaratorId VariableDeclarator
 %type <e> StatementExpression
 %type <es> VariableDeclaratorList VariableDeclarators 
-%type <t> IntegralType NumericType UnannPrimitiveType UnannType Result UnannClassType UnannClassOrInterfaceType UnannArrayType
-%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter
-%type <stmts> BlockStatements Block MethodBody FormalParameterList FormalParameters
+%type <t> IntegralType NumericType UnannPrimitiveType UnannType Result UnannClassType UnannClassOrInterfaceType UnannArrayType NormalClassDeclaration ClassDeclaration TypeDeclaration FloatingPointType
+%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter MethodBody
+%type <stmts> BlockStatements Block FormalParameterList FormalParameters
 %type <memberDeclaration> MethodDeclaration ClassMemberDeclaration ClassBodyDeclaration
 %type <methodModifier> MethodModifier
 %type <methodModifiers> MethodModifiers
 %type <memberDeclarations> ClassBodyDeclarations ClassBody
 %type <classModifier> ClassModifier
 %type <classModifiers> ClassModifiers
-%type <typeDeclaration> NormalClassDeclaration ClassDeclaration TypeDeclaration
-%type <typeDeclarations> TypeDeclarations
-%type <node> CompilationUnit MethodHeader MethodDeclarator
+%type <ts> TypeDeclarations
+%type <node> CompilationUnit  MethodDeclarator
+%type <methodHeader> MethodHeader
 
 %left '='
 %nonassoc '<'
@@ -115,7 +117,7 @@ ImportDeclaration:
 
 TypeDeclarations:		
 		TypeDeclarations TypeDeclaration									{ $$ = $1; $1.Add($2); }
-	|	/* empty */															{ $$ = new List<TypeDeclaration>(); }
+	|	/* empty */															{ $$ = new List<AST.Type>(); }
 	;
 
 TypeDeclaration:		
@@ -124,7 +126,7 @@ TypeDeclaration:
 	;
 
 ClassDeclaration:		
-		NormalClassDeclaration 
+		NormalClassDeclaration												{$$ = $1;}
 	|	EnumDeclaration;
 
 NormalClassDeclaration: 
@@ -166,9 +168,9 @@ InterfaceType:
 	ClassType;
 
 ClassModifiers:			
-		ClassModifier
-	|	ClassModifier ClassModifiers
-	|	/* empty */;
+	ClassModifier ClassModifiers									{$$ = $2; $2.Add($1);}
+	|	/* empty */														{$$ = new List<ClassModifier>();}
+	;
 
 ClassModifier:		
 		PUBLIC															{$$ = ClassModifier.Public		;}
@@ -214,7 +216,7 @@ Result
 	;
 
 MethodBody :
-	Block  																{$$ = $1;}
+	Block  																{$$ = new MethodBody($1);}
 	|	';' ;
 
 Block:
@@ -316,7 +318,10 @@ PrimaryNoNewArray:
     Literal;
 
 Literal:
-    IntegerLiteral										{ $$=new IntegerLiteralExpression($1) ;}
+    IntegerLiteral											{ $$=new IntegerLiteralExpression($1) ;}
+	|	STRINGLITERAL										{ $$=new StringLiteralExpression($1) ;}
+	|	BOOLEANLITERAL										{ $$=new BooleanLiteralExpression($1) ;}
+	|	FLOATLITERAL										{ $$=new FloatingPointLiteralExpression($1) ;}
 	;
 
 LocalVariableDeclarationStatement:
@@ -334,18 +339,26 @@ UnannType:
 
 UnannPrimitiveType:
 	NumericType											{$$ = $1; }		
+	|	BOOLEAN											{$$ = new NamedType( typeof(bool).Name );}
 	;
 
 NumericType:
 	IntegralType										{$$ = $1; }
+	|	FloatingPointType								{$$ = $1; }
+	;
+
+FloatingPointType:
+	FLOAT												{$$ = new NamedType( typeof(float).Name );}
+	|	DOUBLE											{$$ = new NamedType( typeof(float).Name );}
 	;
 
 IntegralType:
-	BYTE
-	|	SHORT
-	|	INT												{$$ = new NamedType( $1.name );}
-	|	LONG
-	|	CHAR ;
+	BYTE												{$$ = new NamedType( typeof(int).Name );}
+	|	SHORT											{$$ = new NamedType( typeof(int).Name );}
+	|	INT												{$$ = new NamedType( typeof(int).Name );}
+	|	LONG											{$$ = new NamedType( typeof(int).Name );}
+	|	CHAR											{$$ = new NamedType( typeof(int).Name );}
+	;
 
 VariableDeclaratorList:
 	VariableDeclarator									{$$ = new List<Expression>();$$.Add($1);}					
@@ -416,7 +429,7 @@ InterfaceModifier:
 	|	STATIC;
 
 MethodModifiers
-	:	MethodModifier MethodModifiers		{$$ = $2;$2.Add($1);}
+	:	MethodModifiers MethodModifier 		{$$ = $1;$1.Add($2);}
 	|	/* empty */							{$$ = new List<MethodModifier>();};
 
 MethodModifier:		
@@ -463,7 +476,7 @@ FormalParameters:
 	| /* empty */												{$$ = new List<Statement>();};
 
 FormalParameter:
-	VariableModifiers UnannType VariableDeclaratorId			{$$ = new ParameterDeclarationStatement($2,$3);}
+	VariableModifiers UnannType VariableDeclaratorId			{$$ = new FormalParameterDeclarationStatement($2,$3);}
 	;
 
 VariableModifiers:
