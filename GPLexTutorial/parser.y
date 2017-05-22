@@ -182,8 +182,7 @@ ClassModifier:
 	;
 
 ClassBody:
-	'{' ClassBodyDeclarations '}'										{ $$ = $2; }
-	|	/* empty */														{ $$ = null; };
+	'{' ClassBodyDeclarations '}'										{ $$ = $2; };
 
 ClassBodyDeclarations:	
 		ClassBodyDeclarations ClassBodyDeclaration 						{ $$ = $1; $1.Add($2); }

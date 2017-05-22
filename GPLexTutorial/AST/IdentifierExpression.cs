@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ namespace GPLexTutorial.AST
     {
         public Identifier Identifier { get; set; }
 
+        [JsonIgnore]
         public IDeclaration Declaration { get; set; }
 
         public IdentifierExpression(Identifier identifier)
