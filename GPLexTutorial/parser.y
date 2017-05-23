@@ -40,7 +40,7 @@
 %type <e> StatementExpression
 %type <es> VariableDeclaratorList VariableDeclarators 
 %type <t> IntegralType NumericType UnannPrimitiveType UnannType Result UnannClassType UnannClassOrInterfaceType UnannArrayType NormalClassDeclaration ClassDeclaration TypeDeclaration FloatingPointType
-%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter MethodBody IfThenStatement
+%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter MethodBody IfThenStatement IfThenElseStatement StatementWithoutTrailingSubstatement StatementNoShortIf
 %type <stmts> BlockStatements Block FormalParameterList FormalParameters
 %type <memberDeclaration> MethodDeclaration ClassMemberDeclaration ClassBodyDeclaration
 %type <methodModifier> MethodModifier
@@ -234,7 +234,7 @@ Statement:
     StatementWithoutTrailingSubstatement
 	| LabeledStatement	
 	| IfThenStatement													{$$ = $1;}	
-	| IfThenElseStatement
+	| IfThenElseStatement												{$$ = $1;}	
 	| WhileStatement
 	| ForStatement	
 	;
@@ -277,16 +277,16 @@ IfThenStatement:
 	;
 
 IfThenElseStatement:
-	IF '(' Expression ')' StatementNoShortIf ELSE Statement
+	IF '(' Expression ')' StatementNoShortIf ELSE Statement				{$$ = new IfStatement($3,$5,$7);}
 	;
 
 StatementNoShortIf:
-	StatementWithoutTrailingSubstatement
+	StatementWithoutTrailingSubstatement								{$$ = $1;}
 	;
 
 StatementWithoutTrailingSubstatement:
 	Block
-    | ExpressionStatement
+    | ExpressionStatement												{$$ = $1;}
 	;
 
 EmptyStatement:
