@@ -20,6 +20,8 @@
 	public List<MemberDeclaration> memberDeclarations;
 	public MethodModifier methodModifier;
 	public List<MethodModifier> methodModifiers;
+	public FieldModifier fieldModifier;
+	public List<FieldModifier> fieldModifiers;
 	public ClassModifier classModifier;
 	public List<ClassModifier> classModifiers;
 	public TypeDeclaration typeDeclaration;
@@ -34,7 +36,7 @@
 %token <floatValue> FLOATLITERAL
 %token <stringValue> STRINGLITERAL
 %token <boolValue> BOOLEANLITERAL
-%token EOF ABSTRACT ASSERT BOOLEAN BREAK BYTE CASE CATCH CHAR CLASS CONST CONTINUE DEFAULT DO DOUBLE ELSE ENUM EXTENDS FINAL FINALLY FLOAT FOR IF GOTO IMPLEMENTS IMPORT INSTANCEOF INT INTERFACE LONG NATIVE NEW PACKAGE PRIVATE PROTECTED PUBLIC RETURN SHORT STATIC STRICTFP SUPER SWITCH SYNCHRONIZED THIS THROW THROWS TRANSIENT TRY VOID VOLATILE WHILE CharacterLiteral NULL OPERATOR TRUE FALSE EndOfLineComment TraditionalComment ELIPSIS
+%token EOF ABSTRACT ASSERT BOOLEAN BREAK BYTE CASE CATCH CHAR CLASS CONST CONTINUE DEFAULT DO DOUBLE ELSE ENUM EXTENDS FINAL TRANSIENT VOLATILE FINALLY FLOAT FOR IF GOTO IMPLEMENTS IMPORT INSTANCEOF INT INTERFACE LONG NATIVE NEW PACKAGE PRIVATE PROTECTED PUBLIC RETURN SHORT STATIC STRICTFP SUPER SWITCH SYNCHRONIZED THIS THROW THROWS TRANSIENT TRY VOID VOLATILE WHILE CharacterLiteral NULL OPERATOR TRUE FALSE EndOfLineComment TraditionalComment ELIPSIS
 
 %type <e> Expression Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RalationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression Expression ExpressionName LeftHandSide Assignment VariableDeclaratorList  VariableDeclaratorId VariableDeclarator
 %type <e> StatementExpression
@@ -42,9 +44,11 @@
 %type <t> IntegralType NumericType UnannPrimitiveType UnannType Result UnannClassType UnannClassOrInterfaceType UnannArrayType NormalClassDeclaration ClassDeclaration TypeDeclaration FloatingPointType
 %type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter MethodBody
 %type <stmts> BlockStatements Block FormalParameterList FormalParameters
-%type <memberDeclaration> MethodDeclaration ClassMemberDeclaration ClassBodyDeclaration
+%type <memberDeclaration> MethodDeclaration FieldDeclaration ClassMemberDeclaration ClassBodyDeclaration
 %type <methodModifier> MethodModifier
 %type <methodModifiers> MethodModifiers
+%type <fieldModifier> FieldModifier
+%type <fieldModifiers> FieldModifiers
 %type <memberDeclarations> ClassBodyDeclarations ClassBody
 %type <classModifier> ClassModifier
 %type <classModifiers> ClassModifiers
@@ -182,7 +186,8 @@ ClassModifier:
 	;
 
 ClassBody:
-	'{' ClassBodyDeclarations '}'										{ $$ = $2; };
+	'{' ClassBodyDeclarations '}'										{ $$ = $2; }
+	|	/* empty */														{ $$ = null; };
 
 ClassBodyDeclarations:	
 		ClassBodyDeclarations ClassBodyDeclaration 						{ $$ = $1; $1.Add($2); }
@@ -195,10 +200,30 @@ ClassBodyDeclaration:
 
 ClassMemberDeclaration:
 	MethodDeclaration													{ $$ = $1; }
+	|	FieldDeclaration 												{ $$ = $1; }
 	|	';';
 
 MethodDeclaration :
 	MethodModifiers MethodHeader MethodBody								{ $$ = new MethodDeclaration($1,$2,$3); };
+
+FieldDeclaration :
+	FieldModifiers UnannType VariableDeclaratorList ';'				    { $$ = new FieldDeclaration($2,$3,null); };
+	
+
+FieldModifiers
+	:	FieldModifiers FieldModifier 		{$$ = $1;$1.Add($2);}
+	|	/* empty */							{$$ = new List<FieldModifier>();};
+
+FieldModifier:		
+		PUBLIC								{$$= FieldModifier.Public;}
+	|	PROTECTED							{$$= FieldModifier.Protected;}
+	|	PRIVATE								{$$= FieldModifier.Private;}
+	|	ABSTRACT							{$$= FieldModifier.Abstract;}
+	|	STATIC								{$$= FieldModifier.Static;}
+	|	FINAL						    	{$$= FieldModifier.Final;}
+	|	TRANSIENT							{$$= FieldModifier.Transient ;}
+	|	VOLATILE							{$$= FieldModifier.Volatile ;}
+	;
 
 MethodHeader 
 	:	Result MethodDeclarator Throws									{ $$ = new MethodHeader($1,$2); }
@@ -385,7 +410,7 @@ Dims:
 	/* empty */ ;
 
 VariableInitializer:
-	/* empty */ ;
+	Expression;
 
 EnumDeclaration : 
 	ClassModifiers ENUM IDENT Superinterfaces EnumBody;
