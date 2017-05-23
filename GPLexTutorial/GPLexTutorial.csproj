@@ -83,6 +83,7 @@
     <Compile Include="AST\UnannClassOrInterfaceType.cs" />
     <Compile Include="AST\UnannType.cs" />
     <Compile Include="AST\VariableModifier.cs" />
+    <Compile Include="AST\WhileStatement.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="parser.cs" />
     <Compile Include="Program.cs" />

@@ -40,7 +40,7 @@
 %type <e> StatementExpression
 %type <es> VariableDeclaratorList VariableDeclarators 
 %type <t> IntegralType NumericType UnannPrimitiveType UnannType Result UnannClassType UnannClassOrInterfaceType UnannArrayType NormalClassDeclaration ClassDeclaration TypeDeclaration FloatingPointType
-%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter MethodBody IfThenStatement IfThenElseStatement StatementWithoutTrailingSubstatement StatementNoShortIf
+%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter MethodBody IfThenStatement IfThenElseStatement StatementWithoutTrailingSubstatement StatementNoShortIf WhileStatement
 %type <stmts> BlockStatements Block FormalParameterList FormalParameters
 %type <memberDeclaration> MethodDeclaration ClassMemberDeclaration ClassBodyDeclaration
 %type <methodModifier> MethodModifier
@@ -235,7 +235,7 @@ Statement:
 	| LabeledStatement	
 	| IfThenStatement													{$$ = $1;}	
 	| IfThenElseStatement												{$$ = $1;}	
-	| WhileStatement
+	| WhileStatement													{$$ = $1;}
 	| ForStatement	
 	;
 
@@ -244,7 +244,7 @@ LabeledStatement:
 	;
 
 WhileStatement:
-	WHILE '(' Expression ')' Statement
+	WHILE '(' Expression ')' Statement									{$$ = new WhileStatement($3,$5);}							
 	;
 
 ForStatement:
