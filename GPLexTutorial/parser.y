@@ -40,7 +40,7 @@
 %type <e> StatementExpression
 %type <es> VariableDeclaratorList VariableDeclarators 
 %type <t> IntegralType NumericType UnannPrimitiveType UnannType Result UnannClassType UnannClassOrInterfaceType UnannArrayType NormalClassDeclaration ClassDeclaration TypeDeclaration FloatingPointType
-%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter MethodBody
+%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter MethodBody IfThenStatement
 %type <stmts> BlockStatements Block FormalParameterList FormalParameters
 %type <memberDeclaration> MethodDeclaration ClassMemberDeclaration ClassBodyDeclaration
 %type <methodModifier> MethodModifier
@@ -233,7 +233,7 @@ BlockStatement:
 Statement:
     StatementWithoutTrailingSubstatement
 	| LabeledStatement	
-	| IfThenStatement	
+	| IfThenStatement													{$$ = $1;}	
 	| IfThenElseStatement
 	| WhileStatement
 	| ForStatement	
@@ -273,7 +273,7 @@ StatmentExpression:
 	;
 
 IfThenStatement:
-	IF '(' Expression ')' Statement
+	IF '(' Expression ')' Statement										{$$ = new IfStatement($3,$5,null);}										
 	;
 
 IfThenElseStatement:

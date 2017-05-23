@@ -59,6 +59,7 @@
     <Compile Include="AST\Identifier.cs" />
     <Compile Include="AST\IdentifierExpression.cs" />
     <Compile Include="AST\BooleanLiteralExpression.cs" />
+    <Compile Include="AST\IfStatement.cs" />
     <Compile Include="AST\StringLiteralExpression.cs" />
     <Compile Include="AST\IntegerLiteralExpression.cs" />
     <Compile Include="AST\LeftHandSide.cs" />

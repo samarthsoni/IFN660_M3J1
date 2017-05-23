@@ -1,10 +1,10 @@
 
 // ==========================================================================
-//  GPPG error listing for yacc source file <parser.y - 23/05/2017 1:15:33 PM>
+//  GPPG error listing for yacc source file <parser.y - 23/05/2017 2:09:49 PM>
 // ==========================================================================
 //  Version:  1.5.2
 //  Machine:  VDI-VL17-002
-//  DateTime: 23/05/2017 1:15:38 PM
+//  DateTime: 23/05/2017 2:09:52 PM
 //  UserName: n9523839
 // ==========================================================================
 
@@ -51,7 +51,7 @@
 %type <e> StatementExpression
 %type <es> VariableDeclaratorList VariableDeclarators 
 %type <t> IntegralType NumericType UnannPrimitiveType UnannType Result UnannClassType UnannClassOrInterfaceType UnannArrayType NormalClassDeclaration ClassDeclaration TypeDeclaration FloatingPointType
-%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter MethodBody
+%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter MethodBody IfThenStatement
 %type <stmts> BlockStatements Block FormalParameterList FormalParameters
 %type <memberDeclaration> MethodDeclaration ClassMemberDeclaration ClassBodyDeclaration
 %type <methodModifier> MethodModifier
@@ -246,7 +246,7 @@ BlockStatement:
 Statement:
     StatementWithoutTrailingSubstatement
 	| LabeledStatement	
-	| IfThenStatement	
+	| IfThenStatement													{$$ = $1;}	
 	| IfThenElseStatement
 	| WhileStatement
 	| ForStatement	
@@ -286,7 +286,7 @@ StatmentExpression:
 	;
 
 IfThenStatement:
-	IF '(' Expression ')' Statement
+	IF '(' Expression ')' Statement										{$$ = new IfStatement($3,$5,null);}										
 	;
 
 IfThenElseStatement:
