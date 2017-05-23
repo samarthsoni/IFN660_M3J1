@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace GPLexTutorial.AST
 {
-    public class ArrayType : Type
+    public interface IDeclaration
     {
+        string GetName();
+        Type GetDeclarationType();
+        int GetNumber();
     }
 }

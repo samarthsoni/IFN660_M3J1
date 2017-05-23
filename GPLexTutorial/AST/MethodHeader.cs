@@ -6,46 +6,36 @@ using System.Threading.Tasks;
 
 namespace GPLexTutorial.AST
 {
-    public abstract class Type : Node
+    public class MethodHeader : Node
     {
-        public bool Compatible(Type other)
+        public Type Result;
+        public Node MethodDeclarator;
+
+        public MethodHeader(Type result,Node methodDeclarator)
         {
-            return Equal(other);
-        }
-
-        public abstract bool Equal(Type other);
-    }
-
-    public class IntType : Type
-    {
-        public IntType()
-        {
-
+            MethodDeclarator = methodDeclarator;
+            Result = result;
         }
 
         public override void ResolveNames(LexicalScope ls)
         {
-
+            MethodDeclarator.ResolveNames(ls);
         }
 
         public override void TypeCheck()
         {
-
-        }
-
-        public override bool Equal(Type type)
-        {
-            return ((IntType)type) != null;
+            Result.TypeCheck();
         }
 
         public override void GenCode(ref string output)
         {
-            throw new NotImplementedException();
+            output += $" void";
+            MethodDeclarator.GenCode(ref output);
         }
 
         public override void GenStoreCode(ref string output)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
