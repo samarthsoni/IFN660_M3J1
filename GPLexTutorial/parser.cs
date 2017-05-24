@@ -3,10 +3,10 @@
 // (see accompanying GPPGcopyright.rtf)
 
 // GPPG version 1.5.2
-// Machine:  VDI-VL17-008
-// DateTime: 24/05/2017 12:01:27 PM
+// Machine:  VDI-VL17-015
+// DateTime: 24/05/2017 1:02:30 PM
 // UserName: n9837876
-// Input file <parser.y - 24/05/2017 11:55:34 AM>
+// Input file <parser.y - 24/05/2017 1:01:37 PM>
 
 // options: lines gplex
 
@@ -709,7 +709,7 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
         break;
       case 70: // FieldDeclaration -> FieldModifiers, UnannType, VariableDeclaratorList, ';'
 #line 210 "parser.y"
-                                                            { CurrentSemanticValue.memberDeclaration = new FieldDeclaration(ValueStack[ValueStack.Depth-3].t,ValueStack[ValueStack.Depth-2].es,null); }
+                                                            { CurrentSemanticValue.memberDeclaration = new FieldDeclaration(ValueStack[ValueStack.Depth-4].fieldModifiers,ValueStack[ValueStack.Depth-3].t,ValueStack[ValueStack.Depth-2].es); }
 #line default
         break;
       case 71: // FieldModifiers -> FieldModifiers, FieldModifier

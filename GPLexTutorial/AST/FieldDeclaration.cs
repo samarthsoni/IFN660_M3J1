@@ -13,10 +13,10 @@ namespace GPLexTutorial.AST
         public List<VariableDeclaration> VariableDeclarations { get; set; }
         public List<FieldModifier> FieldModifiers { get; set; }
         public LexicalScope LexicalScope { get; set; }
-        public FieldDeclaration(Type type, List<Expression> identifierExpressions, List<FieldModifier> FieldModifier)
+        public FieldDeclaration(List<FieldModifier> FieldModifier, Type type, List<Expression> identifierExpressions)
         {
-            VariableDeclarations = new List<VariableDeclaration>();
             FieldModifiers = FieldModifier;
+            VariableDeclarations = new List<VariableDeclaration>();
             foreach (Expression identifierExpression in identifierExpressions)
                 VariableDeclarations.Add(new VariableDeclaration(type, (IdentifierExpression)identifierExpression));
         }

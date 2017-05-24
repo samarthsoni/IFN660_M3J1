@@ -207,7 +207,7 @@ MethodDeclaration :
 	MethodModifiers MethodHeader MethodBody								{ $$ = new MethodDeclaration($1,$2,$3); };
 
 FieldDeclaration :
-	FieldModifiers UnannType VariableDeclaratorList ';'				    { $$ = new FieldDeclaration($2,$3,null); };
+	FieldModifiers UnannType VariableDeclaratorList ';'				    { $$ = new FieldDeclaration($1,$2,$3); };
 	
 
 FieldModifiers
