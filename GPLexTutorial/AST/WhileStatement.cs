@@ -18,12 +18,13 @@ namespace GPLexTutorial.AST
         }
         public override void GenCode(ref string output)
         {
-            throw new NotImplementedException();
+            Condition.GenCode(ref output);
+            Statement.GenCode(ref output);
         }
 
         public override void GenStoreCode(ref string output)
         {
-            throw new NotImplementedException();
+
         }
 
         public override void ResolveNames(LexicalScope ls)

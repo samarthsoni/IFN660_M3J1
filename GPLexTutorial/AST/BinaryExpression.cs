@@ -25,7 +25,19 @@ namespace GPLexTutorial.AST
 
         public override void GenStoreCode(ref string output)
         {
-            throw new NotImplementedException();
+            LeftHAndSide.GenCode(ref output);
+            RightHandSide.GenCode(ref output);
+            switch (Operator)
+            {
+                case '<':
+                     output += "clt";
+                    break;
+                case '>':
+                    output += "cgt";
+                    break;
+                default:
+                    throw new ApplicationException($"Error: Unexpected binary expression: {Operator}");
+            }
         }
 
         public override void ResolveNames(LexicalScope ls)
@@ -55,6 +67,8 @@ namespace GPLexTutorial.AST
                     }
                     type = new BoolType();
                     break;
+                default:
+                    throw new ApplicationException($"Error: Unexpected binary expression: {Operator}");
             }
         }
     }

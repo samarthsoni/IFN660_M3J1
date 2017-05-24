@@ -8,5 +8,6 @@ namespace GPLexTutorial.AST
 {
     public abstract class Statement : Node
     {
+        public int LastLabel;
     }
 }
