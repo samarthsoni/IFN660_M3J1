@@ -56,14 +56,13 @@ namespace GPLexTutorial.AST
                 output += $" {fieldModifier.ToString().ToLower()}";
             }
 
-            output += $"int ([{AttributeNumber}] ";
+            output += $"int {AttributeNumber} ";
             output += $" {IdentifierExpression.Identifier.Name}";
-
         }
 
         public override void GenStoreCode(ref string output)
         {
-
+            
         }
     }
 }
