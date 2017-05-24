@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AST\AssignmentExpression.cs" />
+    <Compile Include="AST\FieldDeclaration.cs" />
     <Compile Include="AST\FieldModifier.cs" />
     <Compile Include="AST\FloatingPointLiteralExpression.cs" />
     <Compile Include="AST\ClassModifier.cs" />
