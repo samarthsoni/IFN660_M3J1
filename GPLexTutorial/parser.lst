@@ -1,10 +1,10 @@
 
 // ==========================================================================
-//  GPPG error listing for yacc source file <parser.y - 24/05/2017 5:23:54 PM>
+//  GPPG error listing for yacc source file <parser.y - 24/05/2017 6:11:25 PM>
 // ==========================================================================
 //  Version:  1.5.2
 //  Machine:  LIN-PC
-//  DateTime: 24/05/2017 5:30:59 PM
+//  DateTime: 24/05/2017 6:20:35 PM
 //  UserName: linto
 // ==========================================================================
 
@@ -244,7 +244,7 @@ BlockStatement:
     | Statement 														{$$ = $1;};
 
 Statement:
-    StatementWithoutTrailingSubstatement
+    StatementWithoutTrailingSubstatement								{$$ = $1;}
 	| LabeledStatement	
 	| IfThenStatement													{$$ = $1;}	
 	| IfThenElseStatement												{$$ = $1;}	

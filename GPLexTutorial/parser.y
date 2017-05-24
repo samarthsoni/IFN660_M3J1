@@ -231,7 +231,7 @@ BlockStatement:
     | Statement 														{$$ = $1;};
 
 Statement:
-    StatementWithoutTrailingSubstatement
+    StatementWithoutTrailingSubstatement								{$$ = $1;}
 	| LabeledStatement	
 	| IfThenStatement													{$$ = $1;}	
 	| IfThenElseStatement												{$$ = $1;}	

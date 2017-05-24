@@ -48,4 +48,37 @@ namespace GPLexTutorial.AST
             throw new NotImplementedException();
         }
     }
+
+    public class BoolType : Type
+    {
+        public BoolType()
+        {
+                
+        }
+
+        public override bool Equal(Type type)
+        {
+            return ((BoolType)type) != null;
+        }
+
+        public override void GenCode(ref string output)
+        {
+            
+        }
+
+        public override void GenStoreCode(ref string output)
+        {
+           
+        }
+
+        public override void ResolveNames(LexicalScope ls)
+        {
+            
+        }
+
+        public override void TypeCheck()
+        {
+            
+        }
+    }
 }

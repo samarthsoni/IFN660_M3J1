@@ -8,12 +8,12 @@ namespace GPLexTutorial.AST
 {
     public class WhileStatement : Statement
     {
-        public Expression Expression;
+        public Expression Condition;
         public Statement Statement;
 
-        public WhileStatement(Expression expression, Statement statement)
+        public WhileStatement(Expression condition, Statement statement)
         {
-            Expression = expression;
+            Condition = condition;
             Statement = statement;
         }
         public override void GenCode(ref string output)
@@ -28,13 +28,18 @@ namespace GPLexTutorial.AST
 
         public override void ResolveNames(LexicalScope ls)
         {
-            Expression.ResolveNames(ls);
+            Condition.ResolveNames(ls);
             Statement.ResolveNames(ls);
         }
 
         public override void TypeCheck()
         {
-            throw new NotImplementedException();
+            Condition.TypeCheck();
+            if(!Condition.type.Equal(new BoolType()))
+            {
+                throw new ApplicationException($"Error: While Statement TypeCheck error");
+            }
+            Statement.TypeCheck();
         }
     }
 }

@@ -36,7 +36,26 @@ namespace GPLexTutorial.AST
 
         public override void TypeCheck()
         {
-            throw new NotImplementedException();
+            LeftHAndSide.TypeCheck();
+            RightHandSide.TypeCheck();
+
+            switch (Operator)
+            {
+                case '<':
+                    if(!LeftHAndSide.type.Equal(new IntType())|| !RightHandSide.type.Equal(new IntType()))
+                    {
+                        throw new ApplicationException($"Error: '<' TypeCheck error");
+                    }
+                    type = new BoolType();
+                    break;
+                case '>':
+                    if (!LeftHAndSide.type.Equal(new IntType()) || !RightHandSide.type.Equal(new IntType()))
+                    {
+                        throw new ApplicationException($"Error: '>' TypeCheck error");
+                    }
+                    type = new BoolType();
+                    break;
+            }
         }
     }
 }

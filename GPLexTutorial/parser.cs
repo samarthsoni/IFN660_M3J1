@@ -4,9 +4,9 @@
 
 // GPPG version 1.5.2
 // Machine:  LIN-PC
-// DateTime: 24/05/2017 5:30:59 PM
+// DateTime: 24/05/2017 6:20:35 PM
 // UserName: linto
-// Input file <parser.y - 24/05/2017 5:23:54 PM>
+// Input file <parser.y - 24/05/2017 6:11:25 PM>
 
 // options: lines gplex
 
@@ -778,6 +778,11 @@ public class Parser: ShiftReduceParser<ValueType, LexLocation>
       case 78: // BlockStatement -> Statement
 #line 231 "parser.y"
                               {CurrentSemanticValue.stmt = ValueStack[ValueStack.Depth-1].stmt;}
+#line default
+        break;
+      case 79: // Statement -> StatementWithoutTrailingSubstatement
+#line 234 "parser.y"
+                                                {CurrentSemanticValue.stmt = ValueStack[ValueStack.Depth-1].stmt;}
 #line default
         break;
       case 81: // Statement -> IfThenStatement

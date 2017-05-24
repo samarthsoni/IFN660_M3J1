@@ -37,7 +37,13 @@ namespace GPLexTutorial.AST
 
         public override void TypeCheck()
         {
-            throw new NotImplementedException();
+            Condition.TypeCheck();
+            if(!Condition.type.Equal(new BoolType()))
+            {
+                throw new ApplicationException($"Error: If Statement TypeCheck error");
+            }
+            ThenStatement.TypeCheck();
+            ElseStatement.TypeCheck();
         }
     }
 }
