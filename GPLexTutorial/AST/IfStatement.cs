@@ -20,12 +20,17 @@ namespace GPLexTutorial.AST
 
         public override void GenCode(ref string output)
         {
-            throw new NotImplementedException();
+            Condition.GenCode(ref output);
+            int elseLabel = LastLabel++;
+            output += "brfalse L"+ elseLabel;
+            ThenStatement.GenCode(ref output);
+            output += "L" + elseLabel + ":";
+            ElseStatement.GenCode(ref output);
         }
 
         public override void GenStoreCode(ref string output)
         {
-            throw new NotImplementedException();
+
         }
 
         public override void ResolveNames(LexicalScope ls)
