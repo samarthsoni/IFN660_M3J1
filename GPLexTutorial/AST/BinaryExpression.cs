@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace GPLexTutorial.AST
 {
-    public class IfStatement : Statement
+    public class BinaryExpression : Expression
     {
-        public Expression Condition;
-        public Statement ThenStatement, ElseStatement;
+        public char Operator;
+        public Expression LeftHAndSide, RightHandSide;
 
-        public IfStatement(Expression condition, Statement thenStatement, Statement elseStatement)
+        public BinaryExpression(Expression lhs,char op,Expression rhs)
         {
-            Condition = condition;
-            ThenStatement = thenStatement;
-            ElseStatement = elseStatement;
+            LeftHAndSide = lhs;
+            Operator = op;
+            RightHandSide = rhs;
         }
 
         public override void GenCode(ref string output)
@@ -30,9 +30,8 @@ namespace GPLexTutorial.AST
 
         public override void ResolveNames(LexicalScope ls)
         {
-            Condition.ResolveNames(ls);
-            ThenStatement.ResolveNames(ls);
-            ElseStatement.ResolveNames(ls);
+            LeftHAndSide.ResolveNames(ls);
+            RightHandSide.ResolveNames(ls);
         }
 
         public override void TypeCheck()

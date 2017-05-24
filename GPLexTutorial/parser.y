@@ -36,7 +36,7 @@
 %token <boolValue> BOOLEANLITERAL
 %token EOF ABSTRACT ASSERT BOOLEAN BREAK BYTE CASE CATCH CHAR CLASS CONST CONTINUE DEFAULT DO DOUBLE ELSE ENUM EXTENDS FINAL FINALLY FLOAT FOR IF GOTO IMPLEMENTS IMPORT INSTANCEOF INT INTERFACE LONG NATIVE NEW PACKAGE PRIVATE PROTECTED PUBLIC RETURN SHORT STATIC STRICTFP SUPER SWITCH SYNCHRONIZED THIS THROW THROWS TRANSIENT TRY VOID VOLATILE WHILE CharacterLiteral NULL OPERATOR TRUE FALSE EndOfLineComment TraditionalComment ELIPSIS
 
-%type <e> Expression Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RalationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression Expression ExpressionName LeftHandSide Assignment VariableDeclaratorList  VariableDeclaratorId VariableDeclarator
+%type <e> Expression Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RelationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression Expression ExpressionName LeftHandSide Assignment VariableDeclaratorList  VariableDeclaratorId VariableDeclarator
 %type <e> StatementExpression
 %type <es> VariableDeclaratorList VariableDeclarators 
 %type <t> IntegralType NumericType UnannPrimitiveType UnannType Result UnannClassType UnannClassOrInterfaceType UnannArrayType NormalClassDeclaration ClassDeclaration TypeDeclaration FloatingPointType
@@ -322,34 +322,37 @@ AssignmentOperator:
 	;
 
 Expression:
-	AssignmentExpression;
-
+	AssignmentExpression										{$$ = $1;};
+	
 AssignmentExpression:
-	ConditionalExpression;
+	ConditionalExpression										{$$ = $1;};
 
 ConditionalExpression:
-    ConditionalOrExpression;
+    ConditionalOrExpression										{$$ = $1;};
 
 ConditionalOrExpression:
-    ConditionalAndExpression; 
+    ConditionalAndExpression									{$$ = $1;};
 
 ConditionalAndExpression:
-    InclusiveOrExpression;
+    InclusiveOrExpression										{$$ = $1;};
 
 InclusiveOrExpression:
-    ExclusiveOrExpression;
+    ExclusiveOrExpression										{$$ = $1;};
 
 ExclusiveOrExpression:
-    AndExpression;
+    AndExpression												{$$ = $1;};
 
 AndExpression:
-    EqualityExpression;
+    EqualityExpression											{$$ = $1;};
 
 EqualityExpression:
-    RalationalExpression;
+    RelationalExpression										{$$ = $1;};
 
-RalationalExpression:
-    ShiftExpression;
+RelationalExpression:
+    ShiftExpression
+	| RelationalExpression '<' ShiftExpression					{$$ = new BinaryExpression($1,'<',$3);}
+	| RelationalExpression '>' ShiftExpression					{$$ = new BinaryExpression($1,'>',$3);}
+	;
 
 ShiftExpression:
     AddictiveExpression;

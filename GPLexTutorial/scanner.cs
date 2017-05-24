@@ -5,10 +5,10 @@
 //  See accompanying file GPLEXcopyright.rtf.
 //
 //  GPLEX Version:  1.2.2
-//  Machine:  VDI-VL17-002
-//  DateTime: 23/05/2017 2:38:50 PM
-//  UserName: n9523839
-//  GPLEX input file <scanner.lex - 23/05/2017 12:52:16 PM>
+//  Machine:  LIN-PC
+//  DateTime: 24/05/2017 5:30:59 PM
+//  UserName: linto
+//  GPLEX input file <scanner.lex - 12/04/2017 4:31:24 PM>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: parser, minimize
