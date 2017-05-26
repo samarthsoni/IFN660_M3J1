@@ -50,13 +50,12 @@ namespace GPLexTutorial.AST
         public override void GenCode(ref string output)
         {
             output += Environment.NewLine + ".field";
-
+            Type.GenCode(ref output);
             foreach (var fieldModifier in FieldModifiers)
             {
                 output += $" {fieldModifier.ToString().ToLower()}";
             }
 
-            output += $"int {AttributeNumber} ";
             output += $" {IdentifierExpression.Identifier.Name}";
         }
 
