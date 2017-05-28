@@ -40,7 +40,7 @@
 %type <e> StatementExpression ForUpdate
 %type <es> VariableDeclaratorList VariableDeclarators 
 %type <t> IntegralType NumericType UnannPrimitiveType UnannType Result UnannClassType UnannClassOrInterfaceType UnannArrayType NormalClassDeclaration ClassDeclaration TypeDeclaration FloatingPointType
-%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter MethodBody ForStatement BasicForStatement ForInit
+%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter MethodBody ForStatement BasicForStatement ForInit DoStatement
 %type <stmts> BlockStatements Block FormalParameterList FormalParameters
 %type <memberDeclaration> MethodDeclaration ClassMemberDeclaration ClassBodyDeclaration
 %type <methodModifier> MethodModifier
@@ -237,8 +237,13 @@ Statement:
 
 StatementWithoutTrailingSubstatement:
     ExpressionStatement													{$$ = $1;}
+	|DoStatement														{$$ = $1;}
 	;
 	
+DoStatement:
+	DO Statement WHILE '(' Expression ')' ';'							{$$ = new DoWhileStatement($2,$5);}
+	;
+
 ExpressionStatement:				
 	StatementExpression ';'												{$$ = new ExpressionStatement($1);}
 	;

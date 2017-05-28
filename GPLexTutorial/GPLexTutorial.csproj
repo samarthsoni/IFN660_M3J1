@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="AST\AssignmentExpression.cs" />
     <Compile Include="AST\BasicForStatement.cs" />
+    <Compile Include="AST\DoWhileStatement.cs" />
     <Compile Include="AST\FloatingPointLiteralExpression.cs" />
     <Compile Include="AST\ClassModifier.cs" />
     <Compile Include="AST\CompilationUnit.cs" />
