@@ -29,14 +29,14 @@ namespace GPLexTutorial
                     TypeNameHandling = TypeNameHandling.All
                 };
                 jsonSerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
-                Console.Write(JsonConvert.SerializeObject(parser.RootNode, Formatting.Indented, jsonSerializerSettings));
+                //Console.Write(JsonConvert.SerializeObject(parser.RootNode, Formatting.Indented, jsonSerializerSettings));
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
             
-            Console.ReadLine();
+            //Console.ReadLine();
         }
     }
 }
