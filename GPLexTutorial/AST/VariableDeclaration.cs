@@ -11,7 +11,6 @@ namespace GPLexTutorial.AST
         public IdentifierExpression IdentifierExpression;
 
         public Type Type;
-
         public int AttributeNumber;
 
         public VariableDeclaration(Type type, IdentifierExpression identifierExpression)

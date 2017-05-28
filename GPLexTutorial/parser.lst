@@ -1,11 +1,11 @@
 
 // ==========================================================================
-//  GPPG error listing for yacc source file <parser.y - 5/9/2017 6:10:55 PM>
+//  GPPG error listing for yacc source file <parser.y - 28/05/2017 7:16:00 PM>
 // ==========================================================================
 //  Version:  1.5.2
-//  Machine:  DESKTOP-VKITI27
-//  DateTime: 5/9/2017 6:10:58 PM
-//  UserName: Juan Camilo
+//  Machine:  DESKTOP-IRIVFD3
+//  DateTime: 28/05/2017 7:16:02 PM
+//  UserName: Samarth
 // ==========================================================================
 
 
@@ -47,11 +47,11 @@
 %token <boolValue> BOOLEANLITERAL
 %token EOF ABSTRACT ASSERT BOOLEAN BREAK BYTE CASE CATCH CHAR CLASS CONST CONTINUE DEFAULT DO DOUBLE ELSE ENUM EXTENDS FINAL FINALLY FLOAT FOR IF GOTO IMPLEMENTS IMPORT INSTANCEOF INT INTERFACE LONG NATIVE NEW PACKAGE PRIVATE PROTECTED PUBLIC RETURN SHORT STATIC STRICTFP SUPER SWITCH SYNCHRONIZED THIS THROW THROWS TRANSIENT TRY VOID VOLATILE WHILE CharacterLiteral NULL OPERATOR TRUE FALSE EndOfLineComment TraditionalComment ELIPSIS
 
-%type <e> Expression Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RalationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression Expression ExpressionName LeftHandSide Assignment VariableDeclaratorList  VariableDeclaratorId VariableDeclarator
-%type <e> StatementExpression
+%type <e> Expression Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RalationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression Expression ExpressionName LeftHandSide Assignment VariableDeclaratorList  VariableDeclaratorId VariableDeclarator VariableInitializer
+%type <e> StatementExpression ForUpdate
 %type <es> VariableDeclaratorList VariableDeclarators 
 %type <t> IntegralType NumericType UnannPrimitiveType UnannType Result UnannClassType UnannClassOrInterfaceType UnannArrayType NormalClassDeclaration ClassDeclaration TypeDeclaration FloatingPointType
-%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter MethodBody
+%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter MethodBody ForStatement BasicForStatement ForInit
 %type <stmts> BlockStatements Block FormalParameterList FormalParameters
 %type <memberDeclaration> MethodDeclaration ClassMemberDeclaration ClassBodyDeclaration
 %type <methodModifier> MethodModifier
@@ -68,15 +68,6 @@
 %left '+'
 
 %%
-// Error: NonTerminal symbol "BooleanLiteral" has no productions
-// Error: NonTerminal symbol "FloatingPointLiteral" has no productions
-// Warning: Terminating FloatingPointLiteral fixes the following size-1 NonTerminal set
-   // {FloatingPointLiteral}
-// Error: There are 2 non-terminating NonTerminal Symbols
-   //  {BooleanLiteral, FloatingPointLiteral}
-// Warning: Terminating BooleanLiteral fixes the following size-1 NonTerminal set
-   // {BooleanLiteral}
-// ------------------------------------------------------------------------------------
 
 
 CompilationUnit : 
@@ -188,9 +179,9 @@ InterfaceType:
 	ClassType;
 
 ClassModifiers:			
-		ClassModifier
-	|	ClassModifier ClassModifiers
-	|	/* empty */;
+	ClassModifier ClassModifiers									{$$ = $2; $2.Add($1);}
+	|	/* empty */														{$$ = new List<ClassModifier>();}
+	;
 
 ClassModifier:		
 		PUBLIC															{$$ = ClassModifier.Public		;}
@@ -202,8 +193,7 @@ ClassModifier:
 	;
 
 ClassBody:
-	'{' ClassBodyDeclarations '}'										{ $$ = $2; }
-	|	/* empty */														{ $$ = null; };
+	'{' ClassBodyDeclarations '}'										{ $$ = $2; };
 
 ClassBodyDeclarations:	
 		ClassBodyDeclarations ClassBodyDeclaration 						{ $$ = $1; $1.Add($2); }
@@ -253,6 +243,7 @@ BlockStatement:
 
 Statement:
     StatementWithoutTrailingSubstatement								{$$ = $1;}
+	|ForStatement														{$$ = $1;}
 	;
 
 StatementWithoutTrailingSubstatement:
@@ -340,12 +331,29 @@ PrimaryNoNewArray:
 Literal:
     IntegerLiteral											{ $$=new IntegerLiteralExpression($1) ;}
 	|	STRINGLITERAL										{ $$=new StringLiteralExpression($1) ;}
-	|	BooleanLiteral										{ $$=new BooleanLiteralExpression($1) ;}
-	|	FloatingPointLiteral								{ $$=new FloatingPointLiteralExpression($1) ;}
+	|	BOOLEANLITERAL										{ $$=new BooleanLiteralExpression($1) ;}
+	|	FLOATLITERAL										{ $$=new FloatingPointLiteralExpression($1) ;}
 	;
 
+ForStatement:
+	BasicForStatement										{$$ = $1; }
+	;
+
+BasicForStatement:
+	FOR '(' ForInit ';' Expression ';' ForUpdate ')' Statement  {$$=new BasicForStatement($3,$5,$7,$9);}
+	;
+
+ForUpdate:
+	StatementExpression									{$$ = $1; }
+	;
+
+ForInit:
+	LocalVariableDeclarationStatement					{$$ = $1; }
+	;
+	
 LocalVariableDeclarationStatement:
-	LocalVariableDeclaration ';' 						{$$ = $1; };
+	LocalVariableDeclaration ';' 						{$$ = $1; }
+	;
 
 LocalVariableDeclaration:
 	VariableModifiers UnannType VariableDeclaratorList	{ $$ = new VariableDeclarationStatement($2,$3,null);};
@@ -368,8 +376,8 @@ NumericType:
 	;
 
 FloatingPointType:
-	FLOAT												{$$ = new NamedType( typeof(double).Name );}
-	|	DOUBLE											{$$ = new NamedType( typeof(double).Name );}
+	FLOAT												{$$ = new NamedType( typeof(float).Name );}
+	|	DOUBLE											{$$ = new NamedType( typeof(float).Name );}
 	;
 
 IntegralType:
@@ -392,7 +400,12 @@ VariableDeclarators:
 
 VariableDeclarator:
 	VariableDeclaratorId								{$$ = $1; }
-	|VariableDeclaratorId '=' VariableInitializer;
+	|VariableDeclaratorId '=' VariableInitializer;		{$$ = new IdentifierInitializationExpression($1,$3);}
+//----------------------------------------------^^
+// Error: Syntax error, unexpected '{', expecting %%, or anchoredSymbol, or EOF
+// ----------------------------------------------------------------------------
+	;
+
 
 VariableDeclaratorId:
 	Identifier											{$$ = new IdentifierExpression( new Identifier($1.name));}
@@ -406,7 +419,8 @@ Dims:
 	/* empty */ ;
 
 VariableInitializer:
-	/* empty */ ;
+	Expression 
+	;
 
 EnumDeclaration : 
 	ClassModifiers ENUM IDENT Superinterfaces EnumBody;
@@ -449,7 +463,7 @@ InterfaceModifier:
 	|	STATIC;
 
 MethodModifiers
-	:	MethodModifier MethodModifiers		{$$ = $2;$2.Add($1);}
+	:	MethodModifiers MethodModifier 		{$$ = $1;$1.Add($2);}
 	|	/* empty */							{$$ = new List<MethodModifier>();};
 
 MethodModifier:		

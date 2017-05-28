@@ -36,11 +36,11 @@
 %token <boolValue> BOOLEANLITERAL
 %token EOF ABSTRACT ASSERT BOOLEAN BREAK BYTE CASE CATCH CHAR CLASS CONST CONTINUE DEFAULT DO DOUBLE ELSE ENUM EXTENDS FINAL FINALLY FLOAT FOR IF GOTO IMPLEMENTS IMPORT INSTANCEOF INT INTERFACE LONG NATIVE NEW PACKAGE PRIVATE PROTECTED PUBLIC RETURN SHORT STATIC STRICTFP SUPER SWITCH SYNCHRONIZED THIS THROW THROWS TRANSIENT TRY VOID VOLATILE WHILE CharacterLiteral NULL OPERATOR TRUE FALSE EndOfLineComment TraditionalComment ELIPSIS
 
-%type <e> Expression Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RalationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression Expression ExpressionName LeftHandSide Assignment VariableDeclaratorList  VariableDeclaratorId VariableDeclarator
-%type <e> StatementExpression
+%type <e> Expression Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RalationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression Expression ExpressionName LeftHandSide Assignment VariableDeclaratorList  VariableDeclaratorId VariableDeclarator VariableInitializer
+%type <e> StatementExpression ForUpdate
 %type <es> VariableDeclaratorList VariableDeclarators 
 %type <t> IntegralType NumericType UnannPrimitiveType UnannType Result UnannClassType UnannClassOrInterfaceType UnannArrayType NormalClassDeclaration ClassDeclaration TypeDeclaration FloatingPointType
-%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter MethodBody
+%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter MethodBody ForStatement BasicForStatement ForInit
 %type <stmts> BlockStatements Block FormalParameterList FormalParameters
 %type <memberDeclaration> MethodDeclaration ClassMemberDeclaration ClassBodyDeclaration
 %type <methodModifier> MethodModifier
@@ -232,6 +232,7 @@ BlockStatement:
 
 Statement:
     StatementWithoutTrailingSubstatement								{$$ = $1;}
+	|ForStatement														{$$ = $1;}
 	;
 
 StatementWithoutTrailingSubstatement:
@@ -323,8 +324,25 @@ Literal:
 	|	FLOATLITERAL										{ $$=new FloatingPointLiteralExpression($1) ;}
 	;
 
+ForStatement:
+	BasicForStatement										{$$ = $1; }
+	;
+
+BasicForStatement:
+	FOR '(' ForInit ';' Expression ';' ForUpdate ')' Statement  {$$=new BasicForStatement($3,$5,$7,$9);}
+	;
+
+ForUpdate:
+	StatementExpression									{$$ = $1; }
+	;
+
+ForInit:
+	LocalVariableDeclarationStatement					{$$ = $1; }
+	;
+	
 LocalVariableDeclarationStatement:
-	LocalVariableDeclaration ';' 						{$$ = $1; };
+	LocalVariableDeclaration ';' 						{$$ = $1; }
+	;
 
 LocalVariableDeclaration:
 	VariableModifiers UnannType VariableDeclaratorList	{ $$ = new VariableDeclarationStatement($2,$3,null);};
@@ -371,7 +389,9 @@ VariableDeclarators:
 
 VariableDeclarator:
 	VariableDeclaratorId								{$$ = $1; }
-	|VariableDeclaratorId '=' VariableInitializer;
+	|VariableDeclaratorId '=' VariableInitializer		{$$ = new IdentifierInitializationExpression($1,$3);}
+	;
+
 
 VariableDeclaratorId:
 	Identifier											{$$ = new IdentifierExpression( new Identifier($1.name));}
@@ -385,7 +405,8 @@ Dims:
 	/* empty */ ;
 
 VariableInitializer:
-	/* empty */ ;
+	Expression 
+	;
 
 EnumDeclaration : 
 	ClassModifiers ENUM IDENT Superinterfaces EnumBody;

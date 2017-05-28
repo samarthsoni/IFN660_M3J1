@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AST\AssignmentExpression.cs" />
+    <Compile Include="AST\BasicForStatement.cs" />
     <Compile Include="AST\FloatingPointLiteralExpression.cs" />
     <Compile Include="AST\ClassModifier.cs" />
     <Compile Include="AST\CompilationUnit.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="AST\Identifier.cs" />
     <Compile Include="AST\IdentifierExpression.cs" />
     <Compile Include="AST\BooleanLiteralExpression.cs" />
+    <Compile Include="AST\IdentifierInitializationExpression.cs" />
     <Compile Include="AST\StringLiteralExpression.cs" />
     <Compile Include="AST\IntegerLiteralExpression.cs" />
     <Compile Include="AST\LeftHandSide.cs" />
