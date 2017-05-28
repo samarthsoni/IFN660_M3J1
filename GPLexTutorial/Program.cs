@@ -20,8 +20,10 @@ namespace GPLexTutorial
                 parser.RootNode.TypeCheck();
                 string output = "";
                 parser.RootNode.GenCode(ref output);
+                if(File.Exists(args[1]))
+                    File.Delete(args[0]);
+                File.WriteAllText(args[1], output);
 
-                
                 JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings()
                 {
                     TypeNameHandling = TypeNameHandling.All
