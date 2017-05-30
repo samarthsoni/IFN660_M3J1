@@ -85,6 +85,9 @@ void        { return (int)Tokens.VOID; }
 volatile        { return (int)Tokens.VOLATILE; }
 while        { return (int)Tokens.WHILE; }
 
+true						 { yylval.boolValue = true; return (int)Tokens.BOOLEANLITERAL; }
+
+false						 { yylval.boolValue = false; return (int)Tokens.BOOLEANLITERAL; }
 
 {letter}({letter}|{digit})*  { yylval.name = yytext; return (int)Tokens.IDENT; }
 {digit}+{dot}({digit})*{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
@@ -100,9 +103,7 @@ while        { return (int)Tokens.WHILE; }
  
 {zerox}{hexdigit}{hexdigitandunderscore}*{IntegerTypeSuffix}? {return (int)Tokens.IntegerLiteral;}
 
-true						 { yylval.boolValue = true; return (int)Tokens.TRUE; }
 
-false						 { yylval.boolValue = false; return (int)Tokens.FALSE; }
 
 "&&"  						 { yylval.name = "&&"; return (int)Tokens.OPERATOR; }
 

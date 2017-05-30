@@ -1,10 +1,10 @@
 
 // ==========================================================================
-//  GPPG error listing for yacc source file <parser.y - 5/9/2017 6:10:55 PM>
+//  GPPG error listing for yacc source file <parser.y - 5/29/2017 8:39:35 AM>
 // ==========================================================================
 //  Version:  1.5.2
 //  Machine:  DESKTOP-VKITI27
-//  DateTime: 5/9/2017 6:10:58 PM
+//  DateTime: 5/29/2017 8:39:36 AM
 //  UserName: Juan Camilo
 // ==========================================================================
 
@@ -50,7 +50,7 @@
 %type <e> Expression Literal PrimaryNoNewArray Primary PodtfixExpression UnaryExpressionNotPlusMinus UnaryExpression MultiplicativeExpression AddictiveExpression ShiftExpression RalationalExpression EqualityExpression AndExpression ExclusiveOrExpression InclusiveOrExpression ConditionalAndExpression  ConditionalOrExpression ConditionalExpression AssignmentExpression Expression ExpressionName LeftHandSide Assignment VariableDeclaratorList  VariableDeclaratorId VariableDeclarator
 %type <e> StatementExpression
 %type <es> VariableDeclaratorList VariableDeclarators 
-%type <t> IntegralType NumericType UnannPrimitiveType UnannType Result UnannClassType UnannClassOrInterfaceType UnannArrayType NormalClassDeclaration ClassDeclaration TypeDeclaration FloatingPointType
+%type <t> IntegralType NumericType UnannPrimitiveType UnannType Result UnannClassType UnannClassOrInterfaceType UnannArrayType NormalClassDeclaration ClassDeclaration TypeDeclaration FloatingPointType BooleanType
 %type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter MethodBody
 %type <stmts> BlockStatements Block FormalParameterList FormalParameters
 %type <memberDeclaration> MethodDeclaration ClassMemberDeclaration ClassBodyDeclaration
@@ -68,15 +68,12 @@
 %left '+'
 
 %%
-// Error: NonTerminal symbol "BooleanLiteral" has no productions
-// Error: NonTerminal symbol "FloatingPointLiteral" has no productions
-// Warning: Terminating FloatingPointLiteral fixes the following size-1 NonTerminal set
-   // {FloatingPointLiteral}
-// Error: There are 2 non-terminating NonTerminal Symbols
-   //  {BooleanLiteral, FloatingPointLiteral}
-// Warning: Terminating BooleanLiteral fixes the following size-1 NonTerminal set
-   // {BooleanLiteral}
-// ------------------------------------------------------------------------------------
+// Error: NonTerminal symbol "d" has no productions
+// Warning: Terminating d fixes the following size-1 NonTerminal set
+   // {d}
+// Error: There are 1 non-terminating NonTerminal Symbols
+   //  {d}
+// -----------------------------------------------------------------
 
 
 CompilationUnit : 
@@ -188,9 +185,9 @@ InterfaceType:
 	ClassType;
 
 ClassModifiers:			
-		ClassModifier
-	|	ClassModifier ClassModifiers
-	|	/* empty */;
+	ClassModifier ClassModifiers									{$$ = $2; $2.Add($1);}
+	|	/* empty */														{$$ = new List<ClassModifier>();}
+	;
 
 ClassModifier:		
 		PUBLIC															{$$ = ClassModifier.Public		;}
@@ -202,8 +199,7 @@ ClassModifier:
 	;
 
 ClassBody:
-	'{' ClassBodyDeclarations '}'										{ $$ = $2; }
-	|	/* empty */														{ $$ = null; };
+	'{' ClassBodyDeclarations '}'										{ $$ = $2; };
 
 ClassBodyDeclarations:	
 		ClassBodyDeclarations ClassBodyDeclaration 						{ $$ = $1; $1.Add($2); }
@@ -340,8 +336,8 @@ PrimaryNoNewArray:
 Literal:
     IntegerLiteral											{ $$=new IntegerLiteralExpression($1) ;}
 	|	STRINGLITERAL										{ $$=new StringLiteralExpression($1) ;}
-	|	BooleanLiteral										{ $$=new BooleanLiteralExpression($1) ;}
-	|	FloatingPointLiteral								{ $$=new FloatingPointLiteralExpression($1) ;}
+	|	BOOLEANLITERAL										{ $$=new BooleanLiteralExpression($1) ;}
+	|	FLOATLITERAL										{ $$=new FloatingPointLiteralExpression($1) ;}
 	;
 
 LocalVariableDeclarationStatement:
@@ -359,7 +355,11 @@ UnannType:
 
 UnannPrimitiveType:
 	NumericType											{$$ = $1; }		
-	|	BOOLEAN											{$$ = new NamedType( typeof(bool).Name );}
+	|	BooleanType											{$$ = $1;}d
+	;
+
+BooleanType:
+	BOOLEAN											{$$ = new NamedType( typeof(bool).Name );}
 	;
 
 NumericType:
@@ -368,8 +368,8 @@ NumericType:
 	;
 
 FloatingPointType:
-	FLOAT												{$$ = new NamedType( typeof(double).Name );}
-	|	DOUBLE											{$$ = new NamedType( typeof(double).Name );}
+	FLOAT												{$$ = new NamedType( typeof(float).Name );}
+	|	DOUBLE											{$$ = new NamedType( typeof(float).Name );}
 	;
 
 IntegralType:
@@ -449,7 +449,7 @@ InterfaceModifier:
 	|	STATIC;
 
 MethodModifiers
-	:	MethodModifier MethodModifiers		{$$ = $2;$2.Add($1);}
+	:	MethodModifiers MethodModifier 		{$$ = $1;$1.Add($2);}
 	|	/* empty */							{$$ = new List<MethodModifier>();};
 
 MethodModifier:		

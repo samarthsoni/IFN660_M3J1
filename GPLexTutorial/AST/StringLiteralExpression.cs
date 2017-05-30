@@ -23,7 +23,7 @@ namespace GPLexTutorial.AST
 
         public override void GenCode(ref string output)
         {
-            output += Value;
+            output += $"ldstr \"{Value}\"";
         }
 
         public override void GenStoreCode(ref string output)

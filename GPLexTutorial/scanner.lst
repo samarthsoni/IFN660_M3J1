@@ -4,7 +4,7 @@
 // ==========================================================================
 //  Version:  1.2.2
 //  Machine:  DESKTOP-VKITI27
-//  DateTime: 5/28/2017 11:40:28 PM
+//  DateTime: 5/30/2017 8:14:08 PM
 //  UserName: Juan Camilo
 // ==========================================================================
 
@@ -99,12 +99,11 @@ void        { return (int)Tokens.VOID; }
 volatile        { return (int)Tokens.VOLATILE; }
 while        { return (int)Tokens.WHILE; }
 
+true						 { yylval.boolValue = true; return (int)Tokens.BOOLEANLITERAL; }
+
+false						 { yylval.boolValue = false; return (int)Tokens.BOOLEANLITERAL; }
 
 {letter}({letter}|{digit})*  { yylval.name = yytext; return (int)Tokens.IDENT; }
-//^^^^^^^^^^^^^^^^^^^^^^^^^
-// Warning: This pattern always overrides "false" 
-// Warning: This pattern always overrides "true" 
-// -----------------------------------------------
 {digit}+{dot}({digit})*{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
 {digit}*{dot}({digit})+{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
 {quote}({stringCharacter})*{quote}                             { yylval.stringValue = GetStringValue(yytext); return (int)Tokens.STRINGLITERAL; }
@@ -118,15 +117,7 @@ while        { return (int)Tokens.WHILE; }
  
 {zerox}{hexdigit}{hexdigitandunderscore}*{IntegerTypeSuffix}? {return (int)Tokens.IntegerLiteral;}
 
-true						 { yylval.boolValue = true; return (int)Tokens.TRUE; }
-//^^
-// Warning: This pattern always overridden by "{letter}({letter}|{digit})*" 
-// -------------------------------------------------------------------------
 
-false						 { yylval.boolValue = false; return (int)Tokens.FALSE; }
-//^^^
-// Warning: This pattern always overridden by "{letter}({letter}|{digit})*" 
-// -------------------------------------------------------------------------
 
 "&&"  						 { yylval.name = "&&"; return (int)Tokens.OPERATOR; }
 

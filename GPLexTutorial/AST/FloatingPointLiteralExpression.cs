@@ -23,7 +23,7 @@ namespace GPLexTutorial.AST
 
         public override void GenCode(ref string output)
         {
-            output += Value;
+            output += Environment.NewLine + $"ldc.r4 {Value.ToString("R")}";
         }
 
         public override void GenStoreCode(ref string output)

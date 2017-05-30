@@ -29,7 +29,12 @@ namespace GPLexTutorial.AST
 
         public override void GenCode(ref string output)
         {
-            output += $"{this.Name}";
+            if(this.Name.Equals(typeof(bool).Name))
+                output += "bool";
+            else if(this.Name.Equals(typeof(float).Name))
+                output += "float32"; 
+            else
+                output += $"{this.Name.ToLower()}";
         }
 
         public override void GenStoreCode(ref string output)
