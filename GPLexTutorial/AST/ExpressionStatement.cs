@@ -7,7 +7,7 @@ namespace GPLexTutorial.AST
         public Expression Expression;
 
         public ExpressionStatement(Expression expression)
-        {
+        {   
             Expression = expression;
         }
 

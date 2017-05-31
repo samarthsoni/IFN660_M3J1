@@ -32,7 +32,9 @@ namespace GPLexTutorial.AST
             if(this.Name.Equals(typeof(bool).Name))
                 output += "bool";
             else if(this.Name.Equals(typeof(float).Name))
-                output += "float32"; 
+                output += "float32";
+            else if (this.Name.Equals(typeof(int).Name))
+                output += "int32";
             else
                 output += $"{this.Name.ToLower()}";
         }

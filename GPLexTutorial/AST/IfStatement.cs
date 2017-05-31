@@ -22,10 +22,15 @@ namespace GPLexTutorial.AST
         {
             Condition.GenCode(ref output);
             int elseLabel = LastLabel++;
-            output += "brfalse L"+ elseLabel;
+            output += Environment.NewLine + "brfalse.s IL_" + elseLabel;
             ThenStatement.GenCode(ref output);
-            output += "L" + elseLabel + ":";
-            ElseStatement.GenCode(ref output);
+            
+            if (ElseStatement != null)
+            {
+                output += "L" + elseLabel + ":";
+                ElseStatement.GenCode(ref output);
+            }
+                
         }
 
         public override void GenStoreCode(ref string output)
@@ -37,7 +42,8 @@ namespace GPLexTutorial.AST
         {
             Condition.ResolveNames(ls);
             ThenStatement.ResolveNames(ls);
-            ElseStatement.ResolveNames(ls);
+            if(ElseStatement != null)
+                ElseStatement.ResolveNames(ls);
         }
 
         public override void TypeCheck()
@@ -48,7 +54,8 @@ namespace GPLexTutorial.AST
                 throw new ApplicationException($"Error: If Statement TypeCheck error");
             }
             ThenStatement.TypeCheck();
-            ElseStatement.TypeCheck();
+            if (ElseStatement != null)
+                ElseStatement.TypeCheck();
         }
     }
 }

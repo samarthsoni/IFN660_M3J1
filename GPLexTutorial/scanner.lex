@@ -89,6 +89,11 @@ true						 { yylval.boolValue = true; return (int)Tokens.BOOLEANLITERAL; }
 
 false						 { yylval.boolValue = false; return (int)Tokens.BOOLEANLITERAL; }
 
+"("                          { return '('; }
+")"                          { return ')'; }
+"{"                          { return '{'; }
+"}"                          { return '}'; }
+
 {letter}({letter}|{digit})*  { yylval.name = yytext; return (int)Tokens.IDENT; }
 {digit}+{dot}({digit})*{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
 {digit}*{dot}({digit})+{exponentPart}?[fFdD]?	     { yylval.floatValue =  yytext.EndsWith("f") || yytext.EndsWith("F") || yytext.EndsWith("d") || yytext.EndsWith("D")  ? float.Parse(yytext.Remove(yytext.Length-1)) : float.Parse(yytext); return (int)Tokens.FLOATLITERAL; }
@@ -180,10 +185,7 @@ false						 { yylval.boolValue = false; return (int)Tokens.BOOLEANLITERAL; }
 ">>>="						{ yylval.name = ">>>="; return (int)Tokens.OPERATOR; }
 
 
-"("                          { return '('; }
-")"                          { return ')'; }
-"{"                          { return '{'; }
-"}"                          { return '}'; }
+
 ";"                          { return ';'; }
 "."                          { return '.'; }
 "*"							 { return '*'; }

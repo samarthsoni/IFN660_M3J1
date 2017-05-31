@@ -41,7 +41,7 @@
 %type <es> VariableDeclaratorList VariableDeclarators 
 
 %type <t> IntegralType NumericType UnannPrimitiveType UnannType Result UnannClassType UnannClassOrInterfaceType UnannArrayType NormalClassDeclaration ClassDeclaration TypeDeclaration FloatingPointType BooleanType
-%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter MethodBody IfThenStatement IfThenElseStatement StatementWithoutTrailingSubstatement StatementNoShortIf WhileStatement ForStatement BasicForStatement ForInit DoStatement
+%type <stmt> LocalVariableDeclaration LocalVariableDeclarationStatement BlockStatement Statement ExpressionStatement StatementWithoutTrailingSubstatement FormalParameter LastFormalParameter MethodBody IfThenStatement IfThenElseStatement StatementWithoutTrailingSubstatement StatementNoShortIf WhileStatement ForStatement BasicForStatement ForInit DoStatement EmptyStatement
 
 %type <stmts> BlockStatements Block FormalParameterList FormalParameters
 %type <memberDeclaration> MethodDeclaration ClassMemberDeclaration ClassBodyDeclaration
@@ -289,19 +289,16 @@ StatementNoShortIf:
 StatementWithoutTrailingSubstatement:
 	Block
     | ExpressionStatement												{$$ = $1;}
+	|EmptyStatement														{$$ = $1;}
+	|DoStatement														{$$ = $1;}
 	;
 
 EmptyStatement:
 	';'
 	;
-
-StatementWithoutTrailingSubstatement:
-    ExpressionStatement													{$$ = $1;}
-	|DoStatement														{$$ = $1;}
-	;
 	
 DoStatement:
-	DO Statement WHILE '(' Expression ')' ';'							{$$ = new DoWhileStatement($2,$5);}
+	DO Statement WHILE '(' Expression ')' ';'							
 	;
 
 ExpressionStatement:				
@@ -356,40 +353,41 @@ EqualityExpression:
     RelationalExpression										{$$ = $1;};
 
 RelationalExpression:
-    ShiftExpression
-	| RelationalExpression '<' ShiftExpression					{$$ = new BinaryExpression($1,'<',$3);}
+    ShiftExpression													{$$ = $1;}
+	| RelationalExpression OPERATOR ShiftExpression					{$$ = new BinaryExpression($1,'<',$3);}
 	| RelationalExpression '>' ShiftExpression					{$$ = new BinaryExpression($1,'>',$3);}
 	;
 
 ShiftExpression:
-    AddictiveExpression;
+    AddictiveExpression								{$$ = $1; };
 
 AddictiveExpression:
-    MultiplicativeExpression;
+    MultiplicativeExpression										{$$ = $1; };
 
 MultiplicativeExpression:					
-    UnaryExpression;
+    UnaryExpression												{$$ = $1; };
 
 UnaryExpression:
-    UnaryExpressionNotPlusMinus;
+    UnaryExpressionNotPlusMinus						{$$ = $1; };
 
 UnaryExpressionNotPlusMinus:
-    PodtfixExpression;
+    PodtfixExpression							{$$ = $1; };
 
 PodtfixExpression:
-    Primary;
+    Primary									{$$ = $1; }
+	|ExpressionName							{$$ = $1;};
 
 Primary:
-    PrimaryNoNewArray;
+    PrimaryNoNewArray				{$$ = $1; };
 
 PrimaryNoNewArray:
-    Literal;
+    Literal									{$$ = $1; };
 
 Literal:
     IntegerLiteral											{ $$=new IntegerLiteralExpression($1) ;}
 	|	STRINGLITERAL										{ $$=new StringLiteralExpression($1) ;}
 	|	BOOLEANLITERAL										{ $$=new BooleanLiteralExpression($1) ;}
-	|	FLOATLITERAL										{ $$=new FloatingPointLiteralExpression($1) ;}
+	|	FLOATLITERAL										{ $$=new FloatingPointLiteralExpression($1) ;}								
 	;
 
 ForStatement:
@@ -397,7 +395,7 @@ ForStatement:
 	;
 
 BasicForStatement:
-	FOR '(' ForInit ';' Expression ';' ForUpdate ')' Statement  {$$=new BasicForStatement($3,$5,$7,$9);}
+	FOR '(' ForInit ';' Expression ';' ForUpdate ')' Statement 
 	;
 
 ForUpdate:
@@ -461,7 +459,7 @@ VariableDeclarators:
 
 VariableDeclarator:
 	VariableDeclaratorId								{$$ = $1; }
-	|VariableDeclaratorId '=' VariableInitializer		{$$ = new IdentifierInitializationExpression($1,$3);}
+	|VariableDeclaratorId '=' VariableInitializer		
 	;
 
 
