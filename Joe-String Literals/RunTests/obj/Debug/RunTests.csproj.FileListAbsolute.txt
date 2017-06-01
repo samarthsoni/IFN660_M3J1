@@ -1,0 +1,11 @@
+C:\Users\kellyw\Dropbox\Clean Compiler Tutorials\GPLexTutorial\RunTests\bin\Debug\RunTests.exe.config
+C:\Users\kellyw\Dropbox\Clean Compiler Tutorials\GPLexTutorial\RunTests\bin\Debug\RunTests.exe
+C:\Users\kellyw\Dropbox\Clean Compiler Tutorials\GPLexTutorial\RunTests\bin\Debug\RunTests.pdb
+C:\Users\kellyw\Dropbox\Clean Compiler Tutorials\GPLexTutorial\RunTests\obj\Debug\RunTests.exe
+C:\Users\kellyw\Dropbox\Clean Compiler Tutorials\GPLexTutorial\RunTests\obj\Debug\RunTests.pdb
+H:\TestScanner\GPLexTutorial\RunTests\bin\Debug\RunTests.exe.config
+H:\TestScanner\GPLexTutorial\RunTests\obj\Debug\RunTests.exe
+H:\TestScanner\GPLexTutorial\RunTests\obj\Debug\RunTests.pdb
+H:\TestScanner\GPLexTutorial\RunTests\bin\Debug\RunTests.exe
+H:\TestScanner\GPLexTutorial\RunTests\bin\Debug\RunTests.pdb
+H:\TestScanner\GPLexTutorial\RunTests\obj\Debug\RunTests.csprojResolveAssemblyReference.cache

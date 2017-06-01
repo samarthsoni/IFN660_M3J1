@@ -1,0 +1,86 @@
+parser.y
+
+	//joe
+
+MethodHeader 
+	:	Result MethodDeclarator Throws									{ $$ = new MethodHeader($1,$2,$3); }
+	;
+
+MethodDeclarator
+       :Identifier '(' FormalParameterList ')'  Dims					{ $$ = new MethodDeclarator($1,$2,$3 ); }
+	   ;
+	   //joe
+
+
+
+Node.cs
+
+//joe
+    public abstract class Node
+    {
+        public abstract void dump(int indent);
+
+        private void indent(int N)
+        {
+            for (int i = 0; i < N; i++)
+                Console.Write("    ");
+        }
+
+        protected void label(int i, string fmt, params object[] args)
+        {
+            indent(i);
+            Console.Write(fmt, args);
+        }
+
+        public void dump(int i, string name)
+        {
+            label(i, "{0}:\n", name);
+            dump(i + 1);
+        }
+    }
+    //joe
+
+MethodDeclarators.cs
+
+//joe
+    public class MethodDeclarator : Node
+    {
+        public Identifier Identifier;
+        public List<Statement> FormalParameterList;
+        public Dims dims;
+
+        public MethodDeclarator(Identifier identifier, List<Statement> formalParameterList, Dims dims)
+        {
+            this.Identifier = identifier;
+            this.FormalParameterList = FormalParameterList;
+            this.dims = dims;
+        }
+          
+            public override void dump(int indent)
+        {
+            label(indent+1, "MethodDeclarator");
+        }
+    }
+  
+    //joe
+
+
+
+MethodHeader.cs
+
+//joe
+    public class MethodHeader : Node
+    {
+        public Type Result;
+        public Node MethodDeclarator;
+
+        public MethodHeader(Type result,Node methodDeclarator)
+        {
+            this.Result = result;
+            this.MethodDeclarator = methodDeclarator;
+        }
+        public override void dump(int indent)
+        {
+            label(indent + 1,"MethodHeader");
+        }
+    }//joe

@@ -1,0 +1,27 @@
+C:\Users\Wayne\Dropbox\Clean Compiler Tutorials\GPLexTutorial\GPLexTutorial\bin\Debug\GPLexTutorial.exe.config
+C:\Users\Wayne\Dropbox\Clean Compiler Tutorials\GPLexTutorial\GPLexTutorial\bin\Debug\GPLexTutorial.exe
+C:\Users\Wayne\Dropbox\Clean Compiler Tutorials\GPLexTutorial\GPLexTutorial\bin\Debug\GPLexTutorial.pdb
+C:\Users\Wayne\Dropbox\Clean Compiler Tutorials\GPLexTutorial\GPLexTutorial\obj\Debug\GPLexTutorial.exe
+C:\Users\Wayne\Dropbox\Clean Compiler Tutorials\GPLexTutorial\GPLexTutorial\obj\Debug\GPLexTutorial.pdb
+C:\Users\kellyw\Dropbox\Clean Compiler Tutorials\GPLexTutorial\GPLexTutorial\bin\Debug\GPLexTutorial.exe.config
+C:\Users\kellyw\Dropbox\Clean Compiler Tutorials\GPLexTutorial\GPLexTutorial\obj\Debug\GPLexTutorial.exe
+C:\Users\kellyw\Dropbox\Clean Compiler Tutorials\GPLexTutorial\GPLexTutorial\obj\Debug\GPLexTutorial.pdb
+C:\Users\kellyw\Dropbox\Clean Compiler Tutorials\GPLexTutorial\GPLexTutorial\bin\Debug\GPLexTutorial.exe
+C:\Users\kellyw\Dropbox\Clean Compiler Tutorials\GPLexTutorial\GPLexTutorial\bin\Debug\GPLexTutorial.pdb
+H:\TestScanner\GPLexTutorial\GPLexTutorial\bin\Debug\GPLexTutorial.exe.config
+H:\TestScanner\GPLexTutorial\GPLexTutorial\obj\Debug\GPLexTutorial.exe
+H:\TestScanner\GPLexTutorial\GPLexTutorial\obj\Debug\GPLexTutorial.pdb
+H:\TestScanner\GPLexTutorial\GPLexTutorial\bin\Debug\GPLexTutorial.exe
+H:\TestScanner\GPLexTutorial\GPLexTutorial\bin\Debug\GPLexTutorial.pdb
+H:\Joe\GPLexTutorial\GPLexTutorial\bin\Debug\GPLexTutorial.exe.config
+H:\Joe\GPLexTutorial\GPLexTutorial\obj\Debug\GPLexTutorial.exe
+H:\Joe\GPLexTutorial\GPLexTutorial\obj\Debug\GPLexTutorial.pdb
+H:\Joe\GPLexTutorial\GPLexTutorial\bin\Debug\GPLexTutorial.exe
+H:\Joe\GPLexTutorial\GPLexTutorial\bin\Debug\GPLexTutorial.pdb
+H:\Joe\GPLexTutorial\GPLexTutorial\obj\Debug\GPLexTutorial.csprojResolveAssemblyReference.cache
+H:\Joe\GPLexTutorial\bin\Debug\GPLexTutorial.exe.config
+H:\Joe\GPLexTutorial\obj\Debug\GPLexTutorial.exe
+H:\Joe\GPLexTutorial\obj\Debug\GPLexTutorial.pdb
+H:\660\Joe-String Literals\GPLexTutorial\bin\Debug\GPLexTutorial.exe.config
+H:\660\Joe-String Literals\GPLexTutorial\obj\Debug\GPLexTutorial.exe
+H:\660\Joe-String Literals\GPLexTutorial\obj\Debug\GPLexTutorial.pdb
